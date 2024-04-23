@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@android:color/white" />
+    <!-- Bu kısım arka planı beyaz olarak ayarlar, istediğiniz rengi kullanabilirsiniz. -->
+    <item>
+        <bitmap
+            android:gravity="center"
+            android:src="@mipmap/ic_launcher" />
+        <!-- Bu kısım uygulama ikonunu ekler, kendi ikonunuzun adını kullanın. -->
+    </item>
+</layer-list>

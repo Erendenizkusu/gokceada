@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "919333673755",
+    "firebase_url": "https://gokceada-688c7-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "gokceada-688c7",
+    "storage_bucket": "gokceada-688c7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:919333673755:android:556e785f5fae57dc1051be",
+        "android_client_info": {
+          "package_name": "com.gokceada.gokceadarehber"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "919333673755-c3k5pndlb3jp2f4insmsrf0jq8nqjc3l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gokceada.gokceadarehber",
+            "certificate_hash": "01b4da40ccfa7fe6c05659951a1994ce11d547bf"
+          }
+        },
+        {
+          "client_id": "919333673755-tqrrbhogesci1ekj9p3dvtds64qckul9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPFd-5utIlJQbFC7WcjuQpNNpttDvYEps"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "919333673755-9ujfdvhsocvvbra2fv58qrrqrson1isi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
