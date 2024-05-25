@@ -30,7 +30,7 @@ class NavigationButton extends StatelessWidget {
         double destinationLongitude = longitude; // Hedef noktanın boylam değeri
         openMapsApp(destinationLatitude, destinationLongitude);
       },
-      child: Text(AppLocalizations.of(context).yolTarifi),
+      child: Text(AppLocalizations.of(context)!.yolTarifi,style: const TextStyle(color: Colors.white)),
       style: ElevatedButton.styleFrom(backgroundColor: ColorConstants.instance.activatedButton),
     );
   }

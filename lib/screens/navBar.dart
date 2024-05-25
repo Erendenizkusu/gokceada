@@ -31,6 +31,7 @@ class _NavBarState extends State<NavBar>{
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      //backgroundColor: Color(0xffeac056),
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
@@ -54,16 +55,16 @@ class _NavBarState extends State<NavBar>{
               )
             ),
               ),
-           NavBarListTile(title: AppLocalizations.of(context).neredeYenir,icon: Icons.fastfood,path: 'foodareas'),
-           NavBarListTile(title: AppLocalizations.of(context).gormeyeDeger,icon: Icons.remove_red_eye_outlined,path: 'gezilecek'),
-           NavBarListTile(title: AppLocalizations.of(context).aktiviteler,icon: Icons.surfing,path: 'activities'),
-           NavBarListTile(title: AppLocalizations.of(context).atm,icon: Icons.atm,path: 'atm'),
-           NavBarListTile(title: AppLocalizations.of(context).koyler,icon: Icons.holiday_village_outlined,path: 'koyler'),
-           NavBarListTile(title: AppLocalizations.of(context).feribotSaatleri,icon: Icons.directions_ferry,path: 'fery'),
-           NavBarListTile(title: AppLocalizations.of(context).hediyelikEsyalar,icon: Icons.card_giftcard_outlined,path: 'hediyelik'),
-           NavBarListTile(title: AppLocalizations.of(context).tavsiyeler,icon: Icons.recommend_rounded,path: 'advices'),
-           NavBarListTile(title: AppLocalizations.of(context).iletisim,icon: Icons.comment_outlined,path: 'iletisim'),
-           NavBarListTile(title: AppLocalizations.of(context).sizinGozunuzdenAda, icon: CupertinoIcons.eye, path: 'usersConsole'),
+           NavBarListTile(title: AppLocalizations.of(context)!.neredeYenir,icon: Icons.fastfood,path: 'foodareas'),
+           NavBarListTile(title: AppLocalizations.of(context)!.gormeyeDeger,icon: Icons.remove_red_eye_outlined,path: 'gezilecek'),
+           NavBarListTile(title: AppLocalizations.of(context)!.aktiviteler,icon: Icons.surfing,path: 'activities'),
+           NavBarListTile(title: AppLocalizations.of(context)!.atm,icon: Icons.atm,path: 'atm'),
+           NavBarListTile(title: AppLocalizations.of(context)!.koyler,icon: Icons.holiday_village_outlined,path: 'koyler'),
+           NavBarListTile(title: AppLocalizations.of(context)!.feribotSaatleri,icon: Icons.directions_ferry,path: 'fery'),
+           NavBarListTile(title: AppLocalizations.of(context)!.hediyelikEsyalar,icon: Icons.card_giftcard_outlined,path: 'hediyelik'),
+           NavBarListTile(title: AppLocalizations.of(context)!.tavsiyeler,icon: Icons.recommend_rounded,path: 'advices'),
+           NavBarListTile(title: AppLocalizations.of(context)!.iletisim,icon: Icons.comment_outlined,path: 'iletisim'),
+           NavBarListTile(title: AppLocalizations.of(context)!.sizinGozunuzdenAda, icon: CupertinoIcons.eye, path: 'usersConsole'),
            _signOutButton(context),
         ],
       ),
@@ -92,11 +93,11 @@ class _NavBarState extends State<NavBar>{
         });
         ScaffoldMessenger.of(context).showSnackBar(
            SnackBar(
-            content: Text(AppLocalizations.of(context).cikisYapildi),
+            content: Text(AppLocalizations.of(context)!.cikisYapildi),
           ),
         );
       },
-      child: Text(AppLocalizations.of(context).signOut),
+      child: Text(AppLocalizations.of(context)!.signOut),
     );
   }
 }

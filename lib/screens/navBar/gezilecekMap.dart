@@ -65,7 +65,7 @@ class _GezilecekDetayState extends State<GezilecekDetay> {
           },
           icon: Icon(Icons.arrow_back_ios_new, color: ColorConstants.instance.titleColor,),
         ),
-        title: Text(AppLocalizations.of(context).gormeyeDeger, style: TextFonts.instance.appBarTitleColor),
+        title: Text(AppLocalizations.of(context)!.gormeyeDeger, style: TextFonts.instance.appBarTitleColor),
       ),
       body: ListView.builder(
         itemCount: gezilecek.length,

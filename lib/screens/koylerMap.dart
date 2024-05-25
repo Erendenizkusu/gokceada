@@ -23,7 +23,7 @@ Map<String,Widget> createKoyler(BuildContext context) {
         widget: const NavigationButton(
             latitude: 40.22132946119443, longitude: 25.90695936121934),
         description: AppLocalizations
-            .of(context)
+            .of(context)!
             .bademli),
 
     'derekoy': DescriptionCustom(
@@ -40,7 +40,7 @@ Map<String,Widget> createKoyler(BuildContext context) {
         widget: const NavigationButton(
             latitude: 40.156565879596876, longitude: 25.779833059383733),
         description: AppLocalizations
-            .of(context)
+            .of(context)!
             .derekoy),
 
     'eselek': DescriptionCustom(
@@ -52,7 +52,7 @@ Map<String,Widget> createKoyler(BuildContext context) {
         ],
         widget: const NavigationButton(
             latitude: 40.14759580493827, longitude: 25.94710513716375),
-        description: AppLocalizations.of(context).eselek),
+        description: AppLocalizations.of(context)!.eselek),
 
     'kalekoy': DescriptionCustom(
         title: 'Kaleköy - Kastro',
@@ -66,7 +66,7 @@ Map<String,Widget> createKoyler(BuildContext context) {
         ],
         widget: const NavigationButton(
             latitude: 40.234366399996055, longitude: 25.89884971836279),
-        description: AppLocalizations.of(context).kalekoy),
+        description: AppLocalizations.of(context)!.kalekoy),
 
     'kalekoyLiman': DescriptionCustom(
         title: 'Kaleköy Liman',
@@ -84,7 +84,7 @@ Map<String,Widget> createKoyler(BuildContext context) {
         ],
         widget: const NavigationButton(
             latitude: 40.23136718323504, longitude: 25.894804669123182),
-        description: AppLocalizations.of(context).kalekoyLiman),
+        description: AppLocalizations.of(context)!.kalekoyLiman),
 
 
     'merkez': DescriptionCustom(
@@ -98,7 +98,7 @@ Map<String,Widget> createKoyler(BuildContext context) {
         ],
         widget: const NavigationButton(
             latitude: 40.19624748335972, longitude: 25.90766888323214),
-        description: AppLocalizations.of(context).merkez),
+        description: AppLocalizations.of(context)!.merkez),
 
     'sahinkaya': DescriptionCustom(
         title: 'Şahinkaya Köyü',
@@ -107,7 +107,7 @@ Map<String,Widget> createKoyler(BuildContext context) {
         ],
         widget: const NavigationButton(
             latitude: 40.150813785785985, longitude: 25.785779654393263),
-        description: AppLocalizations.of(context).sahinkaya),
+        description: AppLocalizations.of(context)!.sahinkaya),
 
     'sirinkoy': DescriptionCustom(
         title: 'Şirinköy',
@@ -117,7 +117,7 @@ Map<String,Widget> createKoyler(BuildContext context) {
         ],
         widget: const NavigationButton(
             latitude: 40.1286817177055, longitude: 25.74225144997795),
-        description: AppLocalizations.of(context).sirinkoy),
+        description: AppLocalizations.of(context)!.sirinkoy),
 
     'tepekoy': DescriptionCustom(
         title: 'Tepeköy - Agridia',
@@ -133,7 +133,7 @@ Map<String,Widget> createKoyler(BuildContext context) {
         ],
         widget: const NavigationButton(
             latitude: 40.14860030447957, longitude: 25.776397678636698),
-        description: AppLocalizations.of(context).tepekoy),
+        description: AppLocalizations.of(context)!.tepekoy),
 
     'ugurlu': DescriptionCustom(
         title: 'Uğurlu Köyü',
@@ -144,7 +144,7 @@ Map<String,Widget> createKoyler(BuildContext context) {
         ],
         widget: const NavigationButton(
             latitude: 40.12373775008842, longitude: 25.70627252370199),
-        description: AppLocalizations.of(context).ugurlu),
+        description: AppLocalizations.of(context)!.ugurlu),
 
     'yenibademli': DescriptionCustom(
         title: 'Yenibademli',
@@ -155,7 +155,7 @@ Map<String,Widget> createKoyler(BuildContext context) {
         ],
         widget: const NavigationButton(
             latitude: 40.229279376684836, longitude: 25.906215449547606),
-        description: AppLocalizations.of(context).yenibademli),
+        description: AppLocalizations.of(context)!.yenibademli),
 
     'zeytinlikoy': DescriptionCustom(
         title: 'Zeytinliköy - Aya Teodoroi',
@@ -169,7 +169,7 @@ Map<String,Widget> createKoyler(BuildContext context) {
         ],
         widget: const NavigationButton(
             latitude: 40.19042836024782, longitude: 25.871124776652493),
-        description: AppLocalizations.of(context).zeytinlikoy)
+        description: AppLocalizations.of(context)!.zeytinlikoy)
   };
 }
 

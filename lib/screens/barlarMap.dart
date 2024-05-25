@@ -71,7 +71,7 @@ class _BarDetayState extends State<BarDetay> {
           },
           icon: Icon(Icons.arrow_back_ios_new, color: ColorConstants.instance.titleColor,),
         ),
-        title: Text(AppLocalizations.of(context).barlar, style: TextFonts.instance.titleFont),
+        title: Text(AppLocalizations.of(context)!.barlar, style: TextFonts.instance.titleFont),
       ),
       body: ListView.builder(
         itemCount: bars.length,

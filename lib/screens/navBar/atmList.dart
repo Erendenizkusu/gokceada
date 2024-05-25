@@ -20,7 +20,7 @@ class AtmList extends StatelessWidget {
             },
             icon: Icon(Icons.arrow_back_ios_new, color: ColorConstants.instance.titleColor,),
           ),
-          title: Text(AppLocalizations.of(context).atm, style: TextFonts.instance.appBarTitleColor),
+          title: Text(AppLocalizations.of(context)!.atm, style: TextFonts.instance.appBarTitleColor),
         ),
       body: const Column(
         children: [

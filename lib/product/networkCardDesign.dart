@@ -11,7 +11,9 @@ class NetworkCardDesign extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
+    return SizedBox(
+        height: (MediaQuery.of(context).size.height) * 0.3,
+        child: Card(
       clipBehavior: Clip.hardEdge,
       margin: const EdgeInsets.all(8),
       shape: RoundedRectangleBorder(
@@ -19,7 +21,10 @@ class NetworkCardDesign extends StatelessWidget {
           side:
               BorderSide(width: 2, color: ColorConstants.instance.titleColor)),
       child: Stack(alignment: Alignment.bottomLeft, children: [
-        Image.network(
+      SizedBox(
+      width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            child: Image.network(
           'https://drive.google.com/uc?export=view&id=$path',
           color: Colors.grey.withOpacity(0.9),
           colorBlendMode: BlendMode.modulate,
@@ -38,7 +43,7 @@ class NetworkCardDesign extends StatelessWidget {
               ),
             );
           },
-        ),
+        ),),
         Padding(
           padding: const EdgeInsets.only(bottom: 30, left: 20),
           child: Text(
@@ -47,6 +52,7 @@ class NetworkCardDesign extends StatelessWidget {
           ),
         ),
       ]),
+        ),
     );
   }
 }

@@ -49,7 +49,7 @@ class _HotelListCardState extends State<HotelListCard> {
             ))
         .toList();
     return SizedBox(
-      height: (MediaQuery.of(context).size.height) * 0.55,
+      height: (MediaQuery.of(context).size.height) * 0.6,
       child: Card(
         elevation: 0,
         clipBehavior: Clip.hardEdge,

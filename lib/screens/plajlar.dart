@@ -27,7 +27,7 @@ class _PlajlarViewState extends State<PlajlarView> {
     return Scaffold(
       backgroundColor: Colors.transparent,
       appBar: AppBar(
-          title: Text(AppLocalizations.of(context).plajlar,style: TextFonts.instance.middleTitle),
+          title: Text(AppLocalizations.of(context)!.plajlar,style: TextFonts.instance.middleTitle),
           leading: Builder(builder: (context) {
             return IconButton(onPressed: (){}, icon: BackButton(color: ColorConstants.instance.titleColor,));
           },),

@@ -19,7 +19,7 @@ class Koyler extends StatelessWidget {
             },
             icon: Icon(Icons.arrow_back_ios_new, color: ColorConstants.instance.titleColor,),
           ),
-          title: Text(AppLocalizations.of(context).koyler, style: TextFonts.instance.appBarTitleColor),
+          title: Text(AppLocalizations.of(context)!.koyler, style: TextFonts.instance.appBarTitleColor),
         ),
       body:Padding(
         padding: const EdgeInsets.all(8.0),

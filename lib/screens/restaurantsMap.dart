@@ -71,7 +71,7 @@ class _RestaurantDetayState extends State<RestaurantDetay> {
           },
           icon: Icon(Icons.arrow_back_ios_new, color: ColorConstants.instance.titleColor),
         ),
-        title: Text(AppLocalizations.of(context).restoranlar, style: TextFonts.instance.titleFont),
+        title: Text(AppLocalizations.of(context)!.restoranlar, style: TextFonts.instance.titleFont),
       ),
       body: ListView.builder(
         itemCount: restaurants.length,

@@ -29,25 +29,25 @@ class _FeribotState extends State<Feribot> {
           },
           icon: Icon(Icons.arrow_back_ios_new, color: ColorConstants.instance.titleColor,),
         ),
-        title: Text(AppLocalizations.of(context).feribotSaatleri, style: TextFonts.instance.appBarTitleColor),
+        title: Text(AppLocalizations.of(context)!.feribotSaatleri, style: TextFonts.instance.appBarTitleColor),
       ),
-      body: Column(
+      body: ListView(
         children:[
           Image.asset('images/gestas.jpg',fit: BoxFit.fill),
-          ElevatedButton(
+          Center(child: SizedBox(width: (MediaQuery.of(context).size.width)*0.5,child: ElevatedButton(
                   style: ElevatedButton.styleFrom(backgroundColor: ColorConstants.instance.activatedButton),
                   onPressed: (){
                     launchUrl(url);
                   },
-                  child: Text(AppLocalizations.of(context).feribotSaatleri)
-          ),
+                  child: Text(AppLocalizations.of(context)!.feribotSaatleri,style: TextFonts.instance.smallText,)
+          ),),),
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: Divider(color: ColorConstants.instance.titleColor,height: 1,thickness: 1),
           ),
           Padding(
             padding: const EdgeInsets.all(10.0),
-            child: Text(AppLocalizations.of(context).feribilgi,style: TextFonts.instance.commentTextBold,),
+            child: Text(AppLocalizations.of(context)!.feribilgi,style: TextFonts.instance.commentTextBold,),
           )
       ])
     );

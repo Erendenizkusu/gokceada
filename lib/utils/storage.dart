@@ -81,7 +81,7 @@ class Storage {
         await lastImage.delete();
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(AppLocalizations.of(context).resimSilindi),
+            content: Text(AppLocalizations.of(context)!.resimSilindi),
           ),
         );
       } else if(result.items.length == 1) {

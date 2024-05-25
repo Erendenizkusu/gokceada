@@ -17,7 +17,7 @@ Map<String, Widget> plajlar(BuildContext context) {
         ],
         widget: const NavigationButton(
             latitude: 40.234883968629745, longitude: 25.90356574599544),
-        description: AppLocalizations.of(context).yildizkoy),
+        description: AppLocalizations.of(context)!.yildizkoy),
 
     'kefalos': DescriptionCustom(
         title: 'Kefalos',
@@ -27,7 +27,7 @@ Map<String, Widget> plajlar(BuildContext context) {
         ],
         widget: const NavigationButton(
             latitude: 40.234883968629745, longitude: 25.90356574599544),
-        description: AppLocalizations.of(context).kefalos),
+        description: AppLocalizations.of(context)!.kefalos),
 
     'marmaros': DescriptionCustom(
         title: 'Marmaros',
@@ -37,7 +37,7 @@ Map<String, Widget> plajlar(BuildContext context) {
         ],
         widget: const NavigationButton(
             latitude: 40.19446916638958, longitude: 25.754652784576802),
-        description: AppLocalizations.of(context).marmaros),
+        description: AppLocalizations.of(context)!.marmaros),
 
     'lazkoyu': DescriptionCustom(
         title: 'Laz Koyu',
@@ -49,7 +49,7 @@ Map<String, Widget> plajlar(BuildContext context) {
         ],
         widget: const NavigationButton(
             latitude: 40.0995567867188, longitude: 25.783614569737185),
-        description: AppLocalizations.of(context).lazkoyu),
+        description: AppLocalizations.of(context)!.lazkoyu),
 
     'gizliliman': DescriptionCustom(
         title: 'Gizli Liman',
@@ -61,7 +61,7 @@ Map<String, Widget> plajlar(BuildContext context) {
         ],
         widget: const NavigationButton(
             latitude: 40.124907393869215, longitude: 25.672960645906578),
-        description: AppLocalizations.of(context).gizliliman),
+        description: AppLocalizations.of(context)!.gizliliman),
 
     'kuzulimanı': DescriptionCustom(
         title: 'Kuzu Limanı',
@@ -75,7 +75,7 @@ Map<String, Widget> plajlar(BuildContext context) {
         ],
         widget: const NavigationButton(
             latitude: 40.22485472944999, longitude: 25.95067866788716),
-        description: AppLocalizations.of(context).kuzulimani)
+        description: AppLocalizations.of(context)!.kuzulimani)
   };
 }
 

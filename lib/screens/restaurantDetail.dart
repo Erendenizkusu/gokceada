@@ -60,6 +60,7 @@ class _RestaurantViewState extends State<RestaurantView> {
     var url = Uri.parse(widget.link);
 
     return Scaffold(
+      appBar: AppBar(),
       body: ListView(children: [
         Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Container(
@@ -90,7 +91,7 @@ class _RestaurantViewState extends State<RestaurantView> {
               ),
               const SizedBox(height: 30),
               Text(
-                  AppLocalizations.of(context).menuBilgilendirme,
+                  AppLocalizations.of(context)!.menuBilgilendirme,
                   style: TextFonts.instance.commentTextBold),
               const SizedBox(height: 8),
               InkwellUnderline(

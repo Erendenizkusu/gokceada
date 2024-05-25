@@ -62,6 +62,7 @@ class _SurfingViewState extends State<SurfingView> {
     var url = Uri.parse(widget.link);
 
     return Scaffold(
+      appBar: AppBar(),
       body: ListView(children: [
         Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Container(

@@ -34,16 +34,17 @@ class _HomePageState extends State<HomePage> {
 
     PageController _controller = PageController();
     List<CardDesign> items =[
-      CardDesign(path: 'images/otel.jpg',cardText: AppLocalizations.of(context).oteller,pushWhere: 'oteller'),
-      CardDesign(path: 'images/pansiyon.jpg',cardText: AppLocalizations.of(context).pansionlar,pushWhere: 'pansionList'),
-      CardDesign(path: 'images/restourant.jpg',cardText: AppLocalizations.of(context).restoranlar,pushWhere: 'restaurantsView'),
-      CardDesign(path: 'images/kamp_alanları.jpg',cardText: AppLocalizations.of(context).kampalanlari,pushWhere: 'camping'),
-      CardDesign(path: 'images/yildizkoy/yildizkoy.jpg',cardText: AppLocalizations.of(context).plajlar,pushWhere: 'plajlar'),
-      CardDesign(path: 'images/surfing.jpg',cardText: AppLocalizations.of(context).surfOkullari,pushWhere: 'surfing'),
+      CardDesign(path: 'images/otel.jpg',cardText: AppLocalizations.of(context)!.oteller,pushWhere: 'oteller'),
+      CardDesign(path: 'images/pansiyon.jpg',cardText: AppLocalizations.of(context)!.pansionlar,pushWhere: 'pansionList'),
+      CardDesign(path: 'images/restourant.jpg',cardText: AppLocalizations.of(context)!.restoranlar,pushWhere: 'restaurantsView'),
+      CardDesign(path: 'images/kamp_alanları.jpg',cardText: AppLocalizations.of(context)!.kampalanlari,pushWhere: 'camping'),
+      CardDesign(path: 'images/yildizkoy/yildizkoy.jpg',cardText: AppLocalizations.of(context)!.plajlar,pushWhere: 'plajlar'),
+      CardDesign(path: 'images/surfing.jpg',cardText: AppLocalizations.of(context)!.surfOkullari,pushWhere: 'surfing'),
     ];
     return Scaffold(
       drawer: const NavBar(),
       appBar: AppBar(
+        iconTheme: const IconThemeData(color: Colors.white),
         title: Center(child: Text('Gökçeada',style: TextFonts.instance.appBarTitle)),
         actions: const [LanguageButton(),SizedBox(width: 15)],
           backgroundColor: ColorConstants.instance.titleColor),
@@ -62,21 +63,21 @@ class _HomePageState extends State<HomePage> {
                Wrap(
                 spacing: 6,
                 children: [
-                  CustomTextButton(text: AppLocalizations.of(context).gormeyeDeger,route: 'gezilecek'),
-                  CustomTextButton(text: AppLocalizations.of(context).neredeYenir,route: 'foodareas'),
-                  CustomTextButton(text: AppLocalizations.of(context).atm,route: 'atm'),
-                  CustomTextButton(text: AppLocalizations.of(context).aktiviteler,route: 'activities'),
-                  CustomTextButton(text: AppLocalizations.of(context).koyler,route: 'villages'),
-                  CustomTextButton(text: AppLocalizations.of(context).feribotSaatleri,route: 'fery'),
+                  CustomTextButton(text: AppLocalizations.of(context)!.gormeyeDeger,route: 'gezilecek'),
+                  CustomTextButton(text: AppLocalizations.of(context)!.neredeYenir,route: 'foodareas'),
+                  CustomTextButton(text: AppLocalizations.of(context)!.atm,route: 'atm'),
+                  CustomTextButton(text: AppLocalizations.of(context)!.aktiviteler,route: 'activities'),
+                  CustomTextButton(text: AppLocalizations.of(context)!.koyler,route: 'villages'),
+                  CustomTextButton(text: AppLocalizations.of(context)!.feribotSaatleri,route: 'fery'),
                 ],),
               Divider(thickness: 2,height: 5,color: ColorConstants.instance.titleColor),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 child: CircularImagesTop(list: gokceadaPhotos),
               ),
-              Text(AppLocalizations.of(context).tarihce,style: TextFonts.instance.middleTitle),
+              Text(AppLocalizations.of(context)!.tarihce,style: TextFonts.instance.middleTitle),
               const SizedBox(height: 10),
-              Text(AppLocalizations.of(context).gokceadaTarihcesi,style: TextFonts.instance.commentTextBold,)
+              Text(AppLocalizations.of(context)!.gokceadaTarihcesi,style: TextFonts.instance.commentTextBold,)
             ]),
       ),
     );

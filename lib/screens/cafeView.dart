@@ -59,6 +59,7 @@ class _CafeViewState extends State<CafeView> {
     var url = Uri.parse(widget.link);
 
     return Scaffold(
+      appBar: AppBar(),
       body: ListView(children: [
         Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Container(
@@ -89,7 +90,7 @@ class _CafeViewState extends State<CafeView> {
               ),
               const SizedBox(height: 30),
               Text(
-                  AppLocalizations.of(context).menuBilgilendirme,
+                  AppLocalizations.of(context)!.menuBilgilendirme,
                   style: TextFonts.instance.commentTextBold),
               const SizedBox(height: 8),
               InkwellUnderline(

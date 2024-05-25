@@ -91,7 +91,7 @@ class _HotelRoomsViewState extends State<HotelRoomsView> {
               const SizedBox(height: 20),
               Text(widget.location, style: TextFonts.instance.commentTextThin),
               const SizedBox(height: 20),
-              Text(AppLocalizations.of(context).tesisOzellikleri,
+              Text(AppLocalizations.of(context)!.tesisOzellikleri,
                   style: TextFonts.instance.middleTitle),
               const SizedBox(height: 20),
               Text(
@@ -100,7 +100,7 @@ class _HotelRoomsViewState extends State<HotelRoomsView> {
               ),
               const SizedBox(height: 40),
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Text(AppLocalizations.of(context).odaOzellikleri,
+                Text(AppLocalizations.of(context)!.odaOzellikleri,
                     style: TextFonts.instance.middleTitle),
                 const SizedBox(height: 20),
                 Wrap(children: widget.facilities),
@@ -153,7 +153,7 @@ class OwnerCard extends StatelessWidget {
                         color: ColorConstants.instance.titleColor,
                         fontFamily: 'Poppins')),
                 Text(
-                  '${AppLocalizations.of(context).iletisim}: $telNumber',
+                  '${AppLocalizations.of(context)!.iletisim}: $telNumber',
                   style: TextStyle(
                       fontSize: 17,
                       color: ColorConstants.instance.commentColor),

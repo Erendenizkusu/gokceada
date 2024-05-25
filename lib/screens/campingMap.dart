@@ -74,7 +74,7 @@ class _CampingDetayState extends State<CampingDetay> {
           },
           icon: Icon(Icons.arrow_back_ios_new, color: ColorConstants.instance.titleColor,),
         ),
-        title: Text(AppLocalizations.of(context).kampalanlari, style: TextFonts.instance.titleFont),
+        title: Text(AppLocalizations.of(context)!.kampalanlari, style: TextFonts.instance.titleFont),
       ),
       body: ListView.builder(
         itemCount: camping.length,

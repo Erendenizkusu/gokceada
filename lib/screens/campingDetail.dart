@@ -72,6 +72,16 @@ class _CampingDetailViewState extends State<CampingDetailView> {
               child: PageView(controller: _controller, children: images),
             ),
             Positioned(
+                top: 20,
+                left: 10,
+                child: IconButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  icon: const Icon(Icons.arrow_back_ios_new,
+                      color: Colors.white),
+                )),
+            Positioned(
                 top: 0,
                 left: 0,
                 right: 0,

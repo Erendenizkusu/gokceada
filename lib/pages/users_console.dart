@@ -225,7 +225,7 @@ class _UsersConsoleState extends State<UsersConsole> {
               color: ColorConstants.instance.titleColor,
             ),
           ),
-          title: Text(AppLocalizations.of(context).sizinGozunuzdenAda,
+          title: Text(AppLocalizations.of(context)!.sizinGozunuzdenAda,
               style: TextFonts.instance.appBarTitleColor),
         ),
         body: isLoading
@@ -277,7 +277,7 @@ class _UsersConsoleState extends State<UsersConsole> {
                                     return Container(
                                         margin: const EdgeInsets.all(8),
                                         child: Text(
-                                            AppLocalizations.of(context)
+                                            AppLocalizations.of(context)!
                                                 .kullaniciYukeliyor,
                                             style: TextFonts
                                                 .instance.middleTitle));
@@ -558,7 +558,7 @@ class _UsersConsoleState extends State<UsersConsole> {
                           : () {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
-                                  content: Text(AppLocalizations.of(context)
+                                  content: Text(AppLocalizations.of(context)!
                                       .kullaniciGirisiYapilmadi),
                                 ),
                               );
@@ -591,7 +591,7 @@ class _UsersConsoleState extends State<UsersConsole> {
 
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: Text(AppLocalizations.of(context)
+                              content: Text(AppLocalizations.of(context)!
                                   .dosyaBasariylaYuklendi),
                             ),
                           );
@@ -599,7 +599,7 @@ class _UsersConsoleState extends State<UsersConsole> {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content: Text(
-                                  AppLocalizations.of(context).resimSecilmedi),
+                                  AppLocalizations.of(context)!.resimSecilmedi),
                             ),
                           );
                         }

@@ -20,14 +20,14 @@ class Iletisim extends StatelessWidget {
             },
             icon: Icon(Icons.arrow_back_ios_new, color: ColorConstants.instance.titleColor,),
           ),
-          title: Text(AppLocalizations.of(context).iletisim, style: TextFonts.instance.appBarTitleColor),
+          title: Text(AppLocalizations.of(context)!.iletisim, style: TextFonts.instance.appBarTitleColor),
         ),
         body: Padding(
             padding: const EdgeInsets.all(10),
             child: Column(children: [
               const SizedBox(height: 10),
               Text(
-                  AppLocalizations.of(context).iletisimNot,
+                  AppLocalizations.of(context)!.iletisimNot,
                   style: TextFonts.instance.commentTextBold),
               const SizedBox(height: 15),
               InkWell(

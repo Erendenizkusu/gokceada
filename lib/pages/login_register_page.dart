@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:gokceada/core/colors.dart';
 import 'package:gokceada/product/text_field_custom.dart';
+import 'package:gokceada/services/auth_service.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import '../../core/textFont.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -74,7 +75,7 @@ class _LoginPageState extends State<LoginPage> {
           ? loginUserEmailAndPassword
           : () => createUserWithEmailAndPassword(),
       child: Text(
-        isLogin ? AppLocalizations.of(context).login : AppLocalizations.of(context).register,
+        isLogin ? AppLocalizations.of(context)!.login : AppLocalizations.of(context)!.register,
         style: TextFonts.instance.middleWhiteColor,
       ),
     );
@@ -89,7 +90,7 @@ class _LoginPageState extends State<LoginPage> {
         });
       },
       child: Text(
-        isLogin ? AppLocalizations.of(context).hesabinYokMu : AppLocalizations.of(context).bununYerineGiris,
+        isLogin ? AppLocalizations.of(context)!.hesabinYokMu : AppLocalizations.of(context)!.bununYerineGiris,
         style: TextFonts.instance.commentTextThin,
       ),
     );
@@ -101,7 +102,7 @@ class _LoginPageState extends State<LoginPage> {
       return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
-          title: Text(AppLocalizations.of(context).girisEkrani, style: TextFonts.instance.appBarTitleColor),
+          title: Text(AppLocalizations.of(context)!.girisEkrani, style: TextFonts.instance.appBarTitleColor),
           foregroundColor: ColorConstants.instance.titleColor,
           elevation: 1,
         ),
@@ -114,23 +115,23 @@ class _LoginPageState extends State<LoginPage> {
               children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 40),
-                  child: Text(AppLocalizations.of(context).loginTitle, style: TextFonts.instance.titleFont),
+                  child: Text(AppLocalizations.of(context)!.loginTitle, style: TextFonts.instance.titleFont),
                 ),
                 SizedBox(
                   height: 300,
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        _entryField(AppLocalizations.of(context).email, AppLocalizations.of(context).emailGirin,
+                        _entryField(AppLocalizations.of(context)!.email, AppLocalizations.of(context)!.emailGirin,
                             Icons.email_outlined, _controllerEmail,false),
-                        _entryField(AppLocalizations.of(context).password, AppLocalizations.of(context).sifreGirin,
+                        _entryField(AppLocalizations.of(context)!.password, AppLocalizations.of(context)!.sifreGirin,
                             Icons.key, _controllerPassword,true),
                         _errorMessage(),
                         _submitButton(),
                         _loginOrRegisterButton(),
                       ]),
                 ),
-                LoginScreenBottomSide(loginWithGoogle: loginWithGoogle),
+                const LoginScreenBottomSide(),
               ],
             ),
           ),
@@ -140,7 +141,7 @@ class _LoginPageState extends State<LoginPage> {
       return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
-          title: Text(AppLocalizations.of(context).kayitEkrani, style: TextFonts.instance.appBarTitleColor),
+          title: Text(AppLocalizations.of(context)!.kayitEkrani, style: TextFonts.instance.appBarTitleColor),
           foregroundColor: ColorConstants.instance.titleColor,
           elevation: 1,
         ),
@@ -152,18 +153,18 @@ class _LoginPageState extends State<LoginPage> {
                 Column(mainAxisAlignment: MainAxisAlignment.start, children: [
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 40),
-                child: Text(AppLocalizations.of(context).registerTitle, style: TextFonts.instance.titleFont),
+                child: Text(AppLocalizations.of(context)!.registerTitle, style: TextFonts.instance.titleFont),
               ),
               SizedBox(
                 height: 300,
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      _entryField(AppLocalizations.of(context).isimSoyisim, AppLocalizations.of(context).isimSoyisimGirin, Icons.person,
+                      _entryField(AppLocalizations.of(context)!.isimSoyisim, AppLocalizations.of(context)!.isimSoyisimGirin, Icons.person,
                           _controllerUsername,false),
-                      _entryField(AppLocalizations.of(context).email, AppLocalizations.of(context).emailGirin,
+                      _entryField(AppLocalizations.of(context)!.email, AppLocalizations.of(context)!.emailGirin,
                           Icons.email_outlined, _controllerEmail,false),
-                      _entryField(AppLocalizations.of(context).password, AppLocalizations.of(context).sifreGirin, Icons.key,
+                      _entryField(AppLocalizations.of(context)!.password, AppLocalizations.of(context)!.sifreGirin, Icons.key,
                           _controllerPassword,true),
 
                       _errorMessage(),
@@ -171,7 +172,7 @@ class _LoginPageState extends State<LoginPage> {
                       _loginOrRegisterButton(),
                     ]),
               ),
-              LoginScreenBottomSide(loginWithGoogle: loginWithGoogle),
+              const LoginScreenBottomSide(),
             ]),
           ),
         ),
@@ -253,7 +254,7 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  void loginWithGoogle() async {
+  /*void loginWithGoogle() async {
     try {
       // Google ile oturum açma işlemini başlat
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
@@ -288,14 +289,14 @@ class _LoginPageState extends State<LoginPage> {
       print(error);
       // Hata durumunda yapılacaklar
     }
-  }
+  }*/
 
 }
 
 class LoginScreenBottomSide extends StatelessWidget {
-  final VoidCallback loginWithGoogle;
+  final Function()? onTap;
 
-  const LoginScreenBottomSide({Key? key, required this.loginWithGoogle})
+  const LoginScreenBottomSide({Key? key, this.onTap})
       : super(key: key);
 
   @override
@@ -311,7 +312,7 @@ class LoginScreenBottomSide extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               IconButton(
-                  onPressed: loginWithGoogle,
+                  onPressed: ()=> AuthService().signInWithGoogle(),
                   icon: Image.asset('images/google_icon.png')),
             ],
           ),

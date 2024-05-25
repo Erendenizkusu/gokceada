@@ -69,7 +69,7 @@ class _ActivitiesDetayState extends State<ActivitiesDetay> {
           },
           icon: Icon(Icons.arrow_back_ios_new, color: ColorConstants.instance.titleColor,),
         ),
-        title: Text(AppLocalizations.of(context).aktiviteler, style: TextFonts.instance.appBarTitleColor),
+        title: Text(AppLocalizations.of(context)!.aktiviteler, style: TextFonts.instance.appBarTitleColor),
       ),
       body: ListView.builder(
         itemCount: activities.length,

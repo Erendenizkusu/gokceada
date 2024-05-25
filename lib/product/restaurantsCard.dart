@@ -17,7 +17,7 @@ class RestaurantsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: (MediaQuery.of(context).size.height) * 0.3,
       width: 300,
       child: Card(
@@ -28,7 +28,7 @@ class RestaurantsCard extends StatelessWidget {
         ),
         child: Stack(
           children: [
-            Container(
+            SizedBox(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height,
                 child: Image.network(
