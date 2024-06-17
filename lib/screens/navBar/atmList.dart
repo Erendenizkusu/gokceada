@@ -1,8 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gokceada/core/colors.dart';
 import 'package:gokceada/core/textFont.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 class AtmList extends StatelessWidget {
@@ -20,7 +20,7 @@ class AtmList extends StatelessWidget {
             },
             icon: Icon(Icons.arrow_back_ios_new, color: ColorConstants.instance.titleColor,),
           ),
-          title: Text(AppLocalizations.of(context)!.atm, style: TextFonts.instance.appBarTitleColor),
+          title: Text('atm'.tr(), style: TextFonts.instance.appBarTitleColor),
         ),
       body: const Column(
         children: [

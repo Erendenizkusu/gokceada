@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gokceada/core/colors.dart';
 import 'package:gokceada/core/ratingBar.dart';
@@ -6,7 +7,7 @@ import 'package:gokceada/screens/restaurantDetail.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../core/textFont.dart';
 import '../product/navigationButton.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class CafeView extends StatefulWidget {
   const CafeView(
@@ -90,16 +91,16 @@ class _CafeViewState extends State<CafeView> {
               ),
               const SizedBox(height: 30),
               Text(
-                  AppLocalizations.of(context)!.menuBilgilendirme,
+                  'menuBilgilendirme'.tr(),
                   style: TextFonts.instance.commentTextBold),
               const SizedBox(height: 8),
               InkwellUnderline(
-                  name: 'Web Site',
+                  name: 'QR Menu',
                   onTap: widget.link == '' ? () {
                     launchUrl(url);
                   } : (){ AlertDialog(
-                    content: Text('Bu Restorant İçin Menu Bilgisi Bulunmuyor..'),
-                    title: Text('Qr Menu Bulunmadı!'),
+                    content: const Text('Bu Restorant İçin Menu Bilgisi Bulunmuyor..'),
+                    title: const Text('Qr Menu Bulunmadı!'),
                     backgroundColor: ColorConstants.instance.activatedButton,
                     actions: [
                       TextButton(

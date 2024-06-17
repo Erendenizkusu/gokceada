@@ -2,18 +2,17 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:gokceada/core/colors.dart';
 import 'package:gokceada/core/textFont.dart';
-import 'package:gokceada/helper/helperMethods.dart';
-import 'package:gokceada/product/comment.dart';
 import 'package:gokceada/product/commentButton.dart';
 import 'package:gokceada/product/hotelListCard.dart';
 import 'package:gokceada/product/likeButton.dart';
+import 'package:gokceada/product/commentScreen.dart';
 
 import '../utils/storage.dart';
 
@@ -119,7 +118,7 @@ class _UsersConsoleState extends State<UsersConsole> {
 
   Future<void> toggleLike(String userUid) async {
     DocumentReference postRef =
-    FirebaseFirestore.instance.collection('images').doc(userUid);
+        FirebaseFirestore.instance.collection('images').doc(userUid);
 
     if (currentUser != null) {
       await postRef.update({
@@ -161,8 +160,8 @@ class _UsersConsoleState extends State<UsersConsole> {
 
   //add a comment
   void addComment(String commentText, String userUid) async {
-    String name = FirebaseAuth.instance.currentUser!.uid;
-    String? user = await storage.getUsernameFromUid(name);
+    String currentUserUid = FirebaseAuth.instance.currentUser!.uid;
+    String? user = await storage.getUsernameFromUid(currentUserUid);
 
     FirebaseFirestore.instance
         .collection('images')
@@ -170,11 +169,27 @@ class _UsersConsoleState extends State<UsersConsole> {
         .collection('comments')
         .add({
       'commentBy': user,
+      'commentByUid': currentUserUid, // Kullanıcı UID'si ekleniyor
       'commentText': commentText,
       'commentTime': Timestamp.now(),
     });
-    setState(() {
-    });
+    setState(() {});
+  }
+
+  void deleteComment(String userUid, String commentId) async {
+    try {
+      // Yorumun bulunduğu koleksiyona erişim
+      await FirebaseFirestore.instance
+          .collection('images')
+          .doc(userUid)
+          .collection('comments')
+          .doc(commentId)
+          .delete();
+
+      print("Yorum başarıyla silindi.");
+    } catch (e) {
+      print("Yorum silinirken hata oluştu: $e");
+    }
   }
 
   //show a dialog box for adding comment
@@ -182,11 +197,11 @@ class _UsersConsoleState extends State<UsersConsole> {
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
-              title: const Text('Add Comment'),
+              title: Text('yorumEkle'.tr()),
               content: TextField(
                 controller: _commentTextController,
                 decoration:
-                    const InputDecoration(hintText: 'Write a comment..'),
+                     InputDecoration(hintText: 'birYorumYaz'.tr()),
               ),
               actions: [
                 //cancel button
@@ -195,7 +210,7 @@ class _UsersConsoleState extends State<UsersConsole> {
                       Navigator.pop(context);
                       _commentTextController.clear();
                     },
-                    child: const Text('Cancel')),
+                    child: Text('cancel'.tr())),
                 //post button
                 TextButton(
                     onPressed: () {
@@ -203,7 +218,7 @@ class _UsersConsoleState extends State<UsersConsole> {
                       Navigator.pop(context);
                       _commentTextController.clear();
                     },
-                    child: const Text('Post')),
+                    child: Text('post'.tr())),
               ],
             ));
   }
@@ -225,8 +240,8 @@ class _UsersConsoleState extends State<UsersConsole> {
               color: ColorConstants.instance.titleColor,
             ),
           ),
-          title: Text(AppLocalizations.of(context)!.sizinGozunuzdenAda,
-              style: TextFonts.instance.appBarTitleColor),
+          title: Text('sizinGozunuzdenAda'.tr(),
+              style: TextFonts.instance.middleTitle),
         ),
         body: isLoading
             ? Center(
@@ -276,9 +291,7 @@ class _UsersConsoleState extends State<UsersConsole> {
                                   } else {
                                     return Container(
                                         margin: const EdgeInsets.all(8),
-                                        child: Text(
-                                            AppLocalizations.of(context)!
-                                                .kullaniciYukeliyor,
+                                        child: Text('kullaniciYukeliyor'.tr(),
                                             style: TextFonts
                                                 .instance.middleTitle));
                                   }
@@ -370,9 +383,9 @@ class _UsersConsoleState extends State<UsersConsole> {
                                   children: [
                                     Padding(
                                       padding: const EdgeInsets.only(left: 15),
-                                      child: CommentButton(onTap: () {
+                                      child: CommentButton(onTap: currentUser != null ? () {
                                         showCommentDialog(userUid);
-                                      }),
+                                      } : (){} ),
                                     ),
                                   ],
                                 )
@@ -460,75 +473,7 @@ class _UsersConsoleState extends State<UsersConsole> {
                                                               .size
                                                               .height) *
                                                           0.7,
-                                                  child: StreamBuilder<
-                                                      QuerySnapshot>(
-                                                    stream: FirebaseFirestore
-                                                        .instance
-                                                        .collection('images')
-                                                        .doc(userUid)
-                                                        .collection('comments')
-                                                        .orderBy('commentTime',
-                                                            descending: true)
-                                                        .snapshots(),
-                                                    builder:
-                                                        (context, snapshot) {
-                                                      if (!snapshot.hasData) {
-                                                        return const Center(
-                                                          child:
-                                                              CircularProgressIndicator(),
-                                                        );
-                                                      } else {
-                                                        int userCommentCount =
-                                                            snapshot.data!.docs
-                                                                .length;
-                                                        commentCounts[userUid] =
-                                                            userCommentCount;
-                                                        print(
-                                                            'Comment data: ${snapshot.data!.docs}');
-
-                                                        return Container(
-                                                          margin:
-                                                              const EdgeInsets
-                                                                      .symmetric(
-                                                                  horizontal:
-                                                                      5),
-                                                          decoration: const BoxDecoration(
-                                                              borderRadius: BorderRadius
-                                                                  .all(Radius
-                                                                      .circular(
-                                                                          30))),
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  top: 10,
-                                                                  bottom: 15),
-                                                          height: 100,
-                                                          child: ListView(
-                                                            shrinkWrap: true,
-                                                            children: snapshot
-                                                                .data!.docs
-                                                                .map((doc) {
-                                                              //get the comment
-                                                              final commentData =
-                                                                  doc.data() as Map<
-                                                                      String,
-                                                                      dynamic>;
-
-                                                              //return the comment
-                                                              return Comment(
-                                                                  text: commentData[
-                                                                      'commentText'],
-                                                                  user: commentData[
-                                                                      'commentBy'],
-                                                                  time: formatDate(
-                                                                      commentData[
-                                                                          'commentTime']));
-                                                            }).toList(),
-                                                          ),
-                                                        );
-                                                      }
-                                                    },
-                                                  ),
+                                                  child: CommentsScreen(userUid: userUid)
                                                 );
                                               });
                                         },
@@ -558,8 +503,8 @@ class _UsersConsoleState extends State<UsersConsole> {
                           : () {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
-                                  content: Text(AppLocalizations.of(context)!
-                                      .kullaniciGirisiYapilmadi),
+                                  content:
+                                      Text('kullaniciGirisiYapilmadi'.tr()),
                                 ),
                               );
                             },
@@ -591,15 +536,13 @@ class _UsersConsoleState extends State<UsersConsole> {
 
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: Text(AppLocalizations.of(context)!
-                                  .dosyaBasariylaYuklendi),
+                              content: Text('dosyaBasariylaYuklendi'.tr()),
                             ),
                           );
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: Text(
-                                  AppLocalizations.of(context)!.resimSecilmedi),
+                              content: Text('resimSecilmedi'.tr()),
                             ),
                           );
                         }

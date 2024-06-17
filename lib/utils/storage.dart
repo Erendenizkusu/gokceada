@@ -1,12 +1,13 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 
 class Storage {
@@ -40,6 +41,7 @@ class Storage {
     String downloadURL = await storage.ref('users/$userId/$imageName').getDownloadURL();
     return downloadURL;
   }
+
   Future<String?> getUsernameFromUid(String uid) async {
     try {
       if (kDebugMode) {
@@ -81,7 +83,7 @@ class Storage {
         await lastImage.delete();
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(AppLocalizations.of(context)!.resimSilindi),
+            content: Text('resimSilindi'.tr()),
           ),
         );
       } else if(result.items.length == 1) {

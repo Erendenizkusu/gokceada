@@ -1,8 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import '../../core/colors.dart';
 import '../../core/textFont.dart';
 import '../../product/card_design.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Koyler extends StatelessWidget {
   const Koyler({Key? key}) : super(key: key);
@@ -19,7 +19,7 @@ class Koyler extends StatelessWidget {
             },
             icon: Icon(Icons.arrow_back_ios_new, color: ColorConstants.instance.titleColor,),
           ),
-          title: Text(AppLocalizations.of(context)!.koyler, style: TextFonts.instance.appBarTitleColor),
+          title: Text('koyler'.tr(), style: TextFonts.instance.appBarTitleColor),
         ),
       body:Padding(
         padding: const EdgeInsets.all(8.0),

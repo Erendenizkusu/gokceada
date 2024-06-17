@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gokceada/product/PansionListCard.dart';
@@ -75,7 +76,7 @@ class _SurfingDetayState extends State<SurfingDetay> {
           },
           icon: Icon(Icons.arrow_back_ios_new, color: ColorConstants.instance.titleColor,),
         ),
-        title: Text('Surf Okulları', style: TextFonts.instance.titleFont),
+        title: Text('surfOkullari'.tr(), style: TextFonts.instance.titleFont),
       ),
       body: ListView.builder(
         itemCount: surfing.length,

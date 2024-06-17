@@ -1,15 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:gokceada/core/colors.dart';
 import 'package:gokceada/product/text_field_custom.dart';
-import 'package:gokceada/services/auth_service.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+
 import '../../core/textFont.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoginPage extends StatefulWidget {
-
   const LoginPage({Key? key}) : super(key: key);
   static String? fullName;
 
@@ -41,8 +40,10 @@ class _LoginPageState extends State<LoginPage> {
   String? errorMessage = '';
   bool isLogin = true;
   late final TextEditingController _controllerEmail = TextEditingController();
-  late final TextEditingController _controllerPassword = TextEditingController();
-  late final TextEditingController _controllerUsername = TextEditingController();
+  late final TextEditingController _controllerPassword =
+      TextEditingController();
+  late final TextEditingController _controllerUsername =
+      TextEditingController();
 
   Widget _entryField(
     String labelText,
@@ -52,13 +53,13 @@ class _LoginPageState extends State<LoginPage> {
     bool secretText,
   ) {
     return Expanded(
-        child: TextFieldCustom(
-      controller: controller,
-      label_text: labelText,
-      hint_text: hintText,
-      icon: icon,
-      secretText: secretText,
-        ),
+      child: TextFieldCustom(
+        controller: controller,
+        label_text: labelText,
+        hint_text: hintText,
+        icon: icon,
+        secretText: secretText,
+      ),
     );
   }
 
@@ -75,11 +76,10 @@ class _LoginPageState extends State<LoginPage> {
           ? loginUserEmailAndPassword
           : () => createUserWithEmailAndPassword(),
       child: Text(
-        isLogin ? AppLocalizations.of(context)!.login : AppLocalizations.of(context)!.register,
+        isLogin ? 'login'.tr() : 'register'.tr(),
         style: TextFonts.instance.middleWhiteColor,
       ),
     );
-
   }
 
   Widget _loginOrRegisterButton() {
@@ -90,7 +90,7 @@ class _LoginPageState extends State<LoginPage> {
         });
       },
       child: Text(
-        isLogin ? AppLocalizations.of(context)!.hesabinYokMu : AppLocalizations.of(context)!.bununYerineGiris,
+        isLogin ? 'hesabinYokMu'.tr() : 'bununYerineGiris'.tr(),
         style: TextFonts.instance.commentTextThin,
       ),
     );
@@ -102,7 +102,8 @@ class _LoginPageState extends State<LoginPage> {
       return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
-          title: Text(AppLocalizations.of(context)!.girisEkrani, style: TextFonts.instance.appBarTitleColor),
+          title: Text('girisEkrani'.tr(),
+              style: TextFonts.instance.appBarTitleColor),
           foregroundColor: ColorConstants.instance.titleColor,
           elevation: 1,
         ),
@@ -115,23 +116,24 @@ class _LoginPageState extends State<LoginPage> {
               children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 40),
-                  child: Text(AppLocalizations.of(context)!.loginTitle, style: TextFonts.instance.titleFont),
+                  child: Text('loginTitle'.tr(),
+                      style: TextFonts.instance.titleFont),
                 ),
                 SizedBox(
                   height: 300,
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        _entryField(AppLocalizations.of(context)!.email, AppLocalizations.of(context)!.emailGirin,
-                            Icons.email_outlined, _controllerEmail,false),
-                        _entryField(AppLocalizations.of(context)!.password, AppLocalizations.of(context)!.sifreGirin,
-                            Icons.key, _controllerPassword,true),
+                        _entryField('email'.tr(), 'emailGirin'.tr(),
+                            Icons.email_outlined, _controllerEmail, false),
+                        _entryField('password'.tr(), 'sifreGirin'.tr(),
+                            Icons.key, _controllerPassword, true),
                         _errorMessage(),
                         _submitButton(),
                         _loginOrRegisterButton(),
                       ]),
                 ),
-                const LoginScreenBottomSide(),
+                LoginScreenBottomSide(onTap: ()=> loginWithGoogle(),),
               ],
             ),
           ),
@@ -141,7 +143,8 @@ class _LoginPageState extends State<LoginPage> {
       return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
-          title: Text(AppLocalizations.of(context)!.kayitEkrani, style: TextFonts.instance.appBarTitleColor),
+          title: Text('kayitEkrani'.tr(),
+              style: TextFonts.instance.appBarTitleColor),
           foregroundColor: ColorConstants.instance.titleColor,
           elevation: 1,
         ),
@@ -153,26 +156,28 @@ class _LoginPageState extends State<LoginPage> {
                 Column(mainAxisAlignment: MainAxisAlignment.start, children: [
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 40),
-                child: Text(AppLocalizations.of(context)!.registerTitle, style: TextFonts.instance.titleFont),
+                child: Text('registerTitle'.tr(),
+                    style: TextFonts.instance.titleFont),
               ),
               SizedBox(
                 height: 300,
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      _entryField(AppLocalizations.of(context)!.isimSoyisim, AppLocalizations.of(context)!.isimSoyisimGirin, Icons.person,
-                          _controllerUsername,false),
-                      _entryField(AppLocalizations.of(context)!.email, AppLocalizations.of(context)!.emailGirin,
-                          Icons.email_outlined, _controllerEmail,false),
-                      _entryField(AppLocalizations.of(context)!.password, AppLocalizations.of(context)!.sifreGirin, Icons.key,
-                          _controllerPassword,true),
-
+                      _entryField('isimSoyisim'.tr(), 'isimSoyisimGirin'.tr(),
+                          Icons.person, _controllerUsername, false),
+                      _entryField('email'.tr(), 'emailGirin'.tr(),
+                          Icons.email_outlined, _controllerEmail, false),
+                      _entryField('password'.tr(), 'sifreGirin'.tr(), Icons.key,
+                          _controllerPassword, true),
                       _errorMessage(),
                       _submitButton(),
                       _loginOrRegisterButton(),
                     ]),
               ),
-              const LoginScreenBottomSide(),
+              LoginScreenBottomSide(
+                onTap: () => loginWithGoogle(),
+              ),
             ]),
           ),
         ),
@@ -182,9 +187,9 @@ class _LoginPageState extends State<LoginPage> {
 
   void createUserWithEmailAndPassword() async {
     try {
-      UserCredential _userCredential = await auth.createUserWithEmailAndPassword(
-          email: _controllerEmail.text,
-          password: _controllerPassword.text);
+      UserCredential _userCredential =
+          await auth.createUserWithEmailAndPassword(
+              email: _controllerEmail.text, password: _controllerPassword.text);
 
       var _myUser = _userCredential.user;
 
@@ -201,14 +206,14 @@ class _LoginPageState extends State<LoginPage> {
 
       // Kayıt başarılı olduğunda kullanıcıyı yönlendirebilirsiniz
       // Örneğin, anasayfaya veya giriş yaptıktan sonra sayfaya yönlendirme yapabilirsiniz
-      Navigator.pushReplacementNamed(context, '/login'); // '/home' yerine uygun sayfa rotasını kullanın
+      Navigator.pushReplacementNamed(
+          context, '/login'); // '/home' yerine uygun sayfa rotasını kullanın
     } on FirebaseAuthException catch (e) {
       setState(() {
         errorMessage = e.message;
       });
     }
   }
-
 
   void saveUsernameToFirestore(String uid, String username) {
     try {
@@ -254,7 +259,7 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  /*void loginWithGoogle() async {
+  void loginWithGoogle() async {
     try {
       // Google ile oturum açma işlemini başlat
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
@@ -262,7 +267,7 @@ class _LoginPageState extends State<LoginPage> {
       if (googleUser != null) {
         // Kimlik doğrulama bilgilerini al
         final GoogleSignInAuthentication? googleAuth =
-        await googleUser.authentication;
+            await googleUser.authentication;
         print('Google Auth: $googleAuth');
         // Google kimlik bilgilerini kullanarak Firebase kimlik bilgileri oluştur
         final credential = GoogleAuthProvider.credential(
@@ -272,7 +277,7 @@ class _LoginPageState extends State<LoginPage> {
         print('Credential: $credential');
 
         final UserCredential userCredential =
-        await FirebaseAuth.instance.signInWithCredential(credential);
+            await FirebaseAuth.instance.signInWithCredential(credential);
         print(userCredential);
         final String? username = userCredential.user?.displayName;
         if (username != null) {
@@ -285,39 +290,32 @@ class _LoginPageState extends State<LoginPage> {
       } else {
         // Google ile oturum açma işlemi iptal edildi veya hata alındı
       }
-    } catch (error) {
+    }
+    catch (error) {
       print(error);
       // Hata durumunda yapılacaklar
     }
-  }*/
-
+  }
 }
 
 class LoginScreenBottomSide extends StatelessWidget {
   final Function()? onTap;
 
-  const LoginScreenBottomSide({Key? key, this.onTap})
-      : super(key: key);
+  const LoginScreenBottomSide({Key? key, this.onTap}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 150,
-      child:
-          Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        Text('Or Login With', style: TextFonts.instance.commentTextThin),
-        SizedBox(
-          width: MediaQuery.of(context).size.width * 0.80,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              IconButton(
-                  onPressed: ()=> AuthService().signInWithGoogle(),
-                  icon: Image.asset('images/google_icon.png')),
-            ],
-          ),
-        ),
-      ]),
-    );
+    return Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+      Text('Or Login With', style: TextFonts.instance.commentTextThin),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          IconButton(
+              onPressed: onTap,
+              icon: SizedBox(
+                  width: 80, child: Image.asset('images/google_icon.png'))),
+        ],
+      ),
+    ]);
   }
 }

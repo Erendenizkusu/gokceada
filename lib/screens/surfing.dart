@@ -98,7 +98,7 @@ class _SurfingViewState extends State<SurfingView> {
                   style: TextFonts.instance.commentTextBold),
               const SizedBox(height: 8),
               InkwellUnderline(
-                  name: 'Web Site',
+                  name: 'QR Menu',
                   onTap: () {
                     launchUrl(url);
                   }),

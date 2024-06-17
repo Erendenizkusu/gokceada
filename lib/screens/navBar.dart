@@ -1,10 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../product/languageButton.dart';
 
 class NavBar extends StatefulWidget {
   const NavBar({Key? key}) : super(key: key);
@@ -14,15 +14,51 @@ class NavBar extends StatefulWidget {
 }
 
 class _NavBarState extends State<NavBar>{
+
   late FirebaseAuth auth;
+  late InterstitialAd interstitialAd;
+  bool isAdLoaded = false;
+  var adUnit = "ca-app-pub-3940256099942544/1033173712";
 
   @override
   void initState() {
     super.initState();
     auth = FirebaseAuth.instance;
+    initIntersitialAd();
   }
 
   User? get user => auth.currentUser;
+
+  initIntersitialAd(){
+    InterstitialAd.load(
+        adUnitId: adUnit,
+        request: const AdRequest(),
+        adLoadCallback: InterstitialAdLoadCallback(
+            onAdLoaded: (ad){
+              interstitialAd = ad;
+              setState(() {
+                isAdLoaded = true;
+              });
+              interstitialAd.fullScreenContentCallback = FullScreenContentCallback(
+                  onAdDismissedFullScreenContent: (ad){
+                    ad.dispose();
+                    setState(() {
+                      isAdLoaded = false;
+                    });
+                  },
+                  onAdFailedToShowFullScreenContent: (ad, error){
+                    ad.dispose();
+                    setState(() {
+                      isAdLoaded = false;
+                    });
+                  }
+              );
+            },
+            onAdFailedToLoad: ((error){
+              interstitialAd.dispose();
+            })
+        ));
+  }
 
 
   //final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -55,16 +91,25 @@ class _NavBarState extends State<NavBar>{
               )
             ),
               ),
-           NavBarListTile(title: AppLocalizations.of(context)!.neredeYenir,icon: Icons.fastfood,path: 'foodareas'),
-           NavBarListTile(title: AppLocalizations.of(context)!.gormeyeDeger,icon: Icons.remove_red_eye_outlined,path: 'gezilecek'),
-           NavBarListTile(title: AppLocalizations.of(context)!.aktiviteler,icon: Icons.surfing,path: 'activities'),
-           NavBarListTile(title: AppLocalizations.of(context)!.atm,icon: Icons.atm,path: 'atm'),
-           NavBarListTile(title: AppLocalizations.of(context)!.koyler,icon: Icons.holiday_village_outlined,path: 'koyler'),
-           NavBarListTile(title: AppLocalizations.of(context)!.feribotSaatleri,icon: Icons.directions_ferry,path: 'fery'),
-           NavBarListTile(title: AppLocalizations.of(context)!.hediyelikEsyalar,icon: Icons.card_giftcard_outlined,path: 'hediyelik'),
-           NavBarListTile(title: AppLocalizations.of(context)!.tavsiyeler,icon: Icons.recommend_rounded,path: 'advices'),
-           NavBarListTile(title: AppLocalizations.of(context)!.iletisim,icon: Icons.comment_outlined,path: 'iletisim'),
-           NavBarListTile(title: AppLocalizations.of(context)!.sizinGozunuzdenAda, icon: CupertinoIcons.eye, path: 'usersConsole'),
+           NavBarListTile(title: 'neredeYenir'.tr(),icon: Icons.fastfood,path: () {
+             if(isAdLoaded){
+               interstitialAd.show();
+             }
+             Navigator.of(context).popAndPushNamed('/foodareas');}),
+           NavBarListTile(title: 'gormeyeDeger'.tr(),icon: Icons.remove_red_eye_outlined,path: () => Navigator.of(context).popAndPushNamed('/gezilecek')),
+           NavBarListTile(title: 'aktiviteler'.tr(),icon: Icons.surfing,path: () => Navigator.of(context).popAndPushNamed('/activities')),
+           NavBarListTile(title: 'atm'.tr(),icon: Icons.atm,path: () => Navigator.of(context).popAndPushNamed('/atm')),
+           NavBarListTile(title: 'koyler'.tr(),icon: Icons.holiday_village_outlined,path: () => Navigator.of(context).popAndPushNamed('/koyler')),
+           NavBarListTile(title: 'feribotSaatleri'.tr(),icon: Icons.directions_ferry,path: (){
+             if(isAdLoaded){
+               interstitialAd.show();
+             }
+             Navigator.of(context).popAndPushNamed('/fery');}),
+           NavBarListTile(title: 'hediyelikEsyalar'.tr(),icon: Icons.card_giftcard_outlined,path: () => Navigator.of(context).popAndPushNamed('/hediyelik')),
+           NavBarListTile(title: 'tavsiyeler'.tr(),icon: Icons.recommend_rounded,path: () => Navigator.of(context).popAndPushNamed('/advices')),
+           NavBarListTile(title: 'iletisim'.tr(),icon: Icons.comment_outlined,path: () => Navigator.of(context).popAndPushNamed('/iletisim')),
+           NavBarListTile(title: 'sizinGozunuzdenAda'.tr(), icon: CupertinoIcons.eye, path: () => Navigator.of(context).popAndPushNamed('/usersConsole')),
+           const Divider(),
            _signOutButton(context),
         ],
       ),
@@ -85,6 +130,7 @@ class _NavBarState extends State<NavBar>{
 
   Widget _signOutButton(BuildContext context){
     return ElevatedButton(
+      style: ElevatedButton.styleFrom(elevation: 10),
       onPressed: () {
         signOut();
         Navigator.pop(context);
@@ -93,11 +139,11 @@ class _NavBarState extends State<NavBar>{
         });
         ScaffoldMessenger.of(context).showSnackBar(
            SnackBar(
-            content: Text(AppLocalizations.of(context)!.cikisYapildi),
+            content: Text('cikisYapildi'.tr()),
           ),
         );
       },
-      child: Text(AppLocalizations.of(context)!.signOut),
+      child: Text('signOut'.tr()),
     );
   }
 }
@@ -109,14 +155,14 @@ class NavBarListTile extends StatelessWidget {
 
   final IconData icon;
   final String title;
-  final String path;
+  final void Function() path;
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       leading: Icon(icon),
       title: Text(title),
-      onTap: () => Navigator.of(context).popAndPushNamed('/$path'),
+      onTap: path,
     );
   }
 }

@@ -1,8 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gokceada/core/colors.dart';
 import 'package:gokceada/core/textFont.dart';
 import 'package:gokceada/screens/plajlarMap.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 class PlajlarView extends StatefulWidget {
@@ -27,7 +27,7 @@ class _PlajlarViewState extends State<PlajlarView> {
     return Scaffold(
       backgroundColor: Colors.transparent,
       appBar: AppBar(
-          title: Text(AppLocalizations.of(context)!.plajlar,style: TextFonts.instance.middleTitle),
+          title: Text('plajlar'.tr(),style: TextFonts.instance.middleTitle),
           leading: Builder(builder: (context) {
             return IconButton(onPressed: (){}, icon: BackButton(color: ColorConstants.instance.titleColor,));
           },),

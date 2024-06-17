@@ -1,10 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gokceada/product/restaurantsCard.dart';
 import 'package:gokceada/screens/restaurantDetail.dart';
 import '../core/colors.dart';
 import '../core/textFont.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class BarDetay extends StatefulWidget {
   const BarDetay({Key? key}) : super(key: key);
@@ -71,7 +71,7 @@ class _BarDetayState extends State<BarDetay> {
           },
           icon: Icon(Icons.arrow_back_ios_new, color: ColorConstants.instance.titleColor,),
         ),
-        title: Text(AppLocalizations.of(context)!.barlar, style: TextFonts.instance.titleFont),
+        title: Text('barlar'.tr(), style: TextFonts.instance.titleFont),
       ),
       body: ListView.builder(
         itemCount: bars.length,

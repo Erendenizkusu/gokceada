@@ -1,7 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gokceada/core/colors.dart';
 import 'package:gokceada/core/textFont.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Advices extends StatelessWidget {
   const Advices({Key? key}) : super(key: key);
@@ -18,7 +18,7 @@ class Advices extends StatelessWidget {
           },
           icon: Icon(Icons.arrow_back_ios_new, color: ColorConstants.instance.titleColor,),
         ),
-        title: Text(AppLocalizations.of(context)!.tavsiyeler, style: TextFonts.instance.appBarTitleColor),
+        title: Text('tavsiyeler'.tr(), style: TextFonts.instance.appBarTitleColor),
       ),
       body: Container(
         margin: const EdgeInsets.all(10),
@@ -28,7 +28,7 @@ class Advices extends StatelessWidget {
         ),
         padding: const EdgeInsets.all(10),
         child: SingleChildScrollView(
-          child: Text(AppLocalizations.of(context)!.tavsiyeMetni, style: TextFonts.instance.commentTextBold),
+          child: Text('tavsiyeMetni'.tr(), style: TextFonts.instance.commentTextBold),
       )));
   }
 }

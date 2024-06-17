@@ -1,7 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../core/colors.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 void openMapsApp(double latitude, double longitude) async {
@@ -30,7 +30,7 @@ class NavigationButton extends StatelessWidget {
         double destinationLongitude = longitude; // Hedef noktanın boylam değeri
         openMapsApp(destinationLatitude, destinationLongitude);
       },
-      child: Text(AppLocalizations.of(context)!.yolTarifi,style: const TextStyle(color: Colors.white)),
+      child: Text('yolTarifi'.tr(),style: const TextStyle(color: Colors.white)),
       style: ElevatedButton.styleFrom(backgroundColor: ColorConstants.instance.activatedButton),
     );
   }

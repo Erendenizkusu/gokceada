@@ -49,7 +49,6 @@ class _HotelListCardState extends State<HotelListCard> {
             ))
         .toList();
     return SizedBox(
-      height: (MediaQuery.of(context).size.height) * 0.6,
       child: Card(
         elevation: 0,
         clipBehavior: Clip.hardEdge,
@@ -109,7 +108,8 @@ class _HotelListCardState extends State<HotelListCard> {
                     children: [
                       RatingBar(rating: widget.rating),
                       //Text('${widget.price}₺',style: TextFonts.instance.priceFont,)
-                    ])
+                    ]),
+                const SizedBox(height: 12),
               ],
             ),
           )

@@ -1,7 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:gokceada/classes/language_constants.dart';
 import 'package:gokceada/core/colors.dart';
 import 'package:gokceada/pages/login_register_page.dart';
 import 'package:gokceada/screens/barlarMap.dart';
@@ -25,12 +24,14 @@ import 'package:gokceada/screens/plajlar.dart';
 import 'package:gokceada/screens/restaurantsMap.dart';
 import 'package:gokceada/screens/splash_screen.dart';
 import 'package:gokceada/screens/surfingMap.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'l10n/l10n.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+
 
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
+  await MobileAds.instance.initialize();
   await Firebase.initializeApp(
     options: const FirebaseOptions(
       appId: '1:919333673755:android:556e785f5fae57dc1051be',
@@ -40,7 +41,14 @@ void main() async{
     ),
   );
 
-  runApp(const Gokceada());
+  runApp(
+      EasyLocalization(
+          supportedLocales: const [Locale('en', 'US'), Locale('tr', 'TR')],
+          path: 'assets/translations', // <-- change the path of the translation files
+          fallbackLocale: const Locale('tr', 'TR'),
+          child: const Gokceada()
+      ),
+      );
 }
 
 class Gokceada extends StatefulWidget {
@@ -49,14 +57,14 @@ class Gokceada extends StatefulWidget {
   @override
   State<Gokceada> createState() => _GokceadaState();
 
-  static void setLocale(BuildContext context, Locale newLocale){
+  /*static void setLocale(BuildContext context, Locale newLocale){
     _GokceadaState? state = context.findAncestorStateOfType<_GokceadaState>();
     state?.setLocale(newLocale);
-  }
+  }*/
 }
 
 class _GokceadaState extends State<Gokceada> {
-  Locale? _locale;
+  /*Locale? _locale;
 
   setLocale(Locale locale){
     setState(() {
@@ -68,19 +76,22 @@ class _GokceadaState extends State<Gokceada> {
   void didChangeDependencies() {
     getLocale().then((locale) => setLocale(locale));
     super.didChangeDependencies();
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      localizationsDelegates: const[
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
+      /*localizationsDelegates: const[
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
       locale: _locale,
-      supportedLocales: L10n.all,
+      supportedLocales: L10n.all,*/
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         inputDecorationTheme: InputDecorationTheme(

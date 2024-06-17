@@ -1,10 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gokceada/product/restaurantsCard.dart';
 import '../core/colors.dart';
 import '../core/textFont.dart';
 import 'cafeView.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class CafeDetay extends StatefulWidget {
   const CafeDetay({Key? key}) : super(key: key);
@@ -69,7 +70,7 @@ class _CafeDetayState extends State<CafeDetay> {
           },
           icon: Icon(Icons.arrow_back_ios_new, color: ColorConstants.instance.titleColor),
         ),
-        title: Text(AppLocalizations.of(context)!.kafeler, style: TextFonts.instance.titleFont),
+        title: Text('kafeler'.tr(), style: TextFonts.instance.titleFont),
       ),
       body: ListView.builder(
         itemCount: cafes.length,

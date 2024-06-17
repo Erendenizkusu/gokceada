@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gokceada/core/colors.dart';
 
@@ -65,7 +64,7 @@ class TextFonts {
   TextStyle(
             fontFamily: 'Poppins',
             color: ColorConstants.instance.titleColor,
-            fontSize: 28,
+            fontSize: 23,
             fontWeight: FontWeight.w800,
             fontStyle: FontStyle.normal,
 

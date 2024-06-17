@@ -1,8 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../core/colors.dart';
 import '../../core/textFont.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Iletisim extends StatelessWidget {
   const Iletisim({Key? key}) : super(key: key);
@@ -20,14 +20,14 @@ class Iletisim extends StatelessWidget {
             },
             icon: Icon(Icons.arrow_back_ios_new, color: ColorConstants.instance.titleColor,),
           ),
-          title: Text(AppLocalizations.of(context)!.iletisim, style: TextFonts.instance.appBarTitleColor),
+          title: Text('iletisim'.tr(), style: TextFonts.instance.appBarTitleColor),
         ),
         body: Padding(
             padding: const EdgeInsets.all(10),
             child: Column(children: [
               const SizedBox(height: 10),
               Text(
-                  AppLocalizations.of(context)!.iletisimNot,
+                  'iletisimNot'.tr(),
                   style: TextFonts.instance.commentTextBold),
               const SizedBox(height: 15),
               InkWell(

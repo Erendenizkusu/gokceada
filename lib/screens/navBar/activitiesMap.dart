@@ -1,10 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gokceada/screens/activitiesDetail.dart';
 import '../../core/colors.dart';
 import '../../core/textFont.dart';
 import '../../product/networkCardDesign.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 class ActivitiesDetay extends StatefulWidget {
@@ -69,7 +69,7 @@ class _ActivitiesDetayState extends State<ActivitiesDetay> {
           },
           icon: Icon(Icons.arrow_back_ios_new, color: ColorConstants.instance.titleColor,),
         ),
-        title: Text(AppLocalizations.of(context)!.aktiviteler, style: TextFonts.instance.appBarTitleColor),
+        title: Text('aktiviteler'.tr(), style: TextFonts.instance.appBarTitleColor),
       ),
       body: ListView.builder(
         itemCount: activities.length,

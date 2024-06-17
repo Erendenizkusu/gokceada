@@ -1,15 +1,15 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gokceada/core/colors.dart';
 import 'package:gokceada/core/textFont.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../product/hotelListCard.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../product/hotelListCard.dart';
 import '../product/navigationButton.dart';
 
 class HotelRoomsView extends StatefulWidget {
   const HotelRoomsView(
-      {Key? key,
+      {super.key,
       required this.list,
       required this.description,
       required this.location,
@@ -18,8 +18,8 @@ class HotelRoomsView extends StatefulWidget {
       required this.owner,
       required this.latitude,
       required this.longitude,
-      required this.telNo})
-      : super(key: key);
+      required this.telNo});
+
   final List<String> list;
   final double latitude;
   final double longitude;
@@ -62,36 +62,45 @@ class _HotelRoomsViewState extends State<HotelRoomsView> {
     return Scaffold(
       body: ListView(
         children: [
-          Container(
-            clipBehavior: Clip.hardEdge,
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(15)),
-            height: (MediaQuery.of(context).size.height) * 0.35,
-            child: PageView(controller: _controller, children: images),
-          ),
+          Stack(children: [
+            Container(
+              clipBehavior: Clip.hardEdge,
+              decoration:
+                  BoxDecoration(borderRadius: BorderRadius.circular(15)),
+              height: (MediaQuery.of(context).size.height) * 0.35,
+              child: PageView(controller: _controller, children: images),
+            ),
+            Positioned(
+                top: 20,
+                left: 10,
+                child: IconButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  icon: const Icon(Icons.arrow_back_ios_new,
+                      color: Colors.white),
+                )),
+          ]),
           Center(child: Indicator(controller: _controller, list: images)),
           const SizedBox(height: 10),
           Center(
-            child: NavigationButton(latitude: widget.latitude,longitude: widget.longitude),
+            child: NavigationButton(
+                latitude: widget.latitude, longitude: widget.longitude),
           ),
           const SizedBox(height: 10),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SizedBox(
-                    width: 350,
-                    child: Text(widget.hotelName,
-                        style: TextFonts.instance.titleFont),
-                  ),
-                ],
+              SizedBox(
+                width: 350,
+                child:
+                    Text(widget.hotelName, style: TextFonts.instance.titleFont),
               ),
               const SizedBox(height: 20),
               Text(widget.location, style: TextFonts.instance.commentTextThin),
               const SizedBox(height: 20),
-              Text(AppLocalizations.of(context)!.tesisOzellikleri,
+              Text('tesisOzellikleri'.tr(),
                   style: TextFonts.instance.middleTitle),
               const SizedBox(height: 20),
               Text(
@@ -100,16 +109,16 @@ class _HotelRoomsViewState extends State<HotelRoomsView> {
               ),
               const SizedBox(height: 40),
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Text(AppLocalizations.of(context)!.odaOzellikleri,
+                Text('odaOzellikleri'.tr(),
                     style: TextFonts.instance.middleTitle),
                 const SizedBox(height: 20),
                 Wrap(children: widget.facilities),
               ]),
               const SizedBox(height: 20),
               OwnerCard(
-                  owner: widget.owner,
-                  telNumber: widget.telNo,
-                  ),
+                owner: widget.owner,
+                telNumber: widget.telNo,
+              ),
               const SizedBox(height: 20),
             ]),
           )
@@ -133,42 +142,36 @@ class OwnerCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final Uri phoneNumber = Uri.parse('tel:$telNumber');
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-              border: Border.all(
-                  width: 0.5, color: ColorConstants.instance.titleColor),
-              borderRadius: BorderRadius.circular(8)),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Text(owner,
-                    style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: ColorConstants.instance.titleColor,
-                        fontFamily: 'Poppins')),
-                Text(
-                  '${AppLocalizations.of(context)!.iletisim}: $telNumber',
-                  style: TextStyle(
-                      fontSize: 17,
-                      color: ColorConstants.instance.commentColor),
-                ),
-              ]),
-              GestureDetector(
-                onTap: (() async {
-                  launchUrl(phoneNumber);
-                }),
-                child: const Icon(Icons.call, color: Colors.green),
-              ),
-            ],
+    return Container(
+      padding: const EdgeInsets.all(5),
+      decoration: BoxDecoration(
+          border:
+              Border.all(width: 0.5, color: ColorConstants.instance.titleColor),
+          borderRadius: BorderRadius.circular(8)),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Text(owner,
+                style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: ColorConstants.instance.titleColor,
+                    fontFamily: 'Poppins')),
+            Text(
+              '${'iletisim'.tr()}: $telNumber',
+              style: TextStyle(
+                  fontSize: 17, color: ColorConstants.instance.commentColor),
+            ),
+          ]),
+          GestureDetector(
+            onTap: (() async {
+              launchUrl(phoneNumber);
+            }),
+            child: const Icon(Icons.call, color: Colors.green),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

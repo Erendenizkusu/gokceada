@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gokceada/product/PansionListCard.dart';
@@ -83,7 +84,7 @@ class _PansionDetayState extends State<PansionDetay> {
           },
           icon: Icon(Icons.arrow_back_ios_new, color: ColorConstants.instance.titleColor,),
         ),
-        title: Text('Pansiyonlar', style: TextFonts.instance.titleFont),
+        title: Text('pansionlar'.tr(), style: TextFonts.instance.titleFont),
       ),
       body: ListView.builder(
         itemCount: pansions.length,

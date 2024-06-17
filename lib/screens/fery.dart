@@ -1,8 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../core/colors.dart';
 import '../core/textFont.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 class Feribot extends StatefulWidget {
@@ -29,7 +29,7 @@ class _FeribotState extends State<Feribot> {
           },
           icon: Icon(Icons.arrow_back_ios_new, color: ColorConstants.instance.titleColor,),
         ),
-        title: Text(AppLocalizations.of(context)!.feribotSaatleri, style: TextFonts.instance.appBarTitleColor),
+        title: Text('feribotSaatleri'.tr(), style: TextFonts.instance.appBarTitleColor),
       ),
       body: ListView(
         children:[
@@ -39,7 +39,7 @@ class _FeribotState extends State<Feribot> {
                   onPressed: (){
                     launchUrl(url);
                   },
-                  child: Text(AppLocalizations.of(context)!.feribotSaatleri,style: TextFonts.instance.smallText,)
+                  child: Text('feribotSaatleri'.tr(),style: TextFonts.instance.smallText,)
           ),),),
           Padding(
             padding: const EdgeInsets.all(10.0),
@@ -47,7 +47,7 @@ class _FeribotState extends State<Feribot> {
           ),
           Padding(
             padding: const EdgeInsets.all(10.0),
-            child: Text(AppLocalizations.of(context)!.feribilgi,style: TextFonts.instance.commentTextBold,),
+            child: Text('feribilgi'.tr(),style: TextFonts.instance.commentTextBold,),
           )
       ])
     );

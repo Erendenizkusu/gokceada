@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gokceada/product/descriptionNetworkImage.dart';
@@ -5,7 +6,6 @@ import 'package:gokceada/product/navigationButton.dart';
 import '../../core/colors.dart';
 import '../../core/textFont.dart';
 import '../../product/networkCardDesign.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class GezilecekDetay extends StatefulWidget {
   const GezilecekDetay({Key? key}) : super(key: key);
@@ -65,7 +65,7 @@ class _GezilecekDetayState extends State<GezilecekDetay> {
           },
           icon: Icon(Icons.arrow_back_ios_new, color: ColorConstants.instance.titleColor,),
         ),
-        title: Text(AppLocalizations.of(context)!.gormeyeDeger, style: TextFonts.instance.appBarTitleColor),
+        title: Text('gormeyeDeger'.tr(), style: TextFonts.instance.appBarTitleColor),
       ),
       body: ListView.builder(
         itemCount: gezilecek.length,

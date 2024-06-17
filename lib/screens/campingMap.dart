@@ -1,10 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gokceada/product/PansionListCard.dart';
 import 'package:gokceada/screens/campingDetail.dart';
 import '../core/colors.dart';
 import '../core/textFont.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class CampingDetay extends StatefulWidget {
   const CampingDetay({Key? key}) : super(key: key);
@@ -74,7 +75,7 @@ class _CampingDetayState extends State<CampingDetay> {
           },
           icon: Icon(Icons.arrow_back_ios_new, color: ColorConstants.instance.titleColor,),
         ),
-        title: Text(AppLocalizations.of(context)!.kampalanlari, style: TextFonts.instance.titleFont),
+        title: Text('kampalanlari'.tr(), style: TextFonts.instance.titleFont),
       ),
       body: ListView.builder(
         itemCount: camping.length,
