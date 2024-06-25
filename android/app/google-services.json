@@ -38,6 +38,13 @@
             {
               "client_id": "919333673755-9ujfdvhsocvvbra2fv58qrrqrson1isi.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "919333673755-164bj9pbkik44jr7m5l6vca0lu6r0f15.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.gokceada.gokceadarehber.gokceada"
+              }
             }
           ]
         }

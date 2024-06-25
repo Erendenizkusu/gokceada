@@ -95,6 +95,32 @@ flutter:
     - lib/screens/
     - lib/screens/navBar/
     - lib/services/
+    - assets/translations/
+    - images/activities/
+    - images/atm/
+    - images/bademli/
+    - images/derekoy/
+    - images/eselek/
+    - images/gezilecekyerler/
+    - images/gizliliman/
+    - images/gokceadaDirectory/
+    - images/kalekoy/
+    - images/kalekoyliman/
+    - images/kefalos/
+    - images/koyler/
+    - images/kuzulimani/
+    - images/lazkoyu/
+    - images/marmaros/
+    - images/merkez/
+    - images/nerdeYenir/
+    - images/sahinkaya/
+    - images/sirinkoy/
+    - images/tepekoy/
+    - images/ugurlu/
+    - images/yenibademli/
+    - images/yildizkoy/
+    - images/zeytinli/
+    - images/
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
