@@ -32,11 +32,12 @@ void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   await MobileAds.instance.initialize();
-  await Firebase.initializeApp(
+  await Firebase.initializeApp(name: "gokceada",
     options: const FirebaseOptions(
       appId: '1:919333673755:android:556e785f5fae57dc1051be',
       apiKey: 'AIzaSyAPFd-5utIlJQbFC7WcjuQpNNpttDvYEps',
       projectId: 'gokceada-688c7', messagingSenderId: '919333673755',
+
       // ... other options
     ),
   );

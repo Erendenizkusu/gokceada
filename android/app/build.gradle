@@ -49,33 +49,14 @@ android {
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
         multiDexEnabled true
-        minSdk = flutter.minSdkVersion
+        minSdk = 23
         targetSdk = flutter.targetSdkVersion
         versionCode = flutterVersionCode.toInteger()
         versionName = flutterVersionName
     }
 
-    signingConfigs {
-        mySigningConfig {
-            keyAlias 'myAlias'
-            keyPassword 'Oo11qq22ww+'
-            storeFile file('C:\\keystore\\keystore.jks')
-            storePassword 'Oo11qq22ww+'
-        }
-    }
 
 
-    buildTypes {
-
-        release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig signingConfigs.mySigningConfig
-            /*debug {
-            signingConfig signingConfigs.debug
-        }*/
-        }
-    }
 
     flutter {
         source '../..'

@@ -12,7 +12,7 @@
     		<array>
     			<!-- TODO Replace this value: -->
     			<!-- Copied from GoogleService-Info.plist key REVERSED_CLIENT_ID -->
-    			<string>com.googleusercontent.apps.919333673755-164bj9pbkik44jr7m5l6vca0lu6r0f15</string>
+    			<string>com.googleusercontent.apps.919333673755-e8k9kc0a92rhinv8t606cra1i05ntaj2</string>
     		</array>
     	</dict>
     </array>
@@ -72,6 +72,12 @@
     <string>Allow access to your location</string>
     <key>NSLocationWhenInUseUsageDescription</key>
     <string>Allow access to your location</string>
+    <!--  Firebase access right -->
+    <key>NSAppTransportSecurity</key>
+    <dict>
+        <key>NSAllowsLocalNetworking</key>
+        <true/>
+    </dict>
     <key>LSApplicationQueriesSchemes</key>
     <array>
         <string>tel</string>
