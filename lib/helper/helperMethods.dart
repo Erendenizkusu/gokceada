@@ -1,5 +1,3 @@
-//return a formatted data as a string
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 String formatDate(Timestamp timestamp){

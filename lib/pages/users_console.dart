@@ -118,7 +118,7 @@ class _UsersConsoleState extends State<UsersConsole> {
 
   Future<void> toggleLike(String userUid) async {
     DocumentReference postRef =
-        FirebaseFirestore.instance.collection('images').doc(userUid);
+    FirebaseFirestore.instance.collection('images').doc(userUid);
 
     if (currentUser != null) {
       await postRef.update({
@@ -134,24 +134,33 @@ class _UsersConsoleState extends State<UsersConsole> {
   }
 
   Future<void> getUsersImages() async {
+    if (!mounted) return;
+
     setState(() {
       isLoading = true;
     });
 
-    firebase_storage.ListResult result = await storage.listFiles('');
+    try {
+      firebase_storage.ListResult result = await storage.listFiles('');
 
-    List<String> userUids = result.prefixes.map((ref) => ref.name).toList();
+      List<String> userUids = result.prefixes.map((ref) => ref.name).toList();
 
-    for (String uid in userUids) {
-      firebase_storage.ListResult userResult = await storage.listFiles(uid);
-      List<firebase_storage.Reference> images = userResult.items;
-      imageMap[uid] = images;
+      for (String uid in userUids) {
+        firebase_storage.ListResult userResult = await storage.listFiles(uid);
+        List<firebase_storage.Reference> images = userResult.items;
+        imageMap[uid] = images;
+      }
+    } catch (e) {
+      print('Error fetching images: $e');
     }
 
-    setState(() {
-      isLoading = false;
-    });
+    if (mounted) {
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
+
 
   Future<String?> getUsername() async {
     return await storage
@@ -197,30 +206,30 @@ class _UsersConsoleState extends State<UsersConsole> {
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
-              title: Text('yorumEkle'.tr()),
-              content: TextField(
-                controller: _commentTextController,
-                decoration:
-                     InputDecoration(hintText: 'birYorumYaz'.tr()),
-              ),
-              actions: [
-                //cancel button
-                TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                      _commentTextController.clear();
-                    },
-                    child: Text('cancel'.tr())),
-                //post button
-                TextButton(
-                    onPressed: () {
-                      addComment(_commentTextController.text, userUid);
-                      Navigator.pop(context);
-                      _commentTextController.clear();
-                    },
-                    child: Text('post'.tr())),
-              ],
-            ));
+          title: Text('yorumEkle'.tr()),
+          content: TextField(
+            controller: _commentTextController,
+            decoration:
+            InputDecoration(hintText: 'birYorumYaz'.tr()),
+          ),
+          actions: [
+            //cancel button
+            TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  _commentTextController.clear();
+                },
+                child: Text('cancel'.tr())),
+            //post button
+            TextButton(
+                onPressed: () {
+                  addComment(_commentTextController.text, userUid);
+                  Navigator.pop(context);
+                  _commentTextController.clear();
+                },
+                child: Text('post'.tr())),
+          ],
+        ));
   }
 
   @override
@@ -245,319 +254,320 @@ class _UsersConsoleState extends State<UsersConsole> {
         ),
         body: isLoading
             ? Center(
-                child: CircularProgressIndicator(
-                  color: ColorConstants.instance.titleColor,
-                ),
-              )
+          child: CircularProgressIndicator(
+            color: ColorConstants.instance.titleColor,
+          ),
+        )
             : ListView.builder(
-                itemCount: imageMap.length,
-                itemBuilder: (BuildContext context, int index) {
-                  String userUid = imageMap.keys.elementAt(index);
-                  List<firebase_storage.Reference> images = imageMap[userUid]!;
+          itemCount: imageMap.length,
+          itemBuilder: (BuildContext context, int index) {
+            String userUid = imageMap.keys.elementAt(index);
+            List<firebase_storage.Reference> images = imageMap[userUid]!;
 
-                  return images.isEmpty
-                      ? Container()
-                      : Container(
-                          height: 500,
-                          margin: const EdgeInsets.symmetric(vertical: 8),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15),
-                              border: Border.all(
-                                  width: 1,
-                                  color: ColorConstants.instance.titleColor)),
-                          width: double.infinity,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              FutureBuilder<String?>(
-                                future: storage.getUsernameFromUid(userUid),
-                                builder: (BuildContext context,
-                                    AsyncSnapshot<String?> snapshot) {
-                                  if (snapshot.connectionState ==
-                                      ConnectionState.done) {
-                                    if (snapshot.hasData) {
-                                      return Container(
-                                          margin: const EdgeInsets.all(8),
-                                          child: Text(snapshot.data ?? '',
-                                              style: TextFonts
-                                                  .instance.middleTitle));
-                                    } else {
-                                      return Container(
-                                          margin: const EdgeInsets.all(8),
-                                          child: Text('Google Kullanıcısı',
-                                              style: TextFonts
-                                                  .instance.middleTitle));
-                                    }
-                                  } else {
-                                    return Container(
-                                        margin: const EdgeInsets.all(8),
-                                        child: Text('kullaniciYukeliyor'.tr(),
-                                            style: TextFonts
-                                                .instance.middleTitle));
-                                  }
-                                },
-                              ),
-                              Expanded(
-                                child: PageView.builder(
-                                  controller: _controller,
-                                  itemCount: images.length,
-                                  itemBuilder:
-                                      (BuildContext context, int pageIndex) {
-                                    final imageRef = images[pageIndex];
-                                    return FutureBuilder<String>(
-                                      future: storage.downloadURL(
-                                          imageRef.name, userUid),
-                                      builder: (BuildContext context,
-                                          AsyncSnapshot<String> snapshot) {
-                                        if (snapshot.connectionState ==
-                                            ConnectionState.done) {
-                                          if (snapshot.hasError) {
-                                            return Center(
-                                              child: Text(
-                                                  'Hata: ${snapshot.error}'),
-                                            );
-                                          } else {
-                                            return Image.network(
-                                              snapshot.data!,
-                                              fit: BoxFit.cover,
-                                            );
-                                          }
-                                        } else {
-                                          return Center(
-                                            child: CircularProgressIndicator(
-                                              color: ColorConstants
-                                                  .instance.titleColor,
-                                            ),
-                                          );
-                                        }
-                                      },
-                                    );
-                                  },
-                                ),
-                              ),
-                              Center(
-                                child: Indicator(
-                                    list: images, controller: _controller),
-                              ),
-
-                              Row(children: [
-                                Column(children: [
-                                  FutureBuilder<DocumentSnapshot>(
-                                    future: FirebaseFirestore.instance
-                                        .collection('images')
-                                        .doc(userUid)
-                                        .get(),
-                                    builder: (context, snapshot) {
-                                      if (snapshot.connectionState ==
-                                          ConnectionState.waiting) {
-                                        return Container();
-                                      } else if (snapshot.hasError) {
-                                        return Text('Hata: ${snapshot.error}');
-                                      } else {
-                                        bool isLiked = false;
-
-                                        if (currentUser != null &&
-                                            snapshot.data!.exists) {
-                                          List<String> likes =
-                                              List<String>.from(
-                                                  snapshot.data!.get('likes'));
-                                          isLiked = likes
-                                              .contains(currentUser!.email);
-                                        }
-
-                                        return Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 15),
-                                          child: LikeButton(
-                                            isLiked: isLiked,
-                                            onTap: () async {
-                                              await toggleLike(userUid);
-                                            },
-                                          ),
-                                        );
-                                      }
-                                    },
-                                  ),
-                                ]),
-                                Column(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 15),
-                                      child: CommentButton(onTap: currentUser != null ? () {
-                                        showCommentDialog(userUid);
-                                      } : (){} ),
-                                    ),
-                                  ],
-                                )
-                              ]),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    top: 10, left: 16, right: 10, bottom: 0),
-                                child: FutureBuilder<int>(
-                                  future: fetchLikeCount(userUid),
-                                  builder: (context, snapshot) {
-                                    if (snapshot.connectionState ==
-                                        ConnectionState.waiting) {
-                                      return Container();
-                                    } else if (snapshot.hasError) {
-                                      return Text('Hata: ${snapshot.error}');
-                                    } else {
-                                      int? likeCount = snapshot.data!;
-
-                                      return FutureBuilder<String?>(
-                                        future: getRandomLikeEmail(userUid),
-                                        builder: (context, emailSnapshot) {
-                                          if (emailSnapshot.connectionState ==
-                                              ConnectionState.waiting) {
-                                            return Container();
-                                          } else if (emailSnapshot.hasError) {
-                                            return Text(
-                                                'Hata: ${emailSnapshot.error}');
-                                          } else {
-                                            String? username =
-                                                emailSnapshot.data;
-
-                                            if (username != null) {
-                                              // Kullanıcı adı mevcutsa işlemleri gerçekleştir
-                                              return Text(
-                                                '$username ve ${(likeCount - 1).toString()} kişi beğendi',
-                                                style: const TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                              );
-                                            } else {
-                                              return Text(
-                                                  '${likeCount.toString()} kişi beğendi',
-                                                  style: const TextStyle(
-                                                    color: Colors.black,
-                                                    fontSize: 18,
-                                                    fontWeight: FontWeight.w600,
-                                                  ));
-                                            }
-                                          }
-                                        },
-                                      );
-                                    }
-                                  },
-                                ),
-                              ),
-                              //comments under the post
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 16, right: 16, top: 5, bottom: 5),
-                                child: FutureBuilder<int>(
-                                  future: fetchCommentsCount(userUid),
-                                  builder: (context, snapshot) {
-                                    if (snapshot.connectionState ==
-                                        ConnectionState.waiting) {
-                                      return Container();
-                                    } else if (snapshot.hasError) {
-                                      return Text('Hata: ${snapshot.error}');
-                                    } else {
-                                      return InkWell(
-                                        child: Text(
-                                            '${snapshot.data.toString()} yorumun tümünü göster',
-                                            style: const TextStyle(
-                                                color: Colors.grey,
-                                                fontSize: 17,
-                                                fontWeight: FontWeight.w400)),
-                                        onTap: () {
-                                          showModalBottomSheet(
-                                              context: context,
-                                              builder: (BuildContext context) {
-                                                return SizedBox(
-                                                  height:
-                                                      (MediaQuery.of(context)
-                                                              .size
-                                                              .height) *
-                                                          0.7,
-                                                  child: CommentsScreen(userUid: userUid)
-                                                );
-                                              });
-                                        },
-                                      );
-                                    }
-                                  },
-                                ),
-                              )
-                            ],
-                          ),
-                        );
-                },
-              ),
-        floatingActionButton: FirebaseAuth.instance.currentUser != null
-            ? Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                mainAxisAlignment: MainAxisAlignment.end,
+            return images.isEmpty
+                ? Container()
+                : Container(
+              height: 500,
+              margin: const EdgeInsets.symmetric(vertical: 8),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  border: Border.all(
+                      width: 1,
+                      color: ColorConstants.instance.titleColor)),
+              width: double.infinity,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                    FloatingActionButton(
-                      heroTag: '1',
-                      backgroundColor: ColorConstants.instance.titleColor,
-                      onPressed: FirebaseAuth.instance.currentUser != null
-                          ? () async {
-                              await storage.deleteLastImage(context);
-                              getUsersImages();
-                            }
-                          : () {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content:
-                                      Text('kullaniciGirisiYapilmadi'.tr()),
+                  FutureBuilder<String?>(
+                    future: storage.getUsernameFromUid(userUid),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<String?> snapshot) {
+                      if (snapshot.connectionState ==
+                          ConnectionState.done) {
+                        if (snapshot.hasData) {
+                          return Container(
+                              margin: const EdgeInsets.all(8),
+                              child: Text(snapshot.data ?? '',
+                                  style: TextFonts
+                                      .instance.middleTitle));
+                        } else {
+                          return Container(
+                              margin: const EdgeInsets.all(8),
+                              child: Text('Google Kullanıcısı',
+                                  style: TextFonts
+                                      .instance.middleTitle));
+                        }
+                      } else {
+                        return Container(
+                            margin: const EdgeInsets.all(8),
+                            child: Text('kullaniciYukleniyor'.tr(),
+                                style: TextFonts
+                                    .instance.middleTitle));
+                      }
+                    },
+                  ),
+                  Expanded(
+                    child: PageView.builder(
+                      controller: _controller,
+                      itemCount: images.length,
+                      itemBuilder:
+                          (BuildContext context, int pageIndex) {
+                        final imageRef = images[pageIndex];
+                        return FutureBuilder<String>(
+                          future: storage.downloadURL(
+                              imageRef.name, userUid),
+                          builder: (BuildContext context,
+                              AsyncSnapshot<String> snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.done) {
+                              if (snapshot.hasError) {
+                                return Center(
+                                  child: Text(
+                                      'Hata: ${snapshot.error}'),
+                                );
+                              } else {
+                                return Image.network(
+                                  snapshot.data!,
+                                  fit: BoxFit.cover,
+                                );
+                              }
+                            } else {
+                              return Center(
+                                child: CircularProgressIndicator(
+                                  color: ColorConstants
+                                      .instance.titleColor,
                                 ),
                               );
-                            },
-                      child: const Icon(Icons.delete_forever_rounded,
-                          color: Colors.white),
-                    ),
-                    const SizedBox(height: 5),
-                    FloatingActionButton(
-                      backgroundColor: ColorConstants.instance.activatedButton,
-                      onPressed: () async {
-                        // Dosya seçme işlemini gerçekleştir
-                        final results = await FilePicker.platform.pickFiles(
-                          allowMultiple: false,
-                          type: FileType.custom,
-                          allowedExtensions: ['png', 'jpg'],
+                            }
+                          },
                         );
+                      },
+                    ),
+                  ),
+                  Center(
+                    child: Indicator(
+                        list: images, controller: _controller),
+                  ),
 
-                        if (results != null) {
-                          final path = results.files.single.path;
-                          final fileName = results.files.single.name;
+                  Row(children: [
+                    Column(children: [
+                      FutureBuilder<DocumentSnapshot>(
+                        future: FirebaseFirestore.instance
+                            .collection('images')
+                            .doc(userUid)
+                            .get(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return Container();
+                          } else if (snapshot.hasError) {
+                            return Text('Hata: ${snapshot.error}');
+                          } else {
+                            bool isLiked = false;
 
-                          // Seçilen dosyanın işlenmesi ve yüklenmesi gibi işlemleri yapabilirsiniz
-                          await storage.uploadFile(
-                            path!,
-                            fileName,
-                            FirebaseAuth.instance.currentUser!.uid,
-                          );
-                          getUsersImages(); // Resimleri yeniden almak için getUsersImages() metodunu çağır
+                            if (currentUser != null &&
+                                snapshot.data!.exists) {
+                              List<String> likes =
+                              List<String>.from(
+                                  snapshot.data!.get('likes'));
+                              isLiked = likes
+                                  .contains(currentUser!.email);
+                            }
 
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('dosyaBasariylaYuklendi'.tr()),
-                            ),
-                          );
+                            return Padding(
+                              padding:
+                              const EdgeInsets.only(left: 15),
+                              child: LikeButton(
+                                isLiked: isLiked,
+                                onTap: () async {
+                                  await toggleLike(userUid);
+                                },
+                              ),
+                            );
+                          }
+                        },
+                      ),
+                    ]),
+                    Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 15),
+                          child: CommentButton(onTap: currentUser != null ? () {
+                            showCommentDialog(userUid);
+                          } : (){} ),
+                        ),
+                      ],
+                    )
+                  ]),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        top: 10, left: 16, right: 10, bottom: 0),
+                    child: FutureBuilder<int>(
+                      future: fetchLikeCount(userUid),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return Container();
+                        } else if (snapshot.hasError) {
+                          return Text('Hata: ${snapshot.error}');
                         } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('resimSecilmedi'.tr()),
-                            ),
+                          int? likeCount = snapshot.data!;
+
+                          return FutureBuilder<String?>(
+                            future: getRandomLikeEmail(userUid),
+                            builder: (context, emailSnapshot) {
+                              if (emailSnapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return Container();
+                              } else if (emailSnapshot.hasError) {
+                                return Text(
+                                    'Hata: ${emailSnapshot.error}');
+                              } else {
+                                String? username =
+                                    emailSnapshot.data;
+
+                                if (username != null) {
+                                  // Kullanıcı adı mevcutsa işlemleri gerçekleştir
+                                  return Text(
+                                    '$username ve ${(likeCount - 1).toString()} kişi beğendi',
+                                    style: const TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  );
+                                } else {
+                                  return Text(
+                                      '${likeCount.toString()} kişi beğendi',
+                                      style: const TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600,
+                                      ));
+                                }
+                              }
+                            },
                           );
                         }
                       },
-                      child: const Icon(Icons.upload, color: Colors.white),
                     ),
-                  ])
-            : FloatingActionButton(
+                  ),
+                  //comments under the post
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        left: 16, right: 16, top: 5, bottom: 5),
+                    child: FutureBuilder<int>(
+                      future: fetchCommentsCount(userUid),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return Container();
+                        } else if (snapshot.hasError) {
+                          return Text('Hata: ${snapshot.error}');
+                        } else {
+                          return InkWell(
+                            child: Text(
+                                '${snapshot.data.toString()} yorumunTumunuGoster'.tr(),
+                                style: const TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.w400)),
+                            onTap: () {
+                              //addDocument();
+                              showModalBottomSheet(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return SizedBox(
+                                        height:
+                                        (MediaQuery.of(context)
+                                            .size
+                                            .height) *
+                                            0.7,
+                                        child: CommentsScreen(userUid: userUid)
+                                    );
+                                  });
+                            },
+                          );
+                        }
+                      },
+                    ),
+                  )
+                ],
+              ),
+            );
+          },
+        ),
+        floatingActionButton: FirebaseAuth.instance.currentUser != null
+            ? Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              FloatingActionButton(
                 heroTag: '1',
                 backgroundColor: ColorConstants.instance.titleColor,
-                onPressed: () {
-                  // Kullanıcı oturum açmamış, giriş sayfasına yönlendir
-                  Navigator.of(context).pushReplacementNamed('/login');
+                onPressed: FirebaseAuth.instance.currentUser != null
+                    ? () async {
+                  await storage.deleteLastImage(context);
+                  getUsersImages();
+                }
+                    : () {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content:
+                      Text('kullaniciGirisiYapilmadi'.tr()),
+                    ),
+                  );
                 },
-                child: const Icon(Icons.login, color: Colors.white),
-              ));
+                child: const Icon(Icons.delete_forever_rounded,
+                    color: Colors.white),
+              ),
+              const SizedBox(height: 5),
+              FloatingActionButton(
+                backgroundColor: ColorConstants.instance.activatedButton,
+                onPressed: () async {
+                  // Dosya seçme işlemini gerçekleştir
+                  final results = await FilePicker.platform.pickFiles(
+                    allowMultiple: false,
+                    type: FileType.custom,
+                    allowedExtensions: ['png', 'jpg'],
+                  );
+
+                  if (results != null) {
+                    final path = results.files.single.path;
+                    final fileName = results.files.single.name;
+
+                    // Seçilen dosyanın işlenmesi ve yüklenmesi gibi işlemleri yapabilirsiniz
+                    await storage.uploadFile(
+                      path!,
+                      fileName,
+                      FirebaseAuth.instance.currentUser!.uid,
+                    );
+                    getUsersImages(); // Resimleri yeniden almak için getUsersImages() metodunu çağır
+
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('dosyaBasariylaYuklendi'.tr()),
+                      ),
+                    );
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('resimSecilmedi'.tr()),
+                      ),
+                    );
+                  }
+                },
+                child: const Icon(Icons.upload, color: Colors.white),
+              ),
+            ])
+            : FloatingActionButton(
+          heroTag: '1',
+          backgroundColor: ColorConstants.instance.titleColor,
+          onPressed: () {
+            // Kullanıcı oturum açmamış, giriş sayfasına yönlendir
+            Navigator.of(context).pushReplacementNamed('/login');
+          },
+          child: const Icon(Icons.login, color: Colors.white),
+        ));
   }
 }

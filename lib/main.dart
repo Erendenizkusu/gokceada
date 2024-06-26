@@ -6,7 +6,8 @@ import 'package:gokceada/pages/login_register_page.dart';
 import 'package:gokceada/screens/barlarMap.dart';
 import 'package:gokceada/screens/cafelerMap.dart';
 import 'package:gokceada/screens/campingMap.dart';
-import 'package:gokceada/screens/fery.dart';
+import 'package:gokceada/screens/navBar/bus.dart';
+import 'package:gokceada/screens/navBar/fery.dart';
 import 'package:gokceada/screens/hediyelikMap.dart';
 import 'package:gokceada/screens/hotelsMap.dart';
 import 'package:gokceada/screens/kahvaltiMap.dart';
@@ -47,31 +48,13 @@ void main() async{
 }
 
 class Gokceada extends StatefulWidget {
-  const Gokceada({Key? key}) : super(key: key);
+  const Gokceada({super.key});
 
   @override
   State<Gokceada> createState() => _GokceadaState();
-
-  /*static void setLocale(BuildContext context, Locale newLocale){
-    _GokceadaState? state = context.findAncestorStateOfType<_GokceadaState>();
-    state?.setLocale(newLocale);
-  }*/
 }
 
 class _GokceadaState extends State<Gokceada> {
-  /*Locale? _locale;
-
-  setLocale(Locale locale){
-    setState(() {
-      _locale = locale;
-    });
-  }
-
-  @override
-  void didChangeDependencies() {
-    getLocale().then((locale) => setLocale(locale));
-    super.didChangeDependencies();
-  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -79,14 +62,6 @@ class _GokceadaState extends State<Gokceada> {
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
-      /*localizationsDelegates: const[
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      locale: _locale,
-      supportedLocales: L10n.all,*/
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         inputDecorationTheme: InputDecorationTheme(
@@ -121,6 +96,7 @@ class _GokceadaState extends State<Gokceada> {
         '/oteller': (context) =>  const OtelDetay(),
         '/camping': (context) =>  const CampingDetay(),
         '/surfing': (context) =>  const SurfingDetay(),
+        '/bus': (context) =>  const BusTimes(),
       },
     );
   }

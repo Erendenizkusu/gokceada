@@ -71,6 +71,22 @@ class Storage {
     }
   }
 
+  Future<void> deleteDocumentWithSubcollections(String userUid) async {
+    // Reference to the document
+    final docRef = FirebaseFirestore.instance.collection('images').doc(userUid);
+
+    // Get all subcollections
+    final subcollections = await docRef.collection('comments').get();
+
+    // Delete all documents in the subcollection
+    for (var subDoc in subcollections.docs) {
+      await docRef.collection('comments').doc(subDoc.id).delete();
+    }
+
+    // Now delete the main document
+    await docRef.delete();
+  }
+
   Future<void> deleteLastImage(BuildContext context) async {
     try {
       final userUid = FirebaseAuth.instance.currentUser!.uid;
@@ -89,6 +105,7 @@ class Storage {
       } else if(result.items.length == 1) {
         final lastImage = result.items.last;
         await lastImage.delete();
+        await deleteDocumentWithSubcollections(userUid);
         Navigator.pushReplacementNamed(context, '/homepage');
       }
     } catch(e){
