@@ -15,7 +15,6 @@ import 'package:gokceada/product/likeButton.dart';
 import 'package:gokceada/product/commentScreen.dart';
 
 import '../utils/storage.dart';
-import '../veri_ekleme.dart';
 
 class UsersConsole extends StatefulWidget {
   const UsersConsole({Key? key}) : super(key: key);
