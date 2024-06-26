@@ -6,14 +6,17 @@ void addDocument() {
     'image': [''],
     'location': '',
     'rating': '',
-    'restaurant_name': '',
+    'hotel_name': '',
+    'icon': [''],
+    'info': [''],
+    'description': '',
+    'owner': '',
     'telNo': '',
-    'link': '',
     'latLng': [],
   };
 
   FirebaseFirestore.instance
-      .collection('restaurantList')
+      .collection('hotelList')
       .add(data)
       .then((docRef) {
     print('Belge başarıyla oluşturuldu: ${docRef.id}');

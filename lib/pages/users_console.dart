@@ -15,6 +15,7 @@ import 'package:gokceada/product/likeButton.dart';
 import 'package:gokceada/product/commentScreen.dart';
 
 import '../utils/storage.dart';
+import '../veri_ekleme.dart';
 
 class UsersConsole extends StatefulWidget {
   const UsersConsole({Key? key}) : super(key: key);
@@ -134,24 +135,33 @@ class _UsersConsoleState extends State<UsersConsole> {
   }
 
   Future<void> getUsersImages() async {
+    if (!mounted) return;
+
     setState(() {
       isLoading = true;
     });
 
-    firebase_storage.ListResult result = await storage.listFiles('');
+    try {
+      firebase_storage.ListResult result = await storage.listFiles('');
 
-    List<String> userUids = result.prefixes.map((ref) => ref.name).toList();
+      List<String> userUids = result.prefixes.map((ref) => ref.name).toList();
 
-    for (String uid in userUids) {
-      firebase_storage.ListResult userResult = await storage.listFiles(uid);
-      List<firebase_storage.Reference> images = userResult.items;
-      imageMap[uid] = images;
+      for (String uid in userUids) {
+        firebase_storage.ListResult userResult = await storage.listFiles(uid);
+        List<firebase_storage.Reference> images = userResult.items;
+        imageMap[uid] = images;
+      }
+    } catch (e) {
+      print('Error fetching images: $e');
     }
 
-    setState(() {
-      isLoading = false;
-    });
+    if (mounted) {
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
+
 
   Future<String?> getUsername() async {
     return await storage
@@ -291,7 +301,7 @@ class _UsersConsoleState extends State<UsersConsole> {
                                   } else {
                                     return Container(
                                         margin: const EdgeInsets.all(8),
-                                        child: Text('kullaniciYukeliyor'.tr(),
+                                        child: Text('kullaniciYukleniyor'.tr(),
                                             style: TextFonts
                                                 .instance.middleTitle));
                                   }
@@ -458,12 +468,13 @@ class _UsersConsoleState extends State<UsersConsole> {
                                     } else {
                                       return InkWell(
                                         child: Text(
-                                            '${snapshot.data.toString()} yorumun tümünü göster',
+                                            '${snapshot.data.toString()} yorumun tümünü göster'.tr(),
                                             style: const TextStyle(
                                                 color: Colors.grey,
                                                 fontSize: 17,
                                                 fontWeight: FontWeight.w400)),
                                         onTap: () {
+                                          //addDocument();
                                           showModalBottomSheet(
                                               context: context,
                                               builder: (BuildContext context) {

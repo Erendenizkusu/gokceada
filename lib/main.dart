@@ -6,7 +6,8 @@ import 'package:gokceada/pages/login_register_page.dart';
 import 'package:gokceada/screens/barlarMap.dart';
 import 'package:gokceada/screens/cafelerMap.dart';
 import 'package:gokceada/screens/campingMap.dart';
-import 'package:gokceada/screens/fery.dart';
+import 'package:gokceada/screens/navBar/bus.dart';
+import 'package:gokceada/screens/navBar/fery.dart';
 import 'package:gokceada/screens/hediyelikMap.dart';
 import 'package:gokceada/screens/hotelsMap.dart';
 import 'package:gokceada/screens/kahvaltiMap.dart';
@@ -31,7 +32,6 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
-  await MobileAds.instance.initialize();
   await Firebase.initializeApp(
     options: const FirebaseOptions(
       appId: '1:919333673755:android:556e785f5fae57dc1051be',
@@ -40,11 +40,12 @@ void main() async{
       // ... other options
     ),
   );
+  await MobileAds.instance.initialize();
 
   runApp(
       EasyLocalization(
           supportedLocales: const [Locale('en', 'US'), Locale('tr', 'TR')],
-          path: 'assets/translations', // <-- change the path of the translation files
+          path: 'assets/translations',
           fallbackLocale: const Locale('tr', 'TR'),
           child: const Gokceada()
       ),
@@ -53,45 +54,17 @@ void main() async{
 
 class Gokceada extends StatefulWidget {
   const Gokceada({Key? key}) : super(key: key);
-
   @override
   State<Gokceada> createState() => _GokceadaState();
-
-  /*static void setLocale(BuildContext context, Locale newLocale){
-    _GokceadaState? state = context.findAncestorStateOfType<_GokceadaState>();
-    state?.setLocale(newLocale);
-  }*/
 }
 
 class _GokceadaState extends State<Gokceada> {
-  /*Locale? _locale;
-
-  setLocale(Locale locale){
-    setState(() {
-      _locale = locale;
-    });
-  }
-
-  @override
-  void didChangeDependencies() {
-    getLocale().then((locale) => setLocale(locale));
-    super.didChangeDependencies();
-  }*/
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
-      /*localizationsDelegates: const[
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      locale: _locale,
-      supportedLocales: L10n.all,*/
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         inputDecorationTheme: InputDecorationTheme(
@@ -126,6 +99,7 @@ class _GokceadaState extends State<Gokceada> {
         '/oteller': (context) =>  const OtelDetay(),
         '/camping': (context) =>  const CampingDetay(),
         '/surfing': (context) =>  const SurfingDetay(),
+        '/bus': (context) =>  const BusTimes(),
       },
     );
   }

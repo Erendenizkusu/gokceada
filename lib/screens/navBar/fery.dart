@@ -1,8 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../core/colors.dart';
-import '../core/textFont.dart';
+import '../../core/colors.dart';
+import '../../core/textFont.dart';
 
 
 class Feribot extends StatefulWidget {
