@@ -12,7 +12,7 @@ if (localPropertiesFile.exists()) {
         localProperties.load(reader)
     }
 }
-
+/*
 def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
 if (flutterVersionCode == null) {
     flutterVersionCode = '1'
@@ -22,7 +22,12 @@ def flutterVersionName = localProperties.getProperty('flutter.versionName')
 if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
-
+ */
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file('key.properties')
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
 android {
     namespace "com.gokceada.gokceadarehber"
     compileSdk 34
@@ -48,13 +53,26 @@ android {
         applicationId "com.gokceada.gokceadarehber"
         multiDexEnabled true
         minSdk = 23
-        targetSdk = flutter.targetSdkVersion
-        versionCode = flutterVersionCode.toInteger()
-        versionName = flutterVersionName
+        targetSdk = 34
+        versionCode = 10
+        versionName = '1.0.7'
     }
 
 
-
+    signingConfigs {
+        release {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+            storePassword keystoreProperties['storePassword']
+        }
+    }
+    buildTypes {
+        release {
+            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
+        }
+    }
 
     flutter {
         source '../..'
@@ -64,6 +82,6 @@ android {
         implementation "com.google.android.gms:play-services-location:21.3.0"
         implementation 'com.google.firebase:firebase-storage:21.0.0'
         implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:2.0.0"
-        implementation platform('com.google.firebase:firebase-bom:33.1.0')
+        implementation platform('com.google.firebase:firebase-bom:33.1.1')
     }
 }

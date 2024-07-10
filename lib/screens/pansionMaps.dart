@@ -9,7 +9,7 @@ import 'hotel_rooms.dart';
 import 'hotelsMap.dart';
 
 class PansionDetay extends StatefulWidget {
-  const PansionDetay({Key? key}) : super(key: key);
+  const PansionDetay({super.key});
 
   @override
   _PansionDetayState createState() => _PansionDetayState();

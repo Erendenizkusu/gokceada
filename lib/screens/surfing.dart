@@ -9,7 +9,7 @@ import '../product/navigationButton.dart';
 
 class SurfingView extends StatefulWidget {
   const SurfingView(
-      {Key? key,
+      {super.key,
       required this.list,
       this.name,
       required this.location,
@@ -18,8 +18,7 @@ class SurfingView extends StatefulWidget {
       required this.latitude,
       required this.longitude,
       required this.rating,
-      required this.surfingName})
-      : super(key: key);
+      required this.surfingName});
 
   final List<String> list;
   final String? name;
@@ -38,7 +37,7 @@ class SurfingView extends StatefulWidget {
 class _SurfingViewState extends State<SurfingView> {
   @override
   Widget build(BuildContext context) {
-    final _controller = PageController();
+    final controller = PageController();
     var images = widget.list
         .map((e) => Image.network(
               'https://drive.google.com/uc?export=view&id=$e',
@@ -70,9 +69,9 @@ class _SurfingViewState extends State<SurfingView> {
             clipBehavior: Clip.hardEdge,
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(15)),
             height: (MediaQuery.of(context).size.height) * 0.35,
-            child: PageView(controller: _controller, children: images),
+            child: PageView(controller: controller, children: images),
           ),
-          Center(child: Indicator(controller: _controller, list: images)),
+          Center(child: Indicator(controller: controller, list: images)),
           const SizedBox(height: 10),
           Center(
               child: NavigationButton(

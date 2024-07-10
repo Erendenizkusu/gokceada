@@ -15,11 +15,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "919333673755-c3k5pndlb3jp2f4insmsrf0jq8nqjc3l.apps.googleusercontent.com",
+          "client_id": "919333673755-6vo1vump3668v5fle8b308djvj1v0btt.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.gokceada.gokceadarehber",
-            "certificate_hash": "01b4da40ccfa7fe6c05659951a1994ce11d547bf"
+            "certificate_hash": "364dae21c2fd368c302f359314a25693c01a3313"
           }
         },
         {
@@ -48,7 +48,8 @@
             }
           ]
         }
-      }
+      },
+      "admob_app_id": "ca-app-pub-2707472203466324~9651334474"
     }
   ],
   "configuration_version": "1"

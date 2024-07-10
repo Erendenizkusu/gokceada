@@ -4,7 +4,7 @@ import 'package:gokceada/screens/restaurantDetail.dart';
 import '../core/colors.dart';
 
 class DescriptionCustom extends StatefulWidget {
-  const DescriptionCustom({Key? key,required this.title,required this.images,required this.description, this.widget}) : super(key: key);
+  const DescriptionCustom({super.key,required this.title,required this.images,required this.description, this.widget});
 
   final String title;
   final String description;

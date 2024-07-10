@@ -18,7 +18,7 @@ void openMapsApp(double latitude, double longitude) async {
 
 
 class NavigationButton extends StatelessWidget {
-  const NavigationButton({Key? key,required this.longitude,required this.latitude}) : super(key: key);
+  const NavigationButton({super.key,required this.longitude,required this.latitude});
 
   final double latitude;
   final double longitude;
@@ -30,8 +30,8 @@ class NavigationButton extends StatelessWidget {
         double destinationLongitude = longitude; // Hedef noktanın boylam değeri
         openMapsApp(destinationLatitude, destinationLongitude);
       },
-      child: Text('yolTarifi'.tr(),style: const TextStyle(color: Colors.white)),
       style: ElevatedButton.styleFrom(backgroundColor: ColorConstants.instance.activatedButton),
+      child: Text('yolTarifi'.tr(),style: const TextStyle(color: Colors.white)),
     );
   }
 }

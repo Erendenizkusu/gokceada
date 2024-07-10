@@ -4,7 +4,7 @@ import 'package:gokceada/core/textFont.dart';
 import 'package:gokceada/screens/koylerMap.dart';
 
   class CardDesign extends StatelessWidget {
-    const CardDesign({Key? key,this.koyNames ,required this.path,required this.cardText,this.pushWhere = ''}) : super(key: key);
+    const CardDesign({super.key,this.koyNames ,required this.path,required this.cardText,this.pushWhere = ''});
     final String path;
     final String cardText;
     final String? pushWhere;

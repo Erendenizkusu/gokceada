@@ -6,7 +6,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 
 class AtmList extends StatelessWidget {
-  const AtmList({Key? key}) : super(key: key);
+  const AtmList({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -36,8 +36,8 @@ class AtmList extends StatelessWidget {
 
 class AtmListTile extends StatelessWidget {
   const AtmListTile({
-    Key? key, required this.path, required this.lat, required this.lng,
-  }) : super(key: key);
+    super.key, required this.path, required this.lat, required this.lng,
+  });
 
   final String path;
   final double lat;

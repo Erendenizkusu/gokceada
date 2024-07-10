@@ -4,7 +4,7 @@ import 'package:gokceada/core/colors.dart';
 import 'package:gokceada/core/textFont.dart';
 
 class Advices extends StatelessWidget {
-  const Advices({Key? key}) : super(key: key);
+  const Advices({super.key});
 
   @override
   Widget build(BuildContext context) {

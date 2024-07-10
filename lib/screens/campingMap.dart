@@ -8,7 +8,7 @@ import '../core/textFont.dart';
 
 
 class CampingDetay extends StatefulWidget {
-  const CampingDetay({Key? key}) : super(key: key);
+  const CampingDetay({super.key});
 
   @override
   _CampingDetayState createState() => _CampingDetayState();

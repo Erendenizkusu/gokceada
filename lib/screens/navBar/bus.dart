@@ -6,7 +6,7 @@ import '../../core/textFont.dart';
 
 
 class BusTimes extends StatefulWidget {
-  const BusTimes({Key? key}) : super(key: key);
+  const BusTimes({super.key});
 
   @override
   State<BusTimes> createState() => _BusTimesState();

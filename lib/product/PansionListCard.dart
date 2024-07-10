@@ -6,12 +6,11 @@ import 'hotelListCard.dart';
 
 class PansionListCard extends StatefulWidget {
   const PansionListCard(
-      {Key? key,
+      {super.key,
       required this.hotelName,
       required this.location,
       required this.rating,
-      required this.list})
-      : super(key: key);
+      required this.list});
   final String hotelName;
   final String location;
   final String rating;

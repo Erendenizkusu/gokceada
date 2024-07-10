@@ -39,9 +39,9 @@ void main() async{
 
   runApp(
       EasyLocalization(
-          supportedLocales: const [Locale('en', 'US'), Locale('tr', 'TR')],
-          path: 'assets/translations', // <-- change the path of the translation files
-          fallbackLocale: const Locale('tr', 'TR'),
+          supportedLocales: const [Locale('en', 'US'),Locale('en', 'UK'), Locale('tr', 'TR'),Locale('bg', 'BG'),Locale('el', 'GR'),Locale('ro', 'RO')],
+          path: 'assets/translations',
+          fallbackLocale: const Locale('en', 'US'),
           child: const Gokceada()
       ),
       );

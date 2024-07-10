@@ -6,13 +6,12 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class HotelListCard extends StatefulWidget {
   const HotelListCard(
-      {Key? key,
+      {super.key,
       required this.hotelName,
       required this.location,
       this.price = 0,
       required this.rating,
-      required this.list})
-      : super(key: key);
+      required this.list});
   final String hotelName;
   final String location;
   final int price;
@@ -121,11 +120,10 @@ class _HotelListCardState extends State<HotelListCard> {
 
 class Indicator extends StatelessWidget {
   const Indicator({
-    Key? key,
+    super.key,
     required PageController controller,
     required this.list,
-  })  : _controller = controller,
-        super(key: key);
+  })  : _controller = controller;
 
   final PageController _controller;
   final List list;

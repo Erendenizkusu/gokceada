@@ -4,8 +4,7 @@ import 'package:gokceada/core/textFont.dart';
 
 class NetworkCardDesign extends StatelessWidget {
   const NetworkCardDesign(
-      {Key? key, required this.path, required this.cardText})
-      : super(key: key);
+      {super.key, required this.path, required this.cardText});
   final String path;
   final String cardText;
 

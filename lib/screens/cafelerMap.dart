@@ -8,7 +8,7 @@ import 'cafeView.dart';
 
 
 class CafeDetay extends StatefulWidget {
-  const CafeDetay({Key? key}) : super(key: key);
+  const CafeDetay({super.key});
 
   @override
   _CafeDetayState createState() => _CafeDetayState();

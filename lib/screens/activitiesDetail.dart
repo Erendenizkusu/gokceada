@@ -6,14 +6,13 @@ import '../product/hotelListCard.dart';
 
 class ActivitiesDetail extends StatefulWidget {
   const ActivitiesDetail(
-      {Key? key,
+      {super.key,
       required this.list,
       required this.description,
       required this.location,
       required this.telNo,
       required this.owner,
-      required this.activitiesName})
-      : super(key: key);
+      required this.activitiesName});
 
   final List<String> list;
   final String activitiesName;
@@ -29,7 +28,7 @@ class ActivitiesDetail extends StatefulWidget {
 class _ActivitiesDetailState extends State<ActivitiesDetail> {
   @override
   Widget build(BuildContext context) {
-    final PageController _controller = PageController();
+    final PageController controller = PageController();
     var images = widget.list
         .map((e) => Image.network(
               'https://drive.google.com/uc?export=view&id=$e',
@@ -62,7 +61,7 @@ class _ActivitiesDetailState extends State<ActivitiesDetail> {
               left: 0,
               right: 0,
               bottom: MediaQuery.of(context).size.height * 0.6,
-              child: PageView(controller: _controller, children: images),
+              child: PageView(controller: controller, children: images),
             ),
             Positioned(
                 top: 20,
@@ -80,7 +79,7 @@ class _ActivitiesDetailState extends State<ActivitiesDetail> {
                 right: 0,
                 bottom: MediaQuery.of(context).size.height * 0.3,
                 child: Center(
-                    child: Indicator(controller: _controller, list: images))),
+                    child: Indicator(controller: controller, list: images))),
             Positioned(
               top: MediaQuery.of(context).size.height * 0.38,
               left: 0,

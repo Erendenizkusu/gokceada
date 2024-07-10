@@ -6,7 +6,7 @@ import '../core/colors.dart';
 import '../core/textFont.dart';
 
 class BreakfastDetay extends StatefulWidget {
-  const BreakfastDetay({Key? key}) : super(key: key);
+  const BreakfastDetay({super.key});
 
   @override
   _BreakfastDetayState createState() => _BreakfastDetayState();

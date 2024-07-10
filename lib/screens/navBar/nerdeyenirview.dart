@@ -5,7 +5,7 @@ import '../../core/textFont.dart';
 import '../../product/card_design.dart';
 
 class NerdeYenirView extends StatelessWidget {
-  const NerdeYenirView({Key? key}) : super(key: key);
+  const NerdeYenirView({super.key});
 
   @override
   Widget build(BuildContext context) {

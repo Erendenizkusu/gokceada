@@ -5,7 +5,7 @@ import '../../core/textFont.dart';
 import '../../product/card_design.dart';
 
 class Koyler extends StatelessWidget {
-  const Koyler({Key? key}) : super(key: key);
+  const Koyler({super.key});
 
   @override
   Widget build(BuildContext context) {

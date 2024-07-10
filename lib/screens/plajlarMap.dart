@@ -14,6 +14,8 @@ Map<String, Widget> plajlar(BuildContext context) {
           ImageCardDesign(image: 'images/yildizkoy/yildizkoy3.jpg'),
           ImageCardDesign(image: 'images/yildizkoy/yildizkoy4.jpg'),
           ImageCardDesign(image: 'images/yildizkoy/yildizkoy5.jpg'),
+          ImageCardDesign(image: 'images/yildizkoy/yildizkoy6.jpg'),
+          ImageCardDesign(image: 'images/yildizkoy/yildizkoy7.jpg'),
         ],
         widget: const NavigationButton(
             latitude: 40.234883968629745, longitude: 25.90356574599544),

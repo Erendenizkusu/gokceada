@@ -17,7 +17,7 @@ import 'package:gokceada/product/commentScreen.dart';
 import '../utils/storage.dart';
 
 class UsersConsole extends StatefulWidget {
-  const UsersConsole({Key? key}) : super(key: key);
+  const UsersConsole({super.key});
 
   @override
   _UsersConsoleState createState() => _UsersConsoleState();
@@ -194,7 +194,6 @@ class _UsersConsoleState extends State<UsersConsole> {
           .collection('comments')
           .doc(commentId)
           .delete();
-
       print("Yorum başarıyla silindi.");
     } catch (e) {
       print("Yorum silinirken hata oluştu: $e");
@@ -234,7 +233,7 @@ class _UsersConsoleState extends State<UsersConsole> {
 
   @override
   Widget build(BuildContext context) {
-    final _controller = PageController();
+    final controller = PageController();
 
     return Scaffold(
         appBar: AppBar(
@@ -308,7 +307,7 @@ class _UsersConsoleState extends State<UsersConsole> {
                   ),
                   Expanded(
                     child: PageView.builder(
-                      controller: _controller,
+                      controller: controller,
                       itemCount: images.length,
                       itemBuilder:
                           (BuildContext context, int pageIndex) {
@@ -346,7 +345,7 @@ class _UsersConsoleState extends State<UsersConsole> {
                   ),
                   Center(
                     child: Indicator(
-                        list: images, controller: _controller),
+                        list: images, controller: controller),
                   ),
 
                   Row(children: [
@@ -467,7 +466,7 @@ class _UsersConsoleState extends State<UsersConsole> {
                         } else {
                           return InkWell(
                             child: Text(
-                                '${snapshot.data.toString()} yorumunTumunuGoster'.tr(),
+                                '${snapshot.data.toString()} ${'yorumunTumunuGoster'.tr()}',
                                 style: const TextStyle(
                                     color: Colors.grey,
                                     fontSize: 17,

@@ -6,7 +6,7 @@ import 'package:gokceada/screens/plajlarMap.dart';
 
 
 class PlajlarView extends StatefulWidget {
-  const PlajlarView({Key? key}) : super(key: key);
+  const PlajlarView({super.key});
 
   @override
   State<PlajlarView> createState() => _PlajlarViewState();
@@ -58,8 +58,8 @@ class _PlajlarViewState extends State<PlajlarView> {
 
 class PlajCard extends StatelessWidget {
     const PlajCard({
-    Key? key,required this.path,required this.name,required this.description,required this.navigator
-  }) : super(key: key);
+    super.key,required this.path,required this.name,required this.description,required this.navigator
+  });
 
   final String path;
   final String name;

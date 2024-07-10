@@ -6,7 +6,7 @@ import '../core/colors.dart';
 import '../core/textFont.dart';
 
 class HediyelikDetay extends StatefulWidget {
-  const HediyelikDetay({Key? key}) : super(key: key);
+  const HediyelikDetay({super.key});
 
   @override
   _HediyelikDetayState createState() => _HediyelikDetayState();

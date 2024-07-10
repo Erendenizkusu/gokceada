@@ -6,7 +6,7 @@ import '../../core/textFont.dart';
 
 
 class Feribot extends StatefulWidget {
-  const Feribot({Key? key}) : super(key: key);
+  const Feribot({super.key});
 
   @override
   State<Feribot> createState() => _FeribotState();

@@ -3,13 +3,12 @@ import 'package:gokceada/core/colors.dart';
 
 class TextFieldCustom extends StatelessWidget {
   const TextFieldCustom(
-      {Key? key,
+      {super.key,
       required this.label_text,
       required this.hint_text,
       required this.icon,
       this.controller,
-      this.secretText = false})
-      : super(key: key);
+      this.secretText = false});
 
   final TextEditingController? controller;
   final String label_text;

@@ -11,15 +11,14 @@ import '../product/navigationButton.dart';
 
 class CafeView extends StatefulWidget {
   const CafeView(
-      {Key? key,
+      {super.key,
         required this.list,
         required this.rating,
         required this.name,
         required this.location,
         required this.link,
         required this.latitude,
-        required this.longitude})
-      : super(key: key);
+        required this.longitude});
 
   final List<String> list;
   final String rating;
@@ -36,7 +35,7 @@ class CafeView extends StatefulWidget {
 class _CafeViewState extends State<CafeView> {
   @override
   Widget build(BuildContext context) {
-    final _controller = PageController();
+    final controller = PageController();
     var images = widget.list
         .map((e) => Image.network(
       'https://drive.google.com/uc?export=view&id=$e',
@@ -67,9 +66,9 @@ class _CafeViewState extends State<CafeView> {
             clipBehavior: Clip.hardEdge,
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(15)),
             height: (MediaQuery.of(context).size.height) * 0.35,
-            child: PageView(controller: _controller, children: images),
+            child: PageView(controller: controller, children: images),
           ),
-          Center(child: Indicator(controller: _controller, list: images)),
+          Center(child: Indicator(controller: controller, list: images)),
           const SizedBox(height: 10),
           Center(
             child: NavigationButton(latitude: widget.latitude,longitude: widget.longitude),

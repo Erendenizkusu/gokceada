@@ -7,7 +7,7 @@ import '../product/navigationButton.dart';
 
 class CampingDetailView extends StatefulWidget {
   const CampingDetailView(
-      {Key? key,
+      {super.key,
       required this.list,
       required this.description,
       required this.location,
@@ -16,8 +16,7 @@ class CampingDetailView extends StatefulWidget {
       required this.campingName,
       required this.latitude,
       required this.longitude,
-      this.owner})
-      : super(key: key);
+      this.owner});
 
   final List<String> list;
   final String campingName;
@@ -36,7 +35,7 @@ class CampingDetailView extends StatefulWidget {
 class _CampingDetailViewState extends State<CampingDetailView> {
   @override
   Widget build(BuildContext context) {
-    final PageController _controller = PageController();
+    final PageController controller = PageController();
     var images = widget.list
         .map((e) => Image.network(
               'https://drive.google.com/uc?export=view&id=$e',
@@ -69,7 +68,7 @@ class _CampingDetailViewState extends State<CampingDetailView> {
               left: 0,
               right: 0,
               bottom: MediaQuery.of(context).size.height * 0.6,
-              child: PageView(controller: _controller, children: images),
+              child: PageView(controller: controller, children: images),
             ),
             Positioned(
                 top: 20,
@@ -87,7 +86,7 @@ class _CampingDetailViewState extends State<CampingDetailView> {
                 right: 0,
                 bottom: MediaQuery.of(context).size.height * 0.3,
                 child: Center(
-                    child: Indicator(controller: _controller, list: images))),
+                    child: Indicator(controller: controller, list: images))),
             Positioned(
               top: MediaQuery.of(context).size.height * 0.38,
               left: 0,

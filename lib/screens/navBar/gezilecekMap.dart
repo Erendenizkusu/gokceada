@@ -8,7 +8,7 @@ import '../../core/textFont.dart';
 import '../../product/networkCardDesign.dart';
 
 class GezilecekDetay extends StatefulWidget {
-  const GezilecekDetay({Key? key}) : super(key: key);
+  const GezilecekDetay({super.key});
 
   @override
   _GezilecekDetayState createState() => _GezilecekDetayState();

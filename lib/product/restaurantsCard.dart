@@ -5,11 +5,10 @@ import 'package:gokceada/core/textFont.dart';
 
 class RestaurantsCard extends StatelessWidget {
   const RestaurantsCard(
-      {Key? key,
+      {super.key,
       required this.path,
       required this.restaurantName,
-      required this.rating})
-      : super(key: key);
+      required this.rating});
 
   final String path;
   final String restaurantName;

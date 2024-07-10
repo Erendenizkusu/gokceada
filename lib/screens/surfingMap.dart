@@ -7,7 +7,7 @@ import '../core/colors.dart';
 import '../core/textFont.dart';
 
 class SurfingDetay extends StatefulWidget {
-  const SurfingDetay({Key? key}) : super(key: key);
+  const SurfingDetay({super.key});
 
   @override
   _SurfingDetayState createState() => _SurfingDetayState();

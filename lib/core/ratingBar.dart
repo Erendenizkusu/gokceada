@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_pannable_rating_bar/flutter_pannable_rating_bar.dart';
 
 class RatingBar extends StatelessWidget {
-  const RatingBar({Key? key, required this.rating}) : super(key: key);
+  const RatingBar({super.key, required this.rating});
 
   final String rating;
 

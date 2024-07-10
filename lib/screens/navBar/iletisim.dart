@@ -5,7 +5,7 @@ import '../../core/colors.dart';
 import '../../core/textFont.dart';
 
 class Iletisim extends StatelessWidget {
-  const Iletisim({Key? key}) : super(key: key);
+  const Iletisim({super.key});
 
   @override
   Widget build(BuildContext context) {

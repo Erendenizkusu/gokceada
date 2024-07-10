@@ -7,7 +7,7 @@ import '../core/colors.dart';
 import '../core/textFont.dart';
 
 class BarDetay extends StatefulWidget {
-  const BarDetay({Key? key}) : super(key: key);
+  const BarDetay({super.key});
 
   @override
   _BarDetayState createState() => _BarDetayState();

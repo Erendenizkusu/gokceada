@@ -8,7 +8,7 @@ import '../../product/networkCardDesign.dart';
 
 
 class ActivitiesDetay extends StatefulWidget {
-  const ActivitiesDetay({Key? key}) : super(key: key);
+  const ActivitiesDetay({super.key});
 
   @override
   _ActivitiesDetayState createState() => _ActivitiesDetayState();

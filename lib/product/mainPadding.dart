@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class PaddingPublic extends StatelessWidget {
-  const PaddingPublic({Key? key,required this.widget}) : super(key: key);
+  const PaddingPublic({super.key,required this.widget});
 
 final Widget widget;
 

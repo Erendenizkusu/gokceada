@@ -7,7 +7,7 @@ import '../product/hotelListCard.dart';
 
 
 class OtelDetay extends StatefulWidget {
-  const OtelDetay({Key? key}) : super(key: key);
+  const OtelDetay({super.key});
 
   @override
   _OtelDetayState createState() => _OtelDetayState();

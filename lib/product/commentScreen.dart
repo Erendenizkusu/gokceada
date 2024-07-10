@@ -7,7 +7,7 @@ import '../helper/helperMethods.dart';
 class CommentsScreen extends StatefulWidget {
   final String userUid;
 
-  CommentsScreen({required this.userUid});
+  const CommentsScreen({super.key, required this.userUid});
 
   @override
   _CommentsScreenState createState() => _CommentsScreenState();

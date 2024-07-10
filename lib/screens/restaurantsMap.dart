@@ -8,7 +8,7 @@ import '../core/textFont.dart';
 
 
 class RestaurantDetay extends StatefulWidget {
-  const RestaurantDetay({Key? key}) : super(key: key);
+  const RestaurantDetay({super.key});
 
   @override
   _RestaurantDetayState createState() => _RestaurantDetayState();

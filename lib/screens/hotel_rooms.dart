@@ -37,7 +37,7 @@ class HotelRoomsView extends StatefulWidget {
 class _HotelRoomsViewState extends State<HotelRoomsView> {
   @override
   Widget build(BuildContext context) {
-    final PageController _controller = PageController();
+    final PageController controller = PageController();
     var images = widget.list
         .map((e) => Image.network(
               'https://drive.google.com/uc?export=view&id=$e',
@@ -68,7 +68,7 @@ class _HotelRoomsViewState extends State<HotelRoomsView> {
               decoration:
                   BoxDecoration(borderRadius: BorderRadius.circular(15)),
               height: (MediaQuery.of(context).size.height) * 0.35,
-              child: PageView(controller: _controller, children: images),
+              child: PageView(controller: controller, children: images),
             ),
             Positioned(
                 top: 20,
@@ -81,7 +81,7 @@ class _HotelRoomsViewState extends State<HotelRoomsView> {
                       color: Colors.white),
                 )),
           ]),
-          Center(child: Indicator(controller: _controller, list: images)),
+          Center(child: Indicator(controller: controller, list: images)),
           const SizedBox(height: 10),
           Center(
             child: NavigationButton(
@@ -130,10 +130,10 @@ class _HotelRoomsViewState extends State<HotelRoomsView> {
 
 class OwnerCard extends StatelessWidget {
   const OwnerCard({
-    Key? key,
+    super.key,
     required this.owner,
     required this.telNumber,
-  }) : super(key: key);
+  });
 
   final String owner;
   final String telNumber;
@@ -177,8 +177,7 @@ class OwnerCard extends StatelessWidget {
 }
 
 class ContainerMiddle extends StatelessWidget {
-  const ContainerMiddle({Key? key, required this.icon, required this.info})
-      : super(key: key);
+  const ContainerMiddle({super.key, required this.icon, required this.info});
   final IconData icon;
   final String info;
 

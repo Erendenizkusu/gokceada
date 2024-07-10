@@ -4,7 +4,7 @@ import 'package:gokceada/core/textFont.dart';
 import 'hotelListCard.dart';
 
 class NetworkImageDescription extends StatefulWidget {
-  const NetworkImageDescription({Key? key,required this.title,required this.list,required this.description, this.widget}) : super(key: key);
+  const NetworkImageDescription({super.key,required this.title,required this.list,required this.description, this.widget});
 
   final String title;
   final String description;
@@ -17,7 +17,7 @@ class NetworkImageDescription extends StatefulWidget {
 class _NetworkImageDescriptionState extends State<NetworkImageDescription> {
   @override
   Widget build(BuildContext context) {
-    final _controller = PageController();
+    final controller = PageController();
     var images = widget.list.map((e) => Image.network('https://drive.google.com/uc?export=view&id=$e',fit: BoxFit.fill)).toList();
     return Scaffold(
       appBar: AppBar(
@@ -34,13 +34,13 @@ class _NetworkImageDescriptionState extends State<NetworkImageDescription> {
         decoration: BoxDecoration(borderRadius: BorderRadius.circular(15)),
         height: (MediaQuery.of(context).size.height)*0.35,
         child: PageView(
-            controller: _controller,
+            controller: controller,
             children:
             images
         ),
       ),
         Center(
-            child: Indicator(controller: _controller, list: images)),
+            child: Indicator(controller: controller, list: images)),
           Center(child:widget.widget),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),

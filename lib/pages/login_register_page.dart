@@ -9,7 +9,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import '../../core/textFont.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+  const LoginPage({super.key});
   static String? fullName;
 
   static String? getFullName() {
@@ -187,20 +187,20 @@ class _LoginPageState extends State<LoginPage> {
 
   void createUserWithEmailAndPassword() async {
     try {
-      UserCredential _userCredential =
+      UserCredential userCredential =
           await auth.createUserWithEmailAndPassword(
               email: _controllerEmail.text, password: _controllerPassword.text);
 
-      var _myUser = _userCredential.user;
+      var myUser = userCredential.user;
 
-      await _myUser!.updateDisplayName(_controllerUsername.text);
+      await myUser!.updateDisplayName(_controllerUsername.text);
 
       setState(() {
         LoginPage.fullName = _controllerUsername.text;
       });
 
       // Kullanıcı adını ve UID'yi kullanarak Firestore'a kaydedebilirsiniz
-      String uid = _myUser.uid;
+      String uid = myUser.uid;
       String username = _controllerUsername.text;
       saveUsernameToFirestore(uid, username);
 
@@ -234,7 +234,7 @@ class _LoginPageState extends State<LoginPage> {
 
   void loginUserEmailAndPassword() async {
     try {
-      UserCredential _userCredential = await auth.signInWithEmailAndPassword(
+      UserCredential userCredential = await auth.signInWithEmailAndPassword(
           email: _controllerEmail.text, password: _controllerPassword.text);
 
       auth.authStateChanges().listen((User? user) {
@@ -245,7 +245,7 @@ class _LoginPageState extends State<LoginPage> {
         }
       });
 
-      debugPrint(_userCredential.toString());
+      debugPrint(userCredential.toString());
     } on FirebaseAuthException catch (e) {
       setState(() {
         errorMessage = e.message;
@@ -261,18 +261,15 @@ class _LoginPageState extends State<LoginPage> {
 
   void loginWithGoogle() async {
     try {
-      // Google ile oturum açma işlemini başlat
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
       if (googleUser != null) {
-        // Kimlik doğrulama bilgilerini al
-        final GoogleSignInAuthentication? googleAuth =
+        final GoogleSignInAuthentication googleAuth =
             await googleUser.authentication;
         print('Google Auth: $googleAuth');
-        // Google kimlik bilgilerini kullanarak Firebase kimlik bilgileri oluştur
         final credential = GoogleAuthProvider.credential(
-          accessToken: googleAuth?.accessToken,
-          idToken: googleAuth?.idToken,
+          accessToken: googleAuth.accessToken,
+          idToken: googleAuth.idToken,
         );
         print('Credential: $credential');
 
@@ -288,7 +285,6 @@ class _LoginPageState extends State<LoginPage> {
         }
         Navigator.of(context).pushReplacementNamed('/usersConsole');
       } else {
-        // Google ile oturum açma işlemi iptal edildi veya hata alındı
       }
     }
     catch (error) {
@@ -301,7 +297,7 @@ class _LoginPageState extends State<LoginPage> {
 class LoginScreenBottomSide extends StatelessWidget {
   final Function()? onTap;
 
-  const LoginScreenBottomSide({Key? key, this.onTap}) : super(key: key);
+  const LoginScreenBottomSide({super.key, this.onTap});
 
   @override
   Widget build(BuildContext context) {

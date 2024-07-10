@@ -9,7 +9,7 @@ import '../product/navigationButton.dart';
 
 class RestaurantView extends StatefulWidget {
   const RestaurantView(
-      {Key? key,
+      {super.key,
       required this.list,
       required this.rating,
       required this.name,
@@ -17,8 +17,7 @@ class RestaurantView extends StatefulWidget {
       required this.link,
       required this.telNo,
       required this.latitude,
-      required this.longitude})
-      : super(key: key);
+      required this.longitude});
 
   final List<String> list;
   final String rating;
@@ -36,7 +35,7 @@ class RestaurantView extends StatefulWidget {
 class _RestaurantViewState extends State<RestaurantView> {
   @override
   Widget build(BuildContext context) {
-    final _controller = PageController();
+    final controller = PageController();
     var images = widget.list
         .map((e) => Image.network(
               'https://drive.google.com/uc?export=view&id=$e',
@@ -67,9 +66,9 @@ class _RestaurantViewState extends State<RestaurantView> {
             clipBehavior: Clip.hardEdge,
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(15)),
             height: (MediaQuery.of(context).size.height) * 0.35,
-            child: PageView(controller: _controller, children: images),
+            child: PageView(controller: controller, children: images),
           ),
-          Center(child: Indicator(controller: _controller, list: images)),
+          Center(child: Indicator(controller: controller, list: images)),
           const SizedBox(height: 10),
           Center(
               child: NavigationButton(latitude: widget.latitude,longitude: widget.longitude),
@@ -114,9 +113,9 @@ class _RestaurantViewState extends State<RestaurantView> {
 
 class CircularImagesTop extends StatelessWidget {
   CircularImagesTop({
-    Key? key,
+    super.key,
     required this.list,
-  }) : super(key: key);
+  });
 
   final List<ImageCardDesign> list;
   final _controller = PageController();
@@ -128,8 +127,8 @@ class CircularImagesTop extends StatelessWidget {
         height: (MediaQuery.of(context).size.height) * 0.4,
         width: (MediaQuery.of(context).size.width),
         child: PageView(
-          children: list,
           controller: _controller,
+          children: list,
         ),
       ),
       Indicator(controller: _controller, list: list)
@@ -138,7 +137,7 @@ class CircularImagesTop extends StatelessWidget {
 }
 
 class ImageCardDesign extends StatelessWidget {
-  const ImageCardDesign({Key? key, required this.image}) : super(key: key);
+  const ImageCardDesign({super.key, required this.image});
   final String image;
 
   @override
@@ -156,10 +155,10 @@ class ImageCardDesign extends StatelessWidget {
 
 class InkwellUnderline extends StatelessWidget {
   const InkwellUnderline({
-    Key? key,
+    super.key,
     required this.name,
     required this.onTap,
-  }) : super(key: key);
+  });
   final String name;
   final Function() onTap;
 

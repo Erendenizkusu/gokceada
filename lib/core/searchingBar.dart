@@ -3,8 +3,8 @@ import 'package:gokceada/core/colors.dart';
 
 class searchingBar extends StatelessWidget {
   const searchingBar({
-    Key? key,required this.labelText,this.hintText
-  }) : super(key: key);
+    super.key,required this.labelText,this.hintText
+  });
 
   final String labelText;
   final String? hintText;
