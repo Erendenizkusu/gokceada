@@ -2,37 +2,35 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../core/colors.dart';
-
+import 'dart:io';
 
 void openMapsApp(double latitude, double longitude) async {
-  String mapsUrl = 'https://www.google.com/maps/dir/?api=1&destination=$latitude,$longitude';
+  Uri googleMapsUrl = Uri.parse('https://www.google.com/maps/dir/?api=1&destination=$latitude,$longitude');
+  Uri appleMapsUrl = Uri.parse('https://maps.apple.com/?daddr=$latitude,$longitude'); //Uri.parse('maps:q=$query');
 
-  if (await canLaunch(mapsUrl)) {
-    await launch(mapsUrl);
+  Uri mapsUrl = Platform.isIOS ? appleMapsUrl : googleMapsUrl;
+
+  if (await canLaunchUrl(mapsUrl)) {
+    await launchUrl(mapsUrl);
   } else {
     throw 'Haritalar uygulaması açılamadı: $mapsUrl';
   }
 }
 
-
-
-
 class NavigationButton extends StatelessWidget {
-  const NavigationButton({super.key,required this.longitude,required this.latitude});
+  const NavigationButton({super.key, required this.latitude, required this.longitude});
 
   final double latitude;
   final double longitude;
+
   @override
   Widget build(BuildContext context) {
-    return  ElevatedButton(
+    return ElevatedButton(
       onPressed: () {
-        double destinationLatitude = latitude; // Hedef noktanın enlem değeri
-        double destinationLongitude = longitude; // Hedef noktanın boylam değeri
-        openMapsApp(destinationLatitude, destinationLongitude);
+        openMapsApp(latitude, longitude);
       },
       style: ElevatedButton.styleFrom(backgroundColor: ColorConstants.instance.activatedButton),
-      child: Text('yolTarifi'.tr(),style: const TextStyle(color: Colors.white)),
+      child: Text('yolTarifi'.tr(), style: const TextStyle(color: Colors.white)),
     );
   }
 }
-
