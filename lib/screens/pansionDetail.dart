@@ -73,7 +73,7 @@ class _PansionDetailViewState extends State<PansionDetailView> {
               child: PageView(controller: controller, children: images),
             ),
             Positioned(
-              top: 20,
+              top: 40,
                 left: 10,
                 child: IconButton(
               onPressed: () {

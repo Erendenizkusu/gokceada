@@ -76,5 +76,6 @@
   "feribilgi": "Çanakkale ve Gökçeada arasında deniz ulaşımı, Gestaş Deniz Ulaşım A.Ş tarafından sağlanmaktadır. Feribot seferleri, Gökçeada'dan Çanakkale'ye ve Çanakkale'den Gökçeada'ya her gün yapılmaktadır. Seferlerin sıklığı, mevsime ve talebe bağlı olarak değişebilir, bu nedenle seyahat etmeden önce sefer saatlerini kontrol etmek önemlidir. Feribot seferleri yaklaşık 1,5 saat sürmektedir ve yolculuk boyunca yemek ve içecek satın alabileceğiniz kafeterya hizmeti de mevcuttur.",
   "permissionDenied": "İzin reddedildi.",
   "permissionDeniedMessage": "Galeriye ve fotoğraflara erişime izin ver.",
-  "permissionDeniedSettings": "Ayarlara git"
+  "permissionDeniedSettings": "Ayarlara git",
+  "dahaFazlaBilgi": "Daha fazla bilgi almak için için web siteyi ziyaret edebilirsiniz."
 }

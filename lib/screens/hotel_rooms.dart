@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:gokceada/core/colors.dart';
 import 'package:gokceada/core/textFont.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 import '../product/hotelListCard.dart';
 import '../product/navigationButton.dart';
 

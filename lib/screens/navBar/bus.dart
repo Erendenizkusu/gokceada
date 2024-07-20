@@ -1,8 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 import '../../core/colors.dart';
 import '../../core/textFont.dart';
+import '../../helper/webview.dart';
 
 
 class BusTimes extends StatefulWidget {
@@ -17,7 +17,7 @@ class _BusTimesState extends State<BusTimes> {
   @override
   Widget build(BuildContext context) {
 
-    var url = Uri.parse('https://www.gokceada.bel.tr/otobus-saatleri');
+    const String url = 'https://www.gokceada.bel.tr/otobus-saatleri';
 
     return Scaffold(
         appBar: AppBar(
@@ -37,7 +37,10 @@ class _BusTimesState extends State<BusTimes> {
               Center(child: SizedBox(width: (MediaQuery.of(context).size.width)*0.5,child: ElevatedButton(
                   style: ElevatedButton.styleFrom(backgroundColor: ColorConstants.instance.activatedButton),
                   onPressed: (){
-                    launchUrl(url);
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => WebViewComponent(url: url,title: 'otobusSaatleri'.tr(),)),
+                    );
                   },
                   child: Text('otobusSaatleri'.tr(),style: TextFonts.instance.smallText,)
               ),),),

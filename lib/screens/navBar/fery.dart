@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:gokceada/helper/webview.dart';
 import '../../core/colors.dart';
 import '../../core/textFont.dart';
 
@@ -17,7 +17,7 @@ class _FeribotState extends State<Feribot> {
   @override
   Widget build(BuildContext context) {
 
-    var url = Uri.parse('https://www.gdu.com.tr/sefer-tarifeleri');
+    const String url = 'https://www.gdu.com.tr/sefer-tarifeleri';
 
     return Scaffold(
       appBar: AppBar(
@@ -37,7 +37,10 @@ class _FeribotState extends State<Feribot> {
           Center(child: SizedBox(width: (MediaQuery.of(context).size.width)*0.5,child: ElevatedButton(
                   style: ElevatedButton.styleFrom(backgroundColor: ColorConstants.instance.activatedButton),
                   onPressed: (){
-                    launchUrl(url);
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => WebViewComponent(url: url,title: 'feribotSaatleri'.tr()),
+                    ));
                   },
                   child: Text('feribotSaatleri'.tr(),style: TextFonts.instance.smallText,)
           ),),),
