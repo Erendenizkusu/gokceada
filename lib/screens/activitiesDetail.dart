@@ -2,19 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:gokceada/core/colors.dart';
 import 'package:gokceada/core/textFont.dart';
 import 'package:gokceada/screens/hotel_rooms.dart';
-import '../product/hotelListCard.dart';
+import '../product/countIndicator.dart';
+import '../product/imagePageView.dart';
 
 class ActivitiesDetail extends StatefulWidget {
   const ActivitiesDetail(
       {super.key,
-      required this.list,
+      required this.path,
       required this.description,
       required this.location,
       required this.telNo,
       required this.owner,
       required this.activitiesName});
 
-  final List<String> list;
+  final String path;
   final String activitiesName;
   final String description;
   final List<String> owner;
@@ -26,30 +27,23 @@ class ActivitiesDetail extends StatefulWidget {
 }
 
 class _ActivitiesDetailState extends State<ActivitiesDetail> {
+  late PageController _controller;
+  int imageCount = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = PageController();
+  }
+
+  void onImageCountUpdated(int count) {
+    setState(() {
+      imageCount = count;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    final PageController controller = PageController();
-    var images = widget.list
-        .map((e) => Image.network(
-              'https://drive.google.com/uc?export=view&id=$e',
-              fit: BoxFit.fill,
-              loadingBuilder: (BuildContext context, Widget child,
-                  ImageChunkEvent? loadingProgress) {
-                if (loadingProgress == null) {
-                  return child;
-                }
-                return Center(
-                  child: CircularProgressIndicator(
-                    value: loadingProgress.expectedTotalBytes != null
-                        ? loadingProgress.cumulativeBytesLoaded /
-                            loadingProgress.expectedTotalBytes!
-                        : null,
-                  ),
-                );
-              },
-            ))
-        .toList();
-
     return Scaffold(
       body: SizedBox(
         height: double.maxFinite,
@@ -61,7 +55,7 @@ class _ActivitiesDetailState extends State<ActivitiesDetail> {
               left: 0,
               right: 0,
               bottom: MediaQuery.of(context).size.height * 0.6,
-              child: PageView(controller: controller, children: images),
+              child: ImagePageView(controller: _controller, folderPath: widget.path,onImageCountUpdated: onImageCountUpdated),
             ),
             Positioned(
                 top: 20,
@@ -79,7 +73,7 @@ class _ActivitiesDetailState extends State<ActivitiesDetail> {
                 right: 0,
                 bottom: MediaQuery.of(context).size.height * 0.3,
                 child: Center(
-                    child: Indicator(controller: controller, list: images))),
+                    child: CountIndicator(controller: _controller, count: imageCount))),
             Positioned(
               top: MediaQuery.of(context).size.height * 0.38,
               left: 0,

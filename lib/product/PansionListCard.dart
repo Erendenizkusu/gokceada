@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:gokceada/core/colors.dart';
 import 'package:gokceada/core/ratingBar.dart';
 import 'package:gokceada/core/textFont.dart';
-import 'hotelListCard.dart';
+import 'package:gokceada/product/twoImagePageView.dart';
+import 'countIndicator.dart';
 
 class PansionListCard extends StatefulWidget {
   const PansionListCard(
@@ -10,41 +11,34 @@ class PansionListCard extends StatefulWidget {
       required this.hotelName,
       required this.location,
       required this.rating,
-      required this.list});
+      required this.path});
   final String hotelName;
   final String location;
   final String rating;
-  final List<String> list;
+  final String path;
 
   @override
   State<PansionListCard> createState() => _PansionListCardState();
 }
 
 class _PansionListCardState extends State<PansionListCard> {
-  final _controller = PageController();
+  late PageController _controller;
+  int imageCount = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = PageController();
+  }
+
+  void onImageCountUpdated(int count) {
+    setState(() {
+      imageCount = count;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    var images = widget.list
-        .map((e) => Image.network(
-              'https://drive.google.com/uc?export=view&id=$e',
-              fit: BoxFit.fill,
-              loadingBuilder: (BuildContext context, Widget child,
-                  ImageChunkEvent? loadingProgress) {
-                if (loadingProgress == null) {
-                  return child;
-                }
-                return Center(
-                  child: CircularProgressIndicator(
-                    value: loadingProgress.expectedTotalBytes != null
-                        ? loadingProgress.cumulativeBytesLoaded /
-                            loadingProgress.expectedTotalBytes!
-                        : null,
-                  ),
-                );
-              },
-            ))
-        .toList();
     return SizedBox(
       child: Card(
         elevation: 0,
@@ -58,9 +52,9 @@ class _PansionListCardState extends State<PansionListCard> {
             clipBehavior: Clip.hardEdge,
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(15)),
             height: (MediaQuery.of(context).size.height) * 0.35,
-            child: PageView(controller: _controller, children: images),
+            child: TwoImagePageView(controller: _controller,folderPath: widget.path,onImageCountUpdated: onImageCountUpdated),
           ),
-          Indicator(controller: _controller, list: images),
+          CountIndicator(controller: _controller, count: imageCount),
           const SizedBox(height: 10),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15),

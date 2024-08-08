@@ -23,8 +23,10 @@ class _OtelDetayState extends State<OtelDetay> {
     getOtelList();
   }
 
-  void getOtelList() {
-    FirebaseFirestore.instance.collection('hotelList').get().then((querySnapshot) {
+  void getOtelList() async {
+    try {
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('hotelList').get();
+
       for (var doc in querySnapshot.docs) {
         List<String> icon = List<String>.from(doc['icon']);
         String owner = doc['owner'];
@@ -32,23 +34,24 @@ class _OtelDetayState extends State<OtelDetay> {
         String description = doc['description'];
         String rating = doc['rating'];
         String hotelName = doc['hotel_name'];
-        List<String> images = List<String>.from(doc['image']);
         String location = doc['location'];
         String telNo = doc['telNo'];
         List<double> latLng = List<double>.from(doc['latLng']);
+        String image = doc['image'];
+
 
         List<ContainerMiddle> facilitiesList = [];
-
         for(int i = 0; i < icon.length; i++){
           IconData iconData = IconsExtension.getIcon(icon[i]);
           facilitiesList.add(ContainerMiddle(icon: iconData, info: info[i]));
         }
 
         Widget hotelListWidget = HotelListCard(
-            hotelName: hotelName,
-            location: location,
-            rating: rating,
-            list: [images[0],images[1]]);
+          hotelName: hotelName,
+          location: location,
+          rating: rating,
+          path: image,
+        );
 
         Widget hotelWidget = HotelRoomsView(
           latitude: latLng[0],
@@ -57,9 +60,9 @@ class _OtelDetayState extends State<OtelDetay> {
           facilities: facilitiesList,
           description: description,
           hotelName: hotelName,
-          list: images,
           location: location,
           telNo: telNo,
+          path: image,
         );
 
         setState(() {
@@ -67,7 +70,9 @@ class _OtelDetayState extends State<OtelDetay> {
           hotelsList.add(hotelListWidget);
         });
       }
-    });
+    } catch (error) {
+      print('Error getting hotel list: $error');
+    }
   }
 
   @override
@@ -134,4 +139,3 @@ class IconsExtension {
     }
   }
 }
-

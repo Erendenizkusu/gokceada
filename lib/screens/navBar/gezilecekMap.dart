@@ -11,10 +11,10 @@ class GezilecekDetay extends StatefulWidget {
   const GezilecekDetay({super.key});
 
   @override
-  _GezilecekDetayState createState() => _GezilecekDetayState();
+  GezilecekDetayState createState() => GezilecekDetayState();
 }
 
-class _GezilecekDetayState extends State<GezilecekDetay> {
+class GezilecekDetayState extends State<GezilecekDetay> {
   List<Widget> gezilecek = [];
   List<Widget> gezilecekList = [];
 
@@ -28,20 +28,20 @@ class _GezilecekDetayState extends State<GezilecekDetay> {
     FirebaseFirestore.instance.collection('gezilecekList').get().then((querySnapshot) {
       for (var doc in querySnapshot.docs) {
         String gezilecekName = doc['gezilecekName'];
-        List<String> images = List<String>.from(doc['image']);
+        String image = doc['image'];
         String description = doc['description'];
         List<double> latLng = List<double>.from(doc['latLng']);
 
 
         Widget gezilecekListWidget = NetworkCardDesign(
             cardText: gezilecekName,
-            path: images[0]);
+            path: image);
 
 
         Widget gezilecekWidget = NetworkImageDescription(
           description: description,
           title: gezilecekName,
-          list: images,
+          path: image,
           widget: NavigationButton(latitude: latLng[0],longitude: latLng[1]),
         );
 

@@ -1,16 +1,18 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gokceada/core/ratingBar.dart';
-import 'package:gokceada/product/hotelListCard.dart';
 import 'package:gokceada/screens/hotel_rooms.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../core/textFont.dart';
+import '../product/countIndicator.dart';
+import '../product/imagePageView.dart';
+import '../product/indicatorWidget.dart';
 import '../product/navigationButton.dart';
 
 class RestaurantView extends StatefulWidget {
   const RestaurantView(
       {super.key,
-      required this.list,
+      required this.path,
       required this.rating,
       required this.name,
       required this.location,
@@ -19,7 +21,7 @@ class RestaurantView extends StatefulWidget {
       required this.latitude,
       required this.longitude});
 
-  final List<String> list;
+  final String path;
   final String rating;
   final String name;
   final String location;
@@ -33,30 +35,25 @@ class RestaurantView extends StatefulWidget {
 }
 
 class _RestaurantViewState extends State<RestaurantView> {
+  late PageController _controller;
+  int imageCount = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = PageController();
+  }
+
+  void onImageCountUpdated(int count) {
+    setState(() {
+      imageCount = count;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    final controller = PageController();
-    var images = widget.list
-        .map((e) => Image.network(
-              'https://drive.google.com/uc?export=view&id=$e',
-              fit: BoxFit.fill,
-              loadingBuilder: (BuildContext context, Widget child,
-                  ImageChunkEvent? loadingProgress) {
-                if (loadingProgress == null) {
-                  return child;
-                }
-                return Center(
-                  child: CircularProgressIndicator(
-                    value: loadingProgress.expectedTotalBytes != null
-                        ? loadingProgress.cumulativeBytesLoaded /
-                            loadingProgress.expectedTotalBytes!
-                        : null,
-                  ),
-                );
-              },
-            ))
-        .toList();
     var url = Uri.parse(widget.link);
+
 
     return Scaffold(
       appBar: AppBar(),
@@ -66,9 +63,9 @@ class _RestaurantViewState extends State<RestaurantView> {
             clipBehavior: Clip.hardEdge,
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(15)),
             height: (MediaQuery.of(context).size.height) * 0.35,
-            child: PageView(controller: controller, children: images),
+            child: ImagePageView(controller: _controller, onImageCountUpdated: onImageCountUpdated,folderPath: widget.path),
           ),
-          Center(child: Indicator(controller: controller, list: images)),
+          Center(child: CountIndicator(controller: _controller, count: imageCount)),
           const SizedBox(height: 10),
           Center(
               child: NavigationButton(latitude: widget.latitude,longitude: widget.longitude),

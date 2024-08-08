@@ -31,7 +31,7 @@ class _HediyelikDetayState extends State<HediyelikDetay> {
         String link = doc['link'];
         String telNo = doc['telNo'];
         String hediyelikName = doc['hediyelikName'];
-        List<String> images = List<String>.from(doc['image']);
+        String image = doc['image'];
         String location = doc['location'];
         String rating = doc['rating'];
         List<double> latLng = List<double>.from(doc['latLng']);
@@ -40,7 +40,7 @@ class _HediyelikDetayState extends State<HediyelikDetay> {
             hotelName: hediyelikName,
             location: location,
             rating: rating,
-            list: [images[0], images[1]]);
+            path: image);
 
         Widget campingWidget = SurfingView(
           latitude: latLng[0],
@@ -48,7 +48,7 @@ class _HediyelikDetayState extends State<HediyelikDetay> {
           surfingName: hediyelikName,
           telNo: telNo,
           link: link,
-          list: images,
+          path: image,
           location: location,
           rating: rating,
         );

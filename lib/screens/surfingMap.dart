@@ -10,10 +10,10 @@ class SurfingDetay extends StatefulWidget {
   const SurfingDetay({super.key});
 
   @override
-  _SurfingDetayState createState() => _SurfingDetayState();
+  SurfingDetayState createState() => SurfingDetayState();
 }
 
-class _SurfingDetayState extends State<SurfingDetay> {
+class SurfingDetayState extends State<SurfingDetay> {
   List<Widget> surfing = [];
   List<Widget> surfingList = [];
 
@@ -30,7 +30,7 @@ class _SurfingDetayState extends State<SurfingDetay> {
         String link = doc['link'];
         String owner = doc['owner'];
         String surfingName = doc['restaurant_name'];
-        List<String> images = List<String>.from(doc['image']);
+        String image = doc['image'];
         String location = doc['location'];
         String telNo = doc['telNo'];
         String rating = doc['rating'];
@@ -42,7 +42,7 @@ class _SurfingDetayState extends State<SurfingDetay> {
             hotelName: surfingName,
             location: location,
             rating: rating,
-            list: [images[0],images[1]]);
+            path: image);
 
         Widget campingWidget = SurfingView(
           latitude: latLng[0],
@@ -50,7 +50,7 @@ class _SurfingDetayState extends State<SurfingDetay> {
           surfingName: surfingName,
           link: link,
           name: owner,
-          list: images,
+          path: image,
           location: location,
           telNo: telNo,
           rating: rating,

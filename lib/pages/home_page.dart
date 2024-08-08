@@ -5,7 +5,7 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import '../../core/colors.dart';
 import '../../core/textFont.dart';
 import '../../product/card_design.dart';
-import '../../product/hotelListCard.dart';
+import '../product/indicatorWidget.dart';
 import '../screens/navBar.dart';
 import '../screens/restaurantDetail.dart';
 

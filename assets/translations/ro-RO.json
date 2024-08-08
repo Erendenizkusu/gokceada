@@ -76,5 +76,7 @@
   "feribilgi": "Transportul maritim între Çanakkale și Gökçeada este asigurat de Gestaş Deniz Ulaşım A.Ş. Serviciile de feribot sunt disponibile zilnic de la Gökçeada la Çanakkale și de la Çanakkale la Gökçeada. Frecvența călătoriilor poate varia în funcție de sezon și cerere, deci este important să verificați orarele feribotului înainte de călătorie. Călătoriile cu feribotul durează aproximativ 1,5 ore, iar în timpul călătoriei există un serviciu de cafenea unde puteți cumpăra alimente și băuturi.",
   "permissionDenied": "Permisiune refuzată.",
   "permissionDeniedMessage": "Permite accesul la galerie și fotografii.",
-  "permissionDeniedSettings": "Accesează setările"
+  "permissionDeniedSettings": "Accesează setările",
+  "haritaSec": "Alegeți Aplicația de Hărți",
+  "hangiHarita": "Cu ce aplicație de hărți doriți să deschideți?"
 }

@@ -2,15 +2,14 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gokceada/core/colors.dart';
 import 'package:gokceada/core/textFont.dart';
+import 'package:gokceada/product/imagePageView.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import '../product/hotelListCard.dart';
+import '../product/countIndicator.dart';
 import '../product/navigationButton.dart';
 
 class HotelRoomsView extends StatefulWidget {
   const HotelRoomsView(
       {super.key,
-      required this.list,
       required this.description,
       required this.location,
       required this.hotelName,
@@ -18,9 +17,9 @@ class HotelRoomsView extends StatefulWidget {
       required this.owner,
       required this.latitude,
       required this.longitude,
-      required this.telNo});
+      required this.telNo,
+      required this.path});
 
-  final List<String> list;
   final double latitude;
   final double longitude;
   final String hotelName;
@@ -29,36 +28,30 @@ class HotelRoomsView extends StatefulWidget {
   final List<ContainerMiddle> facilities;
   final String owner;
   final String telNo;
+  final String path;
 
   @override
   State<HotelRoomsView> createState() => _HotelRoomsViewState();
 }
 
 class _HotelRoomsViewState extends State<HotelRoomsView> {
+  late PageController _controller;
+  int imageCount = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = PageController();
+  }
+
+  void onImageCountUpdated(int count) {
+    setState(() {
+      imageCount = count;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    final PageController controller = PageController();
-    var images = widget.list
-        .map((e) => Image.network(
-              'https://drive.google.com/uc?export=view&id=$e',
-              fit: BoxFit.fill,
-              loadingBuilder: (BuildContext context, Widget child,
-                  ImageChunkEvent? loadingProgress) {
-                if (loadingProgress == null) {
-                  return child;
-                }
-                return Center(
-                  child: CircularProgressIndicator(
-                    value: loadingProgress.expectedTotalBytes != null
-                        ? loadingProgress.cumulativeBytesLoaded /
-                            loadingProgress.expectedTotalBytes!
-                        : null,
-                  ),
-                );
-              },
-            ))
-        .toList();
-
     return Scaffold(
       body: ListView(
         children: [
@@ -68,7 +61,10 @@ class _HotelRoomsViewState extends State<HotelRoomsView> {
               decoration:
                   BoxDecoration(borderRadius: BorderRadius.circular(15)),
               height: (MediaQuery.of(context).size.height) * 0.35,
-              child: PageView(controller: controller, children: images),
+              child: ImagePageView(
+                  folderPath: widget.path,
+                  controller: _controller,
+                  onImageCountUpdated: onImageCountUpdated),
             ),
             Positioned(
                 top: 20,
@@ -77,11 +73,13 @@ class _HotelRoomsViewState extends State<HotelRoomsView> {
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  icon: const Icon(Icons.arrow_back_ios_new,
-                      color: Colors.white),
+                  icon:
+                      const Icon(Icons.arrow_back_ios_new, color: Colors.white),
                 )),
           ]),
-          Center(child: Indicator(controller: controller, list: images)),
+          Center(
+              child:
+                  CountIndicator(controller: _controller, count: imageCount)),
           const SizedBox(height: 10),
           Center(
             child: NavigationButton(
@@ -178,6 +176,7 @@ class OwnerCard extends StatelessWidget {
 
 class ContainerMiddle extends StatelessWidget {
   const ContainerMiddle({super.key, required this.icon, required this.info});
+
   final IconData icon;
   final String info;
 

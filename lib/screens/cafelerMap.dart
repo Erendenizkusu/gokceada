@@ -6,15 +6,14 @@ import '../core/colors.dart';
 import '../core/textFont.dart';
 import 'cafeView.dart';
 
-
 class CafeDetay extends StatefulWidget {
   const CafeDetay({super.key});
 
   @override
-  _CafeDetayState createState() => _CafeDetayState();
+  CafeDetayState createState() => CafeDetayState();
 }
 
-class _CafeDetayState extends State<CafeDetay> {
+class CafeDetayState extends State<CafeDetay> {
   List<Widget> cafes = [];
   List<Widget> cafesList = [];
 
@@ -29,7 +28,7 @@ class _CafeDetayState extends State<CafeDetay> {
       for (var doc in querySnapshot.docs) {
         String link = doc['link'];
         String cafeName = doc['cafeName'];
-        List<String> images = List<String>.from(doc['image']);
+        String image = doc['image'];
         String location = doc['location'];
         String rating = doc['rating'];
         List<double> latLng = List<double>.from(doc['latLng']);
@@ -38,14 +37,14 @@ class _CafeDetayState extends State<CafeDetay> {
         Widget pansionListWidget = RestaurantsCard(
             restaurantName: cafeName,
             rating: rating,
-            path: images[0]);
+            path: image);
 
         Widget pansionWidget = CafeView(
           latitude: latLng[0],
           longitude: latLng[1],
           link: link,
           name: cafeName,
-          list: images,
+          path: image,
           location: location,
           rating: rating,
         );

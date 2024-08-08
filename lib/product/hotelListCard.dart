@@ -2,51 +2,48 @@ import 'package:flutter/material.dart';
 import 'package:gokceada/core/colors.dart';
 import 'package:gokceada/core/ratingBar.dart';
 import 'package:gokceada/core/textFont.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:gokceada/product/twoImagePageView.dart';
+import 'countIndicator.dart';
 
 class HotelListCard extends StatefulWidget {
-  const HotelListCard(
-      {super.key,
-      required this.hotelName,
-      required this.location,
-      this.price = 0,
-      required this.rating,
-      required this.list});
+  const HotelListCard({
+    super.key,
+    required this.hotelName,
+    required this.location,
+    this.price = 0,
+    required this.rating,
+    required this.path,
+  });
+
   final String hotelName;
   final String location;
   final int price;
   final String rating;
-  final List<String> list;
+  final String path;
 
   @override
   State<HotelListCard> createState() => _HotelListCardState();
 }
 
+
 class _HotelListCardState extends State<HotelListCard> {
-  final _controller = PageController();
+  late PageController _controller;
+  int imageCount = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = PageController();
+  }
+
+  void onImageCountUpdated(int count) {
+    setState(() {
+      imageCount = count;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    var images = widget.list
-        .map((e) => Image.network(
-              'https://drive.google.com/uc?export=view&id=$e',
-              fit: BoxFit.fill,
-              loadingBuilder: (BuildContext context, Widget child,
-                  ImageChunkEvent? loadingProgress) {
-                if (loadingProgress == null) {
-                  return child;
-                }
-                return Center(
-                  child: CircularProgressIndicator(
-                    value: loadingProgress.expectedTotalBytes != null
-                        ? loadingProgress.cumulativeBytesLoaded /
-                            loadingProgress.expectedTotalBytes!
-                        : null,
-                  ),
-                );
-              },
-            ))
-        .toList();
     return SizedBox(
       child: Card(
         elevation: 0,
@@ -60,9 +57,13 @@ class _HotelListCardState extends State<HotelListCard> {
             clipBehavior: Clip.hardEdge,
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(15)),
             height: (MediaQuery.of(context).size.height) * 0.35,
-            child: PageView(controller: _controller, children: images),
+            child: TwoImagePageView(
+              folderPath: widget.path,
+              controller: _controller,
+              onImageCountUpdated: onImageCountUpdated,
+            ),
           ),
-          Indicator(controller: _controller, list: images),
+          CountIndicator(controller: _controller, count: imageCount),
           const SizedBox(height: 10),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -118,31 +119,3 @@ class _HotelListCardState extends State<HotelListCard> {
   }
 }
 
-class Indicator extends StatelessWidget {
-  const Indicator({
-    super.key,
-    required PageController controller,
-    required this.list,
-  })  : _controller = controller;
-
-  final PageController _controller;
-  final List list;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(10),
-      child: SmoothPageIndicator(
-        controller: _controller,
-        count: list.length,
-        effect: SwapEffect(
-          activeDotColor: ColorConstants.instance.activatedButton,
-          dotColor: Colors.deepPurple.shade100,
-          dotHeight: 10.0,
-          dotWidth: 10.0,
-          spacing: 15.0,
-        ),
-      ),
-    );
-  }
-}

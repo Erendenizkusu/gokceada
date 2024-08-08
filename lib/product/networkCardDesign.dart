@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gokceada/core/colors.dart';
 import 'package:gokceada/core/textFont.dart';
+import 'package:gokceada/product/restaurantCardImage.dart';
 
 class NetworkCardDesign extends StatelessWidget {
   const NetworkCardDesign(
@@ -23,26 +24,7 @@ class NetworkCardDesign extends StatelessWidget {
       SizedBox(
       width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
-            child: Image.network(
-          'https://drive.google.com/uc?export=view&id=$path',
-          color: Colors.grey.withOpacity(0.9),
-          colorBlendMode: BlendMode.modulate,
-          fit: BoxFit.fill,
-          loadingBuilder: (BuildContext context, Widget child,
-              ImageChunkEvent? loadingProgress) {
-            if (loadingProgress == null) {
-              return child;
-            }
-            return Center(
-              child: CircularProgressIndicator(
-                value: loadingProgress.expectedTotalBytes != null
-                    ? loadingProgress.cumulativeBytesLoaded /
-                        loadingProgress.expectedTotalBytes!
-                    : null,
-              ),
-            );
-          },
-        ),),
+            child: RestaurantImage(folderPath: path)),
         Padding(
           padding: const EdgeInsets.only(bottom: 30, left: 20),
           child: Text(

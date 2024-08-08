@@ -71,6 +71,7 @@ class Storage {
     }
   }
 
+
   Future<void> deleteDocumentWithSubcollections(String userUid) async {
     // Reference to the document
     final docRef = FirebaseFirestore.instance.collection('images').doc(userUid);

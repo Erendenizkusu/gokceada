@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:gokceada/core/ratingBar.dart';
-import 'package:gokceada/product/hotelListCard.dart';
 import 'package:gokceada/screens/hotel_rooms.dart';
 import 'package:gokceada/screens/restaurantDetail.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../core/textFont.dart';
+import '../product/countIndicator.dart';
+import '../product/imagePageView.dart';
 import '../product/navigationButton.dart';
 
 class SurfingView extends StatefulWidget {
   const SurfingView(
       {super.key,
-      required this.list,
+      required this.path,
       this.name,
       required this.location,
       required this.link,
@@ -20,7 +21,7 @@ class SurfingView extends StatefulWidget {
       required this.rating,
       required this.surfingName});
 
-  final List<String> list;
+  final String path;
   final String? name;
   final String surfingName;
   final String rating;
@@ -35,29 +36,23 @@ class SurfingView extends StatefulWidget {
 }
 
 class _SurfingViewState extends State<SurfingView> {
+  late PageController _controller;
+  int imageCount = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = PageController();
+  }
+
+  void onImageCountUpdated(int count) {
+    setState(() {
+      imageCount = count;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    final controller = PageController();
-    var images = widget.list
-        .map((e) => Image.network(
-              'https://drive.google.com/uc?export=view&id=$e',
-              fit: BoxFit.fill,
-              loadingBuilder: (BuildContext context, Widget child,
-                  ImageChunkEvent? loadingProgress) {
-                if (loadingProgress == null) {
-                  return child;
-                }
-                return Center(
-                  child: CircularProgressIndicator(
-                    value: loadingProgress.expectedTotalBytes != null
-                        ? loadingProgress.cumulativeBytesLoaded /
-                            loadingProgress.expectedTotalBytes!
-                        : null,
-                  ),
-                );
-              },
-            ))
-        .toList();
     var url = Uri.parse(widget.link);
 
     return Scaffold(
@@ -69,9 +64,9 @@ class _SurfingViewState extends State<SurfingView> {
             clipBehavior: Clip.hardEdge,
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(15)),
             height: (MediaQuery.of(context).size.height) * 0.35,
-            child: PageView(controller: controller, children: images),
+            child: ImagePageView(controller: _controller, onImageCountUpdated: onImageCountUpdated,folderPath: widget.path),
           ),
-          Center(child: Indicator(controller: controller, list: images)),
+          Center(child: CountIndicator(controller: _controller, count: imageCount)),
           const SizedBox(height: 10),
           Center(
               child: NavigationButton(

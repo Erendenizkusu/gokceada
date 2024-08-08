@@ -11,10 +11,10 @@ class CampingDetay extends StatefulWidget {
   const CampingDetay({super.key});
 
   @override
-  _CampingDetayState createState() => _CampingDetayState();
+  CampingDetayState createState() => CampingDetayState();
 }
 
-class _CampingDetayState extends State<CampingDetay> {
+class CampingDetayState extends State<CampingDetay> {
   List<Widget> camping = [];
   List<Widget> campingList = [];
 
@@ -30,7 +30,7 @@ class _CampingDetayState extends State<CampingDetay> {
       for (var doc in querySnapshot.docs) {
         String description = doc['description'];
         String pansionName = doc['camping_name'];
-        List<String> images = List<String>.from(doc['image']);
+        String image = doc['image'];
         String location = doc['location'];
         String telNo = doc['telNo'];
         String rating = doc['rating'];
@@ -42,14 +42,14 @@ class _CampingDetayState extends State<CampingDetay> {
             hotelName: pansionName,
             location: location,
             rating: rating,
-            list: [images[0],images[1]]);
+            path: image,);
 
         Widget campingWidget = CampingDetailView(
           latitude: latLng[0],
           longitude: latLng[1],
           description: description,
           campingName: pansionName,
-          list: images,
+          path: image,
           location: location,
           telNo: telNo,
           rating: rating,

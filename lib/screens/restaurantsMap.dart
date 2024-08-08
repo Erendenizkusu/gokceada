@@ -29,7 +29,7 @@ class _RestaurantDetayState extends State<RestaurantDetay> {
       for (var doc in querySnapshot.docs) {
         String link = doc['link'];
         String restaurantName = doc['restaurant_name'];
-        List<String> images = List<String>.from(doc['image']);
+        String image = doc['image'];
         String location = doc['location'];
         String telNo = doc['telNo'];
         String rating = doc['rating'];
@@ -39,14 +39,14 @@ class _RestaurantDetayState extends State<RestaurantDetay> {
         Widget pansionListWidget = RestaurantsCard(
             restaurantName: restaurantName,
             rating: rating,
-            path: images[0]);
+            path: image);
 
         Widget pansionWidget = RestaurantView(
           latitude: latLng[0],
           longitude: latLng[1],
           link: link,
           name: restaurantName,
-          list: images,
+          path: image,
           location: location,
           telNo: telNo,
           rating: rating,

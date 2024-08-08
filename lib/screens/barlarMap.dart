@@ -10,10 +10,10 @@ class BarDetay extends StatefulWidget {
   const BarDetay({super.key});
 
   @override
-  _BarDetayState createState() => _BarDetayState();
+  BarDetayState createState() => BarDetayState();
 }
 
-class _BarDetayState extends State<BarDetay> {
+class BarDetayState extends State<BarDetay> {
   List<Widget> bars = [];
   List<Widget> barsList = [];
 
@@ -28,7 +28,7 @@ class _BarDetayState extends State<BarDetay> {
       for (var doc in querySnapshot.docs) {
         String link = doc['link'];
         String barName = doc['barName'];
-        List<String> images = List<String>.from(doc['image']);
+        String image = doc['image'];
         String location = doc['location'];
         String telNo = doc['telNo'];
         String rating = doc['rating'];
@@ -38,14 +38,14 @@ class _BarDetayState extends State<BarDetay> {
         Widget pansionListWidget = RestaurantsCard(
             restaurantName: barName,
             rating: rating,
-            path: images[0]);
+            path: image);
 
         Widget pansionWidget = RestaurantView(
           latitude: latLng[0],
           longitude: latLng[1],
           link: link,
           name: barName,
-          list: images,
+          path: image,
           location: location,
           telNo: telNo,
           rating: rating,

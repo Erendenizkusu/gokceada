@@ -12,10 +12,10 @@ class PansionDetay extends StatefulWidget {
   const PansionDetay({super.key});
 
   @override
-  _PansionDetayState createState() => _PansionDetayState();
+  PansionDetayState createState() => PansionDetayState();
 }
 
-class _PansionDetayState extends State<PansionDetay> {
+class PansionDetayState extends State<PansionDetay> {
   List<Widget> pansions = [];
   List<Widget> pansionList = [];
 
@@ -33,7 +33,7 @@ class _PansionDetayState extends State<PansionDetay> {
         List<String> info = List<String>.from(doc['info']);
         String description = doc['description'];
         String pansionName = doc['pansion_name'];
-        List<String> images = List<String>.from(doc['image']);
+        String image = doc['image'];
         String location = doc['location'];
         String telNo = doc['telNo'];
         String rating = doc['rating'];
@@ -49,7 +49,7 @@ class _PansionDetayState extends State<PansionDetay> {
             hotelName: pansionName,
             location: location,
             rating: rating,
-            list: [images[0],images[1]]);
+            path: image);
 
         Widget pansionWidget = PansionDetailView(
           latitude: latLng[0],
@@ -58,7 +58,7 @@ class _PansionDetayState extends State<PansionDetay> {
           facilities: facilitiesList,
           description: description,
           pansion_name: pansionName,
-          list: images,
+          path: image,
           location: location,
           telNo: telNo,
           rating: rating,

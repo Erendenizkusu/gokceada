@@ -11,10 +11,10 @@ class ActivitiesDetay extends StatefulWidget {
   const ActivitiesDetay({super.key});
 
   @override
-  _ActivitiesDetayState createState() => _ActivitiesDetayState();
+  ActivitiesDetayState createState() => ActivitiesDetayState();
 }
 
-class _ActivitiesDetayState extends State<ActivitiesDetay> {
+class ActivitiesDetayState extends State<ActivitiesDetay> {
   List<Widget> activities = [];
   List<Widget> activitiesList = [];
 
@@ -28,7 +28,7 @@ class _ActivitiesDetayState extends State<ActivitiesDetay> {
     FirebaseFirestore.instance.collection('activitiesList').get().then((querySnapshot) {
       for (var doc in querySnapshot.docs) {
         String activitiesName = doc['activitiesName'];
-        List<String> images = List<String>.from(doc['image']);
+        String image = doc['image'];
         String description = doc['description'];
         String location = doc['location'];
         List<String> telNo = List<String>.from(doc['telNo']);
@@ -37,14 +37,14 @@ class _ActivitiesDetayState extends State<ActivitiesDetay> {
 
         Widget pansionListWidget = NetworkCardDesign(
             cardText: activitiesName,
-            path: images[0]);
+            path: image);
 
 
         Widget pansionWidget = ActivitiesDetail(
           description: description,
           location: location,
           telNo: telNo,
-          list: images,
+          path: image,
           activitiesName: activitiesName,
           owner: owner,
         );

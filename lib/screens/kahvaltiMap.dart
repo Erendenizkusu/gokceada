@@ -9,10 +9,10 @@ class BreakfastDetay extends StatefulWidget {
   const BreakfastDetay({super.key});
 
   @override
-  _BreakfastDetayState createState() => _BreakfastDetayState();
+  BreakfastDetayState createState() => BreakfastDetayState();
 }
 
-class _BreakfastDetayState extends State<BreakfastDetay> {
+class BreakfastDetayState extends State<BreakfastDetay> {
   List<Widget> breakfast = [];
   List<Widget> breakfastList = [];
 
@@ -29,7 +29,7 @@ class _BreakfastDetayState extends State<BreakfastDetay> {
         String description = doc['description'];
         String breakfastName = doc['breakfast_name'];
         String owner = doc['owner'];
-        List<String> images = List<String>.from(doc['image']);
+        String image = doc['image'];
         String location = doc['location'];
         String telNo = doc['telNo'];
         String rating = doc['rating'];
@@ -41,7 +41,7 @@ class _BreakfastDetayState extends State<BreakfastDetay> {
             hotelName: breakfastName,
             location: location,
             rating: rating,
-            list: [images[0],images[1]]);
+            path: image);
 
         Widget campingWidget = CampingDetailView(
           latitude: latLng[0],
@@ -49,7 +49,7 @@ class _BreakfastDetayState extends State<BreakfastDetay> {
           owner: owner,
           description: description,
           campingName: breakfastName,
-          list: images,
+          path: image,
           location: location,
           telNo: telNo,
           rating: rating,

@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:file_picker/file_picker.dart';
@@ -11,11 +10,11 @@ import 'package:flutter/material.dart';
 import 'package:gokceada/core/colors.dart';
 import 'package:gokceada/core/textFont.dart';
 import 'package:gokceada/product/commentButton.dart';
-import 'package:gokceada/product/hotelListCard.dart';
 import 'package:gokceada/product/likeButton.dart';
 import 'package:gokceada/product/commentScreen.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import '../product/indicatorWidget.dart';
 import '../utils/storage.dart';
 
 class UsersConsole extends StatefulWidget {
@@ -38,7 +37,7 @@ class _UsersConsoleState extends State<UsersConsole> {
   @override
   void initState() {
     super.initState();
-    getUsersImages(); // Kullanıcıların resimlerini al
+    getUsersImages();
     likes = List<String>.empty(growable: true);
     if (currentUser != null) {
       isLiked = likes.contains(currentUser!.email);
@@ -143,7 +142,7 @@ class _UsersConsoleState extends State<UsersConsole> {
     });
 
     try {
-      firebase_storage.ListResult result = await storage.listFiles('');
+      firebase_storage.ListResult result = await storage.listFiles('users');
 
       List<String> userUids = result.prefixes.map((ref) => ref.name).toList();
 
@@ -548,7 +547,7 @@ class _UsersConsoleState extends State<UsersConsole> {
                         fileName,
                         FirebaseAuth.instance.currentUser!.uid,
                       );
-                      getUsersImages(); // Resimleri yeniden almak için getUsersImages() metodunu çağır
+                      getUsersImages();
 
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
