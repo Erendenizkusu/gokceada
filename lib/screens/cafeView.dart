@@ -51,7 +51,7 @@ class _CafeViewState extends State<CafeView> {
 
   @override
   Widget build(BuildContext context) {
-    var url = Uri.parse(widget.link);
+    var url = widget.link;
     return Scaffold(
       appBar: AppBar(),
       body: ListView(children: [

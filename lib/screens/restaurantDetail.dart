@@ -53,7 +53,7 @@ class _RestaurantViewState extends State<RestaurantView> {
 
   @override
   Widget build(BuildContext context) {
-    var url = Uri.parse(widget.link);
+    var url = widget.link;
 
 
     return Scaffold(

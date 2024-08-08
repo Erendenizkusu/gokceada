@@ -5,6 +5,7 @@ import 'package:gokceada/screens/hotel_rooms.dart';
 import 'package:gokceada/screens/restaurantDetail.dart';
 import '../core/colors.dart';
 import '../core/textFont.dart';
+import '../helper/webview.dart';
 import '../product/countIndicator.dart';
 import '../product/imagePageView.dart';
 import '../product/navigationButton.dart';
@@ -54,7 +55,7 @@ class _SurfingViewState extends State<SurfingView> {
 
   @override
   Widget build(BuildContext context) {
-    var url = Uri.parse(widget.link);
+    var url = widget.link;
 
     return Scaffold(
       appBar: AppBar(),
