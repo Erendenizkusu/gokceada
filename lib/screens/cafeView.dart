@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:gokceada/core/colors.dart';
 import 'package:gokceada/core/ratingBar.dart';
 import 'package:gokceada/screens/restaurantDetail.dart';
-import 'package:url_launcher/url_launcher.dart';
 import '../core/textFont.dart';
 import '../product/countIndicator.dart';
 import '../product/imagePageView.dart';
+import '../helper/webview.dart';
 import '../product/navigationButton.dart';
 
 
@@ -89,23 +89,34 @@ class _CafeViewState extends State<CafeView> {
               const SizedBox(height: 8),
               InkwellUnderline(
                   name: 'QR Menu',
-                  onTap: widget.link == '' ? () {
-                    launchUrl(url);
-                  } : (){ AlertDialog(
-                    content: const Text('Bu Restorant İçin Menu Bilgisi Bulunmuyor..'),
-                    title: const Text('Qr Menu Bulunmadı!'),
-                    backgroundColor: ColorConstants.instance.activatedButton,
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          // Tamam butonuna tıklandığında yapılacak işlemler
-                          Navigator.of(context).pop(); // Bildirimi kapat
-                        }, child: Text('Tamam',style: TextFonts.instance.commentTextThin),
-                      ),
-                    ],
+                  onTap: widget.link != '' ? () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => WebViewComponent(url: url,title: 'QR MENU',)),
+                    );
+                  } : () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          content: const Text('Bu Restorant İçin Menu Bilgisi Bulunmuyor..'),
+                          title: const Text('Qr Menu Bulunmadı!'),
+                          backgroundColor: ColorConstants.instance.lightGreyCardCollor,
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                // Tamam butonuna tıklandığında yapılacak işlemler
+                                Navigator.of(context).pop(); // Bildirimi kapat
+                              },
+                              child: Text('Tamam', style: TextFonts.instance.commentTextThin),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  }
 
-                  );}
-                  ),
+              ),
             ]),
           )
         ]),

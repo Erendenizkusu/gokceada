@@ -66,7 +66,7 @@ class _PansionDetailViewState extends State<PansionDetailView> {
               child: ImagePageView(controller: _controller, folderPath: widget.path,onImageCountUpdated: onImageCountUpdated),
             ),
             Positioned(
-              top: 20,
+              top: 40,
                 left: 10,
                 child: IconButton(
               onPressed: () {

@@ -65,7 +65,7 @@ class _CampingDetailViewState extends State<CampingDetailView> {
               child: ImagePageView(controller: _controller,folderPath: widget.path,onImageCountUpdated: onImageCountUpdated),
             ),
             Positioned(
-                top: 20,
+                top: 40,
                 left: 10,
                 child: IconButton(
                   onPressed: () {

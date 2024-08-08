@@ -1,8 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gokceada/core/ratingBar.dart';
 import 'package:gokceada/screens/hotel_rooms.dart';
 import 'package:gokceada/screens/restaurantDetail.dart';
-import 'package:url_launcher/url_launcher.dart';
+import '../core/colors.dart';
 import '../core/textFont.dart';
 import '../product/countIndicator.dart';
 import '../product/imagePageView.dart';
@@ -88,13 +89,36 @@ class _SurfingViewState extends State<SurfingView> {
               ),
               const SizedBox(height: 30),
               Text(
-                  'Daha fazla bilgi almak için için web siteyi ziyaret edebilirsiniz.',
+                  'dahaFazlaBilgi'.tr(),
                   style: TextFonts.instance.commentTextBold),
               const SizedBox(height: 8),
               InkwellUnderline(
-                  name: 'QR Menu',
-                  onTap: () {
-                    launchUrl(url);
+                  name: 'Website',
+                  onTap: widget.link != '' ? () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => WebViewComponent(url: url,title: 'surfOkullari'.tr(),)),
+                    );
+                  } : () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          content: const Text('Website Mevcut Değil!'),
+                          title: const Text('Website Bulunamadı!'),
+                          backgroundColor: ColorConstants.instance.lightGreyCardCollor,
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                // Tamam butonuna tıklandığında yapılacak işlemler
+                                Navigator.of(context).pop(); // Bildirimi kapat
+                              },
+                              child: Text('Tamam', style: TextFonts.instance.commentTextThin),
+                            ),
+                          ],
+                        );
+                      },
+                    );
                   }),
               const SizedBox(height: 15),
               OwnerCard(
