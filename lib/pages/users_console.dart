@@ -21,10 +21,10 @@ class UsersConsole extends StatefulWidget {
   const UsersConsole({super.key});
 
   @override
-  _UsersConsoleState createState() => _UsersConsoleState();
+  UsersConsoleState createState() => UsersConsoleState();
 }
 
-class _UsersConsoleState extends State<UsersConsole> {
+class UsersConsoleState extends State<UsersConsole> {
   final Storage storage = Storage();
   Map<String, List<firebase_storage.Reference>> imageMap = {};
   bool isLoading = true;
@@ -57,7 +57,7 @@ class _UsersConsoleState extends State<UsersConsole> {
 
       return snapshot.size;
     } catch (e) {
-      print('Hata oluştu: $e');
+      debugPrint('Hata oluştu: $e');
       return 0; // Hata durumunda veya belge bulunamadığında 0 döndür
     }
   }
@@ -112,7 +112,7 @@ class _UsersConsoleState extends State<UsersConsole> {
         return likes.length;
       }
     } catch (e) {
-      print('Hata oluştu: $e');
+      debugPrint('Hata oluştu: $e');
     }
     return 0;
   }
@@ -142,7 +142,7 @@ class _UsersConsoleState extends State<UsersConsole> {
     });
 
     try {
-      firebase_storage.ListResult result = await storage.listFiles('users');
+      firebase_storage.ListResult result = await storage.listFiles('');
 
       List<String> userUids = result.prefixes.map((ref) => ref.name).toList();
 
@@ -152,7 +152,7 @@ class _UsersConsoleState extends State<UsersConsole> {
         imageMap[uid] = images;
       }
     } catch (e) {
-      print('Error fetching images: $e');
+      debugPrint('Error fetching images: $e');
     }
 
     if (mounted) {
@@ -195,9 +195,9 @@ class _UsersConsoleState extends State<UsersConsole> {
           .collection('comments')
           .doc(commentId)
           .delete();
-      print("Yorum başarıyla silindi.");
+      debugPrint("Yorum başarıyla silindi.");
     } catch (e) {
-      print("Yorum silinirken hata oluştu: $e");
+      debugPrint("Yorum silinirken hata oluştu: $e");
     }
   }
 
@@ -524,48 +524,49 @@ class _UsersConsoleState extends State<UsersConsole> {
               const SizedBox(height: 5),
               FloatingActionButton(
                 backgroundColor: ColorConstants.instance.activatedButton,
-                onPressed: () async {
-                  await Permission.photos.request();
-                  var status = await Permission.photos.status;
+                  onPressed: () async {
+                    var status = await Permission.photos.status;
 
-                  if(!status.isGranted){
-                    await Permission.photos.request();
-                  }
-
-                  if(status.isGranted){
-
-                    final results = await FilePicker.platform.pickFiles(
-                      allowMultiple: false,
-                      type: FileType.image,
-                    );
-                    if (results != null) {
-                      final path = results.files.single.path;
-                      final fileName = results.files.single.name;
-
-                      await storage.uploadFile(
-                        path!,
-                        fileName,
-                        FirebaseAuth.instance.currentUser!.uid,
-                      );
-                      getUsersImages();
-
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text('dosyaBasariylaYuklendi'.tr()),
-                        ),
-                      );
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text('resimSecilmedi'.tr()),
-                        ),
-                      );
+                    if (!status.isGranted) {
+                      status = await Permission.photos.request();
                     }
 
-                  } else {
-                    showAlertDialog(context);
-                  }},
-                child: const Icon(Icons.upload, color: Colors.white),
+                    if (status.isGranted) {
+                      final results = await FilePicker.platform.pickFiles(
+                        allowMultiple: false,
+                        type: FileType.image,
+                      );
+
+                      if (results != null) {
+                        final path = results.files.single.path;
+                        final fileName = results.files.single.name;
+
+                        await storage.uploadFile(
+                          path!,
+                          fileName,
+                          FirebaseAuth.instance.currentUser!.uid,
+                        );
+                        getUsersImages();
+
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('dosyaBasariylaYuklendi'.tr()),
+                          ),
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('resimSecilmedi'.tr()),
+                          ),
+                        );
+                      }
+                    } else if (status.isPermanentlyDenied) {
+                      openAppSettings();
+                    } else {
+                      showAlertDialog(context);
+                    }
+                  },
+                  child: const Icon(Icons.upload, color: Colors.white),
               ),
             ])
             : FloatingActionButton(

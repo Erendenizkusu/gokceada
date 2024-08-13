@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gokceada/services/google_ads.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+
 import '../../core/colors.dart';
 import '../../core/textFont.dart';
 import '../../product/card_design.dart';
@@ -18,7 +19,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final GoogleAds _googleAds = GoogleAds();
-
 
   List<ImageCardDesign> gokceadaPhotos = [
     const ImageCardDesign(image: 'images/gokceadaDirectory/gokceada.jpg'),
@@ -43,23 +43,29 @@ class _HomePageState extends State<HomePage> {
       CardDesign(
           path: 'images/otel.jpg',
           cardText: 'oteller'.tr(),
-          pushWhere: 'oteller'),
+          pushWhere: 'oteller',
+          isAd: true),
       CardDesign(
           path: 'images/pansiyon.jpg',
           cardText: 'pansionlar'.tr(),
           pushWhere: 'pansionList'),
       CardDesign(
-          path: 'images/restourant.jpg',
-          cardText: 'restoranlar'.tr(),
-          pushWhere: 'restaurantsView'),
+        path: 'images/restourant.jpg',
+        cardText: 'restoranlar'.tr(),
+        pushWhere: 'restaurantsView',
+        isAd: true,
+      ),
       CardDesign(
           path: 'images/kamp_alanları.jpg',
           cardText: 'kampalanlari'.tr(),
-          pushWhere: 'camping'),
+          pushWhere: 'camping',
+          isAd: true),
       CardDesign(
-          path: 'images/yildizkoy/yildizkoy.jpg',
-          cardText: 'plajlar'.tr(),
-          pushWhere: 'plajlar'),
+        path: 'images/yildizkoy/yildizkoy.jpg',
+        cardText: 'plajlar'.tr(),
+        pushWhere: 'plajlar',
+        isAd: true,
+      ),
       CardDesign(
           path: 'images/surfing.jpg',
           cardText: 'surfOkullari'.tr(),
@@ -85,11 +91,14 @@ class _HomePageState extends State<HomePage> {
             spacing: 6,
             children: [
               CustomTextButton(text: 'gormeyeDeger'.tr(), route: 'gezilecek'),
-              CustomTextButton(text: 'neredeYenir'.tr(), route: 'foodareas',isAd: true),
+              CustomTextButton(
+                  text: 'neredeYenir'.tr(), route: 'foodareas', isAd: true),
               CustomTextButton(text: 'atm'.tr(), route: 'atm'),
               CustomTextButton(text: 'aktiviteler'.tr(), route: 'activities'),
-              CustomTextButton(text: 'otobusSaatleri'.tr(), route: 'bus',isAd: true),
-              CustomTextButton(text: 'feribotSaatleri'.tr(), route: 'fery',isAd: true),
+              CustomTextButton(
+                  text: 'otobusSaatleri'.tr(), route: 'bus', isAd: true),
+              CustomTextButton(
+                  text: 'feribotSaatleri'.tr(), route: 'fery', isAd: true),
             ],
           ),
           Divider(
@@ -108,22 +117,25 @@ class _HomePageState extends State<HomePage> {
           )
         ]),
       ),
-      bottomNavigationBar: _googleAds.bannerAd != null ?
-      SizedBox(
-        height: _googleAds.bannerAd?.size.height.toDouble(),
-        width: MediaQuery.of(context).size.width,
-        child: AdWidget(ad: _googleAds.bannerAd!),
-      ) : const SizedBox(),
+      bottomNavigationBar: _googleAds.bannerAd != null
+          ? SizedBox(
+              height: _googleAds.bannerAd?.size.height.toDouble(),
+              width: MediaQuery.of(context).size.width,
+              child: AdWidget(ad: _googleAds.bannerAd!),
+            )
+          : const SizedBox(),
     );
   }
 }
 
 class CustomTextButton extends StatelessWidget {
   final GoogleAds _googleAds = GoogleAds();
+
   CustomTextButton({
     super.key,
     required this.text,
-    required this.route, this.isAd = false,
+    required this.route,
+    this.isAd = false,
   });
 
   final String text;
@@ -140,7 +152,7 @@ class CustomTextButton extends StatelessWidget {
       style: ButtonStyle(
           foregroundColor: WidgetStateProperty.all(Colors.white),
           backgroundColor:
-          WidgetStateProperty.all(ColorConstants.instance.titleColor)),
+              WidgetStateProperty.all(ColorConstants.instance.titleColor)),
       child: Text(
         text,
         style: const TextStyle(fontWeight: FontWeight.w500),

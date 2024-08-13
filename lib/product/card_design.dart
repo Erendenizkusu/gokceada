@@ -3,12 +3,16 @@ import 'package:gokceada/core/colors.dart';
 import 'package:gokceada/core/textFont.dart';
 import 'package:gokceada/screens/koylerMap.dart';
 
+import '../services/google_ads.dart';
+
   class CardDesign extends StatelessWidget {
-    const CardDesign({super.key,this.koyNames ,required this.path,required this.cardText,this.pushWhere = ''});
+    final GoogleAds _googleAds = GoogleAds();
+    CardDesign({super.key,this.koyNames ,required this.path,required this.cardText,this.pushWhere = '', this.isAd = false});
     final String path;
     final String cardText;
     final String? pushWhere;
     final String? koyNames;
+    final bool isAd;
     @override
     Widget build(BuildContext context) {
 
@@ -19,6 +23,7 @@ import 'package:gokceada/screens/koylerMap.dart';
                 builder: (context) => createKoyler(context)[koyNames] as Widget,
               ));
         } : (){
+          isAd ? _googleAds.loadInterstitialAd() : null;
           Navigator.of(context).pushNamed('/$pushWhere');
         },
         child: SizedBox(

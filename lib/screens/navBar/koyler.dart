@@ -24,7 +24,7 @@ class Koyler extends StatelessWidget {
       body:Padding(
         padding: const EdgeInsets.all(8.0),
         child: ListView(
-          children: const [
+          children: [
             CardDesign(path: 'images/koyler/bademli.jpg', cardText: 'Bademli', koyNames: 'bademli'),
             CardDesign(path: 'images/koyler/derekoy.jpg', cardText: 'Derekoy', koyNames: 'derekoy'),
             CardDesign(path: 'images/koyler/eselek.jpg', cardText: 'Eşelek Köyü', koyNames: 'eselek'),
