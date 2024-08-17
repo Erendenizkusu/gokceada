@@ -32,6 +32,29 @@ class Storage {
     }
   }
 
+  Future<Size> getImageSize(String imageUrl) async {
+    final Completer<Size> completer = Completer();
+    final Image image = Image.network(imageUrl);
+
+    image.image.resolve(ImageConfiguration()).addListener(
+      ImageStreamListener(
+            (ImageInfo imageInfo, bool synchronousCall) {
+          final Size size = Size(
+            imageInfo.image.width.toDouble(),
+            imageInfo.image.height.toDouble(),
+          );
+          completer.complete(size);
+        },
+        onError: (error, stackTrace) {
+          completer.completeError(error);
+        },
+      ),
+    );
+
+    return completer.future;
+  }
+
+
 
   Future<firebase_storage.ListResult> listFiles(String userId) async {
     return await storage.ref('users/$userId').listAll();

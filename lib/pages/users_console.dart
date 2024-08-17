@@ -119,7 +119,7 @@ class UsersConsoleState extends State<UsersConsole> {
 
   Future<void> toggleLike(String userUid) async {
     DocumentReference postRef =
-    FirebaseFirestore.instance.collection('images').doc(userUid);
+        FirebaseFirestore.instance.collection('images').doc(userUid);
 
     if (currentUser != null) {
       await postRef.update({
@@ -161,7 +161,6 @@ class UsersConsoleState extends State<UsersConsole> {
       });
     }
   }
-
 
   Future<String?> getUsername() async {
     return await storage
@@ -206,30 +205,29 @@ class UsersConsoleState extends State<UsersConsole> {
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text('yorumEkle'.tr()),
-          content: TextField(
-            controller: _commentTextController,
-            decoration:
-            InputDecoration(hintText: 'birYorumYaz'.tr()),
-          ),
-          actions: [
-            //cancel button
-            TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                  _commentTextController.clear();
-                },
-                child: Text('cancel'.tr())),
-            //post button
-            TextButton(
-                onPressed: () {
-                  addComment(_commentTextController.text, userUid);
-                  Navigator.pop(context);
-                  _commentTextController.clear();
-                },
-                child: Text('post'.tr())),
-          ],
-        ));
+              title: Text('yorumEkle'.tr()),
+              content: TextField(
+                controller: _commentTextController,
+                decoration: InputDecoration(hintText: 'birYorumYaz'.tr()),
+              ),
+              actions: [
+                //cancel button
+                TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      _commentTextController.clear();
+                    },
+                    child: Text('cancel'.tr())),
+                //post button
+                TextButton(
+                    onPressed: () {
+                      addComment(_commentTextController.text, userUid);
+                      Navigator.pop(context);
+                      _commentTextController.clear();
+                    },
+                    child: Text('post'.tr())),
+              ],
+            ));
   }
 
   @override
@@ -254,349 +252,457 @@ class UsersConsoleState extends State<UsersConsole> {
         ),
         body: isLoading
             ? Center(
-          child: CircularProgressIndicator(
-            color: ColorConstants.instance.titleColor,
-          ),
-        )
+                child: CircularProgressIndicator(
+                  color: ColorConstants.instance.titleColor,
+                ),
+              )
             : ListView.builder(
-          itemCount: imageMap.length,
-          itemBuilder: (BuildContext context, int index) {
-            String userUid = imageMap.keys.elementAt(index);
-            List<firebase_storage.Reference> images = imageMap[userUid]!;
+                itemCount: imageMap.length,
+                itemBuilder: (BuildContext context, int index) {
+                  String userUid = imageMap.keys.elementAt(index);
+                  List<firebase_storage.Reference> images = imageMap[userUid]!;
 
-            return images.isEmpty
-                ? Container()
-                : Container(
-              height: 500,
-              margin: const EdgeInsets.symmetric(vertical: 8),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  border: Border.all(
-                      width: 1,
-                      color: ColorConstants.instance.titleColor)),
-              width: double.infinity,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                  return images.isEmpty
+                      ? Container()
+                      : Container(
+                          margin: const EdgeInsets.symmetric(vertical: 8),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            border: Border.all(
+                                width: 1,
+                                color: ColorConstants.instance.titleColor),
+                          ),
+                          width: double.infinity,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              FutureBuilder<String?>(
+                                future: storage.getUsernameFromUid(userUid),
+                                builder: (BuildContext context,
+                                    AsyncSnapshot<String?> snapshot) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.done) {
+                                    if (snapshot.hasData) {
+                                      return Container(
+                                        height: 30,
+                                        margin: const EdgeInsets.all(8),
+                                        child: Text(snapshot.data ?? '',
+                                            style:
+                                                TextFonts.instance.middleTitle),
+                                      );
+                                    } else {
+                                      return Container(
+                                        height: 30,
+                                        margin: const EdgeInsets.all(8),
+                                        child: Text('Google Kullanıcısı',
+                                            style:
+                                                TextFonts.instance.middleTitle),
+                                      );
+                                    }
+                                  } else {
+                                    return Container(
+                                      height: 30,
+                                      margin: const EdgeInsets.all(8),
+                                      child: Text('kullaniciYukleniyor'.tr(),
+                                          style:
+                                              TextFonts.instance.middleTitle),
+                                    );
+                                  }
+                                },
+                              ),
+                              FutureBuilder<String>(
+                                future: storage.downloadURL(
+                                    images.first.name, userUid),
+                                builder: (BuildContext context,
+                                    AsyncSnapshot<String> snapshot) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.done) {
+                                    if (snapshot.hasError) {
+                                      return Center(
+                                        child: Text('Hata: ${snapshot.error}'),
+                                      );
+                                    } else {
+                                      final imageUrl = snapshot.data!;
+                                      return FutureBuilder<Size>(
+                                        future: storage.getImageSize(imageUrl),
+                                        builder: (BuildContext context,
+                                            AsyncSnapshot<Size> sizeSnapshot) {
+                                          if (sizeSnapshot.connectionState ==
+                                              ConnectionState.done) {
+                                            if (sizeSnapshot.hasError) {
+                                              return Center(
+                                                child: Text(
+                                                    'Boyut alınamadı: ${sizeSnapshot.error}'),
+                                              );
+                                            } else {
+                                              final imageSize =
+                                                  sizeSnapshot.data!;
+                                              final aspectRatio =
+                                                  imageSize.width /
+                                                      imageSize.height;
+                                              final height =
+                                                  MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      aspectRatio;
+
+                                              return Container(
+                                                width: double.infinity,
+                                                height: height,
+                                                child: PageView.builder(
+                                                  itemCount: images.length,
+                                                  itemBuilder:
+                                                      (BuildContext context,
+                                                          int pageIndex) {
+                                                    final imageRef =
+                                                        images[pageIndex];
+                                                    return FutureBuilder<
+                                                        String>(
+                                                      future:
+                                                          storage.downloadURL(
+                                                              imageRef.name,
+                                                              userUid),
+                                                      builder: (BuildContext
+                                                              context,
+                                                          AsyncSnapshot<String>
+                                                              snapshot) {
+                                                        if (snapshot
+                                                                .connectionState ==
+                                                            ConnectionState
+                                                                .done) {
+                                                          if (snapshot
+                                                              .hasError) {
+                                                            return Center(
+                                                              child: Text(
+                                                                  'Hata: ${snapshot.error}'),
+                                                            );
+                                                          } else {
+                                                            final imageUrl =
+                                                                snapshot.data!;
+                                                            return Image
+                                                                .network(
+                                                              imageUrl,
+                                                              fit: BoxFit
+                                                                  .contain,
+                                                            );
+                                                          }
+                                                        } else {
+                                                          return Center(
+                                                            child:
+                                                                CircularProgressIndicator(
+                                                              color:
+                                                                  ColorConstants
+                                                                      .instance
+                                                                      .titleColor,
+                                                            ),
+                                                          );
+                                                        }
+                                                      },
+                                                    );
+                                                  },
+                                                ),
+                                              );
+                                            }
+                                          } else {
+                                            return Center(
+                                              child: CircularProgressIndicator(
+                                                color: ColorConstants
+                                                    .instance.titleColor,
+                                              ),
+                                            );
+                                          }
+                                        },
+                                      );
+                                    }
+                                  } else {
+                                    return Center(
+                                      child: CircularProgressIndicator(
+                                        color:
+                                            ColorConstants.instance.titleColor,
+                                      ),
+                                    );
+                                  }
+                                },
+                              ),
+                              Center(
+                                child: Indicator(
+                                    list: images, controller: controller),
+                              ),
+                              SizedBox(
+                                height: 100,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        FutureBuilder<DocumentSnapshot>(
+                                          future: FirebaseFirestore.instance
+                                              .collection('images')
+                                              .doc(userUid)
+                                              .get(),
+                                          builder: (context, snapshot) {
+                                            if (snapshot.connectionState ==
+                                                ConnectionState.waiting) {
+                                              return Container();
+                                            } else if (snapshot.hasError) {
+                                              return Text(
+                                                  'Hata: ${snapshot.error}');
+                                            } else {
+                                              bool isLiked = false;
+
+                                              if (currentUser != null &&
+                                                  snapshot.data!.exists) {
+                                                List<String> likes =
+                                                    List<String>.from(snapshot
+                                                        .data!
+                                                        .get('likes'));
+                                                isLiked = likes.contains(
+                                                    currentUser!.email);
+                                              }
+                                              return Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 15),
+                                                child: LikeButton(
+                                                  isLiked: isLiked,
+                                                  onTap: () async {
+                                                    await toggleLike(userUid);
+                                                  },
+                                                ),
+                                              );
+                                            }
+                                          },
+                                        ),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 15),
+                                          child: CommentButton(
+                                              onTap: currentUser != null
+                                                  ? () {
+                                                      showCommentDialog(
+                                                          userUid);
+                                                    }
+                                                  : () {}),
+                                        ),
+                                      ], //like and comment
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 10,
+                                          left: 16,
+                                          right: 10,
+                                          bottom: 0),
+                                      child: FutureBuilder<int>(
+                                        future: fetchLikeCount(userUid),
+                                        builder: (context, snapshot) {
+                                          if (snapshot.connectionState ==
+                                              ConnectionState.waiting) {
+                                            return Container();
+                                          } else if (snapshot.hasError) {
+                                            return Text(
+                                                'Hata: ${snapshot.error}');
+                                          } else {
+                                            int? likeCount = snapshot.data!;
+
+                                            return FutureBuilder<String?>(
+                                              future:
+                                                  getRandomLikeEmail(userUid),
+                                              builder:
+                                                  (context, emailSnapshot) {
+                                                if (emailSnapshot
+                                                        .connectionState ==
+                                                    ConnectionState.waiting) {
+                                                  return Container();
+                                                } else if (emailSnapshot
+                                                    .hasError) {
+                                                  return Text(
+                                                      'Hata: ${emailSnapshot.error}');
+                                                } else {
+                                                  String? username =
+                                                      emailSnapshot.data;
+
+                                                  if (username != null) {
+                                                    // Kullanıcı adı mevcutsa işlemleri gerçekleştir
+                                                    return Text(
+                                                      '$username ve ${(likeCount - 1).toString()} kişi beğendi',
+                                                      style: const TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                      ),
+                                                    );
+                                                  } else {
+                                                    return Text(
+                                                        '${likeCount.toString()} kişi beğendi',
+                                                        style: const TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize: 18,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                        ));
+                                                  }
+                                                }
+                                              },
+                                            );
+                                          }
+                                        },
+                                      ),
+                                    ), //kişi beğendi
+                                    //comments under the post
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 16,
+                                          right: 16,
+                                          top: 5,
+                                          bottom: 5),
+                                      child: FutureBuilder<int>(
+                                        future: fetchCommentsCount(userUid),
+                                        builder: (context, snapshot) {
+                                          if (snapshot.connectionState ==
+                                              ConnectionState.waiting) {
+                                            return Container();
+                                          } else if (snapshot.hasError) {
+                                            return Text(
+                                                'Hata: ${snapshot.error}');
+                                          } else {
+                                            return InkWell(
+                                              child: Text(
+                                                  '${snapshot.data.toString()} ${'yorumunTumunuGoster'.tr()}',
+                                                  style: const TextStyle(
+                                                      color: Colors.grey,
+                                                      fontSize: 17,
+                                                      fontWeight:
+                                                          FontWeight.w400)),
+                                              onTap: () {
+                                                //addDocument();
+                                                showModalBottomSheet(
+                                                    context: context,
+                                                    builder:
+                                                        (BuildContext context) {
+                                                      return SizedBox(
+                                                          height: (MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .height) *
+                                                              0.7,
+                                                          child: CommentsScreen(
+                                                              userUid:
+                                                                  userUid));
+                                                    });
+                                              },
+                                            );
+                                          }
+                                        },
+                                      ),
+                                    ) //yorumun tümünü göster
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                },
+              ),
+        floatingActionButton: FirebaseAuth.instance.currentUser != null
+            ? Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  FutureBuilder<String?>(
-                    future: storage.getUsernameFromUid(userUid),
-                    builder: (BuildContext context,
-                        AsyncSnapshot<String?> snapshot) {
-                      if (snapshot.connectionState ==
-                          ConnectionState.done) {
-                        if (snapshot.hasData) {
-                          return Container(
-                              margin: const EdgeInsets.all(8),
-                              child: Text(snapshot.data ?? '',
-                                  style: TextFonts
-                                      .instance.middleTitle));
-                        } else {
-                          return Container(
-                              margin: const EdgeInsets.all(8),
-                              child: Text('Google Kullanıcısı',
-                                  style: TextFonts
-                                      .instance.middleTitle));
-                        }
-                      } else {
-                        return Container(
-                            margin: const EdgeInsets.all(8),
-                            child: Text('kullaniciYukleniyor'.tr(),
-                                style: TextFonts
-                                    .instance.middleTitle));
-                      }
-                    },
-                  ),
-                  Expanded(
-                    child: PageView.builder(
-                      controller: controller,
-                      itemCount: images.length,
-                      itemBuilder:
-                          (BuildContext context, int pageIndex) {
-                        final imageRef = images[pageIndex];
-                        return FutureBuilder<String>(
-                          future: storage.downloadURL(
-                              imageRef.name, userUid),
-                          builder: (BuildContext context,
-                              AsyncSnapshot<String> snapshot) {
-                            if (snapshot.connectionState ==
-                                ConnectionState.done) {
-                              if (snapshot.hasError) {
-                                return Center(
-                                  child: Text(
-                                      'Hata: ${snapshot.error}'),
-                                );
-                              } else {
-                                return Image.network(
-                                  snapshot.data!,
-                                  fit: BoxFit.cover,
-                                );
-                              }
-                            } else {
-                              return Center(
-                                child: CircularProgressIndicator(
-                                  color: ColorConstants
-                                      .instance.titleColor,
+                    FloatingActionButton(
+                      heroTag: '1',
+                      backgroundColor: ColorConstants.instance.titleColor,
+                      onPressed: FirebaseAuth.instance.currentUser != null
+                          ? () async {
+                              await storage.deleteLastImage(context);
+                              getUsersImages();
+                            }
+                          : () {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content:
+                                      Text('kullaniciGirisiYapilmadi'.tr()),
                                 ),
                               );
-                            }
-                          },
-                        );
-                      },
+                            },
+                      child: const Icon(Icons.delete_forever_rounded,
+                          color: Colors.white),
                     ),
-                  ),
-                  Center(
-                    child: Indicator(
-                        list: images, controller: controller),
-                  ),
+                    const SizedBox(height: 5),
+                    FloatingActionButton(
+                      backgroundColor: ColorConstants.instance.activatedButton,
+                      onPressed: () async {
+                        var status = await Permission.photos.status;
 
-                  Row(children: [
-                    Column(children: [
-                      FutureBuilder<DocumentSnapshot>(
-                        future: FirebaseFirestore.instance
-                            .collection('images')
-                            .doc(userUid)
-                            .get(),
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return Container();
-                          } else if (snapshot.hasError) {
-                            return Text('Hata: ${snapshot.error}');
+                        if (!status.isGranted) {
+                          status = await Permission.photos.request();
+                        }
+
+                        if (status.isGranted) {
+                          final results = await FilePicker.platform.pickFiles(
+                            allowMultiple: false,
+                            type: FileType.image,
+                          );
+
+                          if (results != null) {
+                            final path = results.files.single.path;
+                            final fileName = results.files.single.name;
+
+                            await storage.uploadFile(
+                              path!,
+                              fileName,
+                              FirebaseAuth.instance.currentUser!.uid,
+                            );
+                            getUsersImages();
+
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('dosyaBasariylaYuklendi'.tr()),
+                              ),
+                            );
                           } else {
-                            bool isLiked = false;
-
-                            if (currentUser != null &&
-                                snapshot.data!.exists) {
-                              List<String> likes =
-                              List<String>.from(
-                                  snapshot.data!.get('likes'));
-                              isLiked = likes
-                                  .contains(currentUser!.email);
-                            }
-
-                            return Padding(
-                              padding:
-                              const EdgeInsets.only(left: 15),
-                              child: LikeButton(
-                                isLiked: isLiked,
-                                onTap: () async {
-                                  await toggleLike(userUid);
-                                },
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('resimSecilmedi'.tr()),
                               ),
                             );
                           }
-                        },
-                      ),
-                    ]),
-                    Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 15),
-                          child: CommentButton(onTap: currentUser != null ? () {
-                            showCommentDialog(userUid);
-                          } : (){} ),
-                        ),
-                      ],
-                    )
-                  ]),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        top: 10, left: 16, right: 10, bottom: 0),
-                    child: FutureBuilder<int>(
-                      future: fetchLikeCount(userUid),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return Container();
-                        } else if (snapshot.hasError) {
-                          return Text('Hata: ${snapshot.error}');
+                        } else if (status.isPermanentlyDenied) {
+                          openAppSettings();
                         } else {
-                          int? likeCount = snapshot.data!;
-
-                          return FutureBuilder<String?>(
-                            future: getRandomLikeEmail(userUid),
-                            builder: (context, emailSnapshot) {
-                              if (emailSnapshot.connectionState ==
-                                  ConnectionState.waiting) {
-                                return Container();
-                              } else if (emailSnapshot.hasError) {
-                                return Text(
-                                    'Hata: ${emailSnapshot.error}');
-                              } else {
-                                String? username =
-                                    emailSnapshot.data;
-
-                                if (username != null) {
-                                  // Kullanıcı adı mevcutsa işlemleri gerçekleştir
-                                  return Text(
-                                    '$username ve ${(likeCount - 1).toString()} kişi beğendi',
-                                    style: const TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  );
-                                } else {
-                                  return Text(
-                                      '${likeCount.toString()} kişi beğendi',
-                                      style: const TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w600,
-                                      ));
-                                }
-                              }
-                            },
-                          );
+                          showAlertDialog(context);
                         }
                       },
+                      child: const Icon(Icons.upload, color: Colors.white),
                     ),
-                  ),
-                  //comments under the post
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        left: 16, right: 16, top: 5, bottom: 5),
-                    child: FutureBuilder<int>(
-                      future: fetchCommentsCount(userUid),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return Container();
-                        } else if (snapshot.hasError) {
-                          return Text('Hata: ${snapshot.error}');
-                        } else {
-                          return InkWell(
-                            child: Text(
-                                '${snapshot.data.toString()} ${'yorumunTumunuGoster'.tr()}',
-                                style: const TextStyle(
-                                    color: Colors.grey,
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.w400)),
-                            onTap: () {
-                              //addDocument();
-                              showModalBottomSheet(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return SizedBox(
-                                        height:
-                                        (MediaQuery.of(context)
-                                            .size
-                                            .height) *
-                                            0.7,
-                                        child: CommentsScreen(userUid: userUid)
-                                    );
-                                  });
-                            },
-                          );
-                        }
-                      },
-                    ),
-                  )
-                ],
-              ),
-            );
-          },
-        ),
-        floatingActionButton: FirebaseAuth.instance.currentUser != null
-            ? Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              FloatingActionButton(
+                  ])
+            : FloatingActionButton(
                 heroTag: '1',
                 backgroundColor: ColorConstants.instance.titleColor,
-                onPressed: FirebaseAuth.instance.currentUser != null
-                    ? () async {
-                  await storage.deleteLastImage(context);
-                  getUsersImages();
-                }
-                    : () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content:
-                      Text('kullaniciGirisiYapilmadi'.tr()),
-                    ),
-                  );
+                onPressed: () {
+                  // Kullanıcı oturum açmamış, giriş sayfasına yönlendir
+                  Navigator.of(context).pushReplacementNamed('/login');
                 },
-                child: const Icon(Icons.delete_forever_rounded,
-                    color: Colors.white),
-              ),
-              const SizedBox(height: 5),
-              FloatingActionButton(
-                backgroundColor: ColorConstants.instance.activatedButton,
-                  onPressed: () async {
-                    var status = await Permission.photos.status;
-
-                    if (!status.isGranted) {
-                      status = await Permission.photos.request();
-                    }
-
-                    if (status.isGranted) {
-                      final results = await FilePicker.platform.pickFiles(
-                        allowMultiple: false,
-                        type: FileType.image,
-                      );
-
-                      if (results != null) {
-                        final path = results.files.single.path;
-                        final fileName = results.files.single.name;
-
-                        await storage.uploadFile(
-                          path!,
-                          fileName,
-                          FirebaseAuth.instance.currentUser!.uid,
-                        );
-                        getUsersImages();
-
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text('dosyaBasariylaYuklendi'.tr()),
-                          ),
-                        );
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text('resimSecilmedi'.tr()),
-                          ),
-                        );
-                      }
-                    } else if (status.isPermanentlyDenied) {
-                      openAppSettings();
-                    } else {
-                      showAlertDialog(context);
-                    }
-                  },
-                  child: const Icon(Icons.upload, color: Colors.white),
-              ),
-            ])
-            : FloatingActionButton(
-          heroTag: '1',
-          backgroundColor: ColorConstants.instance.titleColor,
-          onPressed: () {
-            // Kullanıcı oturum açmamış, giriş sayfasına yönlendir
-            Navigator.of(context).pushReplacementNamed('/login');
-          },
-          child: const Icon(Icons.login, color: Colors.white),
-        ));
+                child: const Icon(Icons.login, color: Colors.white),
+              ));
   }
 }
 
 showAlertDialog(context) => showCupertinoDialog<void>(
-  context: context,
-  barrierDismissible: false,
-  builder: (BuildContext context) => CupertinoAlertDialog(
-    title: Text('permissionDenied'.tr()),
-    content: Text('permissionDeniedMessage'.tr()),
-    actions: <CupertinoDialogAction>[
-      CupertinoDialogAction(
-        onPressed: () => Navigator.of(context).pop(),
-        child: Text('cancel'.tr()),
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) => CupertinoAlertDialog(
+        title: Text('permissionDenied'.tr()),
+        content: Text('permissionDeniedMessage'.tr()),
+        actions: <CupertinoDialogAction>[
+          CupertinoDialogAction(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text('cancel'.tr()),
+          ),
+          CupertinoDialogAction(
+            isDefaultAction: true,
+            onPressed: () => openAppSettings(),
+            child: Text('permissionDeniedSettings'.tr()),
+          ),
+        ],
       ),
-      CupertinoDialogAction(
-        isDefaultAction: true,
-        onPressed: () => openAppSettings(),
-        child: Text('permissionDeniedSettings'.tr()),
-      ),
-    ],
-  ),
-);
+    );
