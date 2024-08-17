@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:file_picker/file_picker.dart';
@@ -10,11 +11,12 @@ import 'package:flutter/material.dart';
 import 'package:gokceada/core/colors.dart';
 import 'package:gokceada/core/textFont.dart';
 import 'package:gokceada/product/commentButton.dart';
-import 'package:gokceada/product/likeButton.dart';
 import 'package:gokceada/product/commentScreen.dart';
+import 'package:gokceada/product/likeButton.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../product/indicatorWidget.dart';
+import '../product/likeCountWidget.dart';
 import '../utils/storage.dart';
 
 class UsersConsole extends StatefulWidget {
@@ -117,19 +119,27 @@ class UsersConsoleState extends State<UsersConsole> {
     return 0;
   }
 
-  Future<void> toggleLike(String userUid) async {
+  /*Future<void> toggleLike(String userUid, bool currentLikeStatus) async {
+    DocumentReference postRef =
+    FirebaseFirestore.instance.collection('images').doc(userUid);
+
+    if (currentUser != null) {
+      await postRef.update({
+        'likes': currentLikeStatus
+            ? FieldValue.arrayRemove([currentUser!.email])
+            : FieldValue.arrayUnion([currentUser!.email])
+      });
+    }
+  }*/
+  Future<void> toggleLike(String userUid, bool currentLikeStatus) async {
     DocumentReference postRef =
         FirebaseFirestore.instance.collection('images').doc(userUid);
 
     if (currentUser != null) {
       await postRef.update({
-        'likes': isLiked
+        'likes': currentLikeStatus
             ? FieldValue.arrayRemove([currentUser!.email])
             : FieldValue.arrayUnion([currentUser!.email])
-      }).then((_) {
-        setState(() {
-          isLiked = !isLiked;
-        });
       });
     }
   }
@@ -433,127 +443,74 @@ class UsersConsoleState extends State<UsersConsole> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Row(
-                                      children: [
-                                        FutureBuilder<DocumentSnapshot>(
-                                          future: FirebaseFirestore.instance
-                                              .collection('images')
-                                              .doc(userUid)
-                                              .get(),
-                                          builder: (context, snapshot) {
-                                            if (snapshot.connectionState ==
-                                                ConnectionState.waiting) {
-                                              return Container();
-                                            } else if (snapshot.hasError) {
-                                              return Text(
-                                                  'Hata: ${snapshot.error}');
-                                            } else {
-                                              bool isLiked = false;
-
-                                              if (currentUser != null &&
-                                                  snapshot.data!.exists) {
-                                                List<String> likes =
-                                                    List<String>.from(snapshot
-                                                        .data!
-                                                        .get('likes'));
-                                                isLiked = likes.contains(
-                                                    currentUser!.email);
-                                              }
-                                              return Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 15),
-                                                child: LikeButton(
-                                                  isLiked: isLiked,
-                                                  onTap: () async {
-                                                    await toggleLike(userUid);
-                                                  },
-                                                ),
-                                              );
-                                            }
-                                          },
-                                        ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 15),
-                                          child: CommentButton(
-                                              onTap: currentUser != null
-                                                  ? () {
-                                                      showCommentDialog(
-                                                          userUid);
-                                                    }
-                                                  : () {}),
-                                        ),
-                                      ], //like and comment
-                                    ),
                                     Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 10,
-                                          left: 16,
-                                          right: 10,
-                                          bottom: 0),
-                                      child: FutureBuilder<int>(
-                                        future: fetchLikeCount(userUid),
-                                        builder: (context, snapshot) {
-                                          if (snapshot.connectionState ==
-                                              ConnectionState.waiting) {
-                                            return Container();
-                                          } else if (snapshot.hasError) {
-                                            return Text(
-                                                'Hata: ${snapshot.error}');
-                                          } else {
-                                            int? likeCount = snapshot.data!;
-
-                                            return FutureBuilder<String?>(
-                                              future:
-                                                  getRandomLikeEmail(userUid),
-                                              builder:
-                                                  (context, emailSnapshot) {
-                                                if (emailSnapshot
-                                                        .connectionState ==
-                                                    ConnectionState.waiting) {
-                                                  return Container();
-                                                } else if (emailSnapshot
-                                                    .hasError) {
-                                                  return Text(
-                                                      'Hata: ${emailSnapshot.error}');
-                                                } else {
-                                                  String? username =
-                                                      emailSnapshot.data;
-
-                                                  if (username != null) {
-                                                    // Kullanıcı adı mevcutsa işlemleri gerçekleştir
-                                                    return Text(
-                                                      '$username ve ${(likeCount - 1).toString()} kişi beğendi',
-                                                      style: const TextStyle(
-                                                        color: Colors.black,
-                                                        fontSize: 18,
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                      ),
-                                                    );
-                                                  } else {
-                                                    return Text(
-                                                        '${likeCount.toString()} kişi beğendi',
-                                                        style: const TextStyle(
-                                                          color: Colors.black,
-                                                          fontSize: 18,
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                        ));
-                                                  }
+                                      padding: const EdgeInsets.only(left: 16),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          FutureBuilder<DocumentSnapshot>(
+                                            future: FirebaseFirestore.instance
+                                                .collection('images')
+                                                .doc(userUid)
+                                                .get(),
+                                            builder: (context, snapshot) {
+                                              if (snapshot.connectionState ==
+                                                  ConnectionState.waiting) {
+                                                return Container();
+                                              } else if (snapshot.hasError) {
+                                                return Text(
+                                                    'Hata: ${snapshot.error}');
+                                              } else {
+                                                bool isLiked = false;
+                                                if (snapshot.data != null) {
+                                                  List<String> likes =
+                                                      List<String>.from(snapshot
+                                                              .data!
+                                                              .get('likes') ??
+                                                          []);
+                                                  isLiked = likes.contains(
+                                                      currentUser?.email);
                                                 }
-                                              },
-                                            );
-                                          }
-                                        },
+                                                return Row(children: [
+                                                  LikeButton(
+                                                    initialLiked: isLiked,
+                                                    onTap:
+                                                        (currentLikeStatus) async {
+                                                      await toggleLike(userUid,
+                                                          currentLikeStatus);
+                                                    },
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            left: 15),
+                                                    child: CommentButton(
+                                                        onTap:
+                                                            currentUser != null
+                                                                ? () {
+                                                                    showCommentDialog(
+                                                                        userUid);
+                                                                  }
+                                                                : () {}),
+                                                  ),
+                                                ]);
+                                              }
+                                            },
+                                          ),
+                                          SizedBox(height: 10),
+                                          LikeCountWidget(
+                                              userUid: userUid,
+                                              currentUser: currentUser),
+                                        ],
                                       ),
-                                    ), //kişi beğendi
+                                    ),
                                     //comments under the post
                                     Padding(
                                       padding: const EdgeInsets.only(
                                           left: 16,
                                           right: 16,
-                                          top: 5,
+                                          top: 3,
                                           bottom: 5),
                                       child: FutureBuilder<int>(
                                         future: fetchCommentsCount(userUid),
