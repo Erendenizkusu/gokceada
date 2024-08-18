@@ -32,7 +32,7 @@ class LikeCountWidget extends StatelessWidget {
                 ),
               );
         } else {
-          return Text('Beğeni bilgisi bulunamadı');
+          return const Text('Beğeni bilgisi bulunamadı');
         }
       },
     );

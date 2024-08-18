@@ -50,6 +50,15 @@ class TextFonts {
             fontStyle: FontStyle.normal,
       );
 
+  final explanationTextBold =
+  TextStyle(
+    fontFamily: 'Poppins',
+    fontSize: 18,
+    color: ColorConstants.instance.titleColor,
+    fontWeight: FontWeight.w400,
+    fontStyle: FontStyle.normal,
+  );
+
   final commentTextThin =
   TextStyle(
     fontFamily: 'Poppins',

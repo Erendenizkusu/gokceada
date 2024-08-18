@@ -109,11 +109,17 @@ class _HomePageState extends State<HomePage> {
             padding: const EdgeInsets.symmetric(vertical: 10),
             child: CircularImagesTop(list: gokceadaPhotos),
           ),
-          Text('tarihce'.tr(), style: TextFonts.instance.middleTitle),
+          Text('gezilecekKoyler'.tr(), style: TextFonts.instance.middleTitle),
           const SizedBox(height: 10),
           Text(
-            'gokceadaTarihcesi'.tr(),
-            style: TextFonts.instance.commentTextBold,
+            'gezilecekKoylerAciklama'.tr(),
+            style: TextFonts.instance.explanationTextBold,
+          ),
+          Text('koylarSahiller'.tr(), style: TextFonts.instance.middleTitle),
+          const SizedBox(height: 10),
+          Text(
+            'koylarSahillerAciklama'.tr(),
+            style: TextFonts.instance.explanationTextBold,
           )
         ]),
       ),
