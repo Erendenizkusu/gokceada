@@ -17,7 +17,7 @@ class _WebViewComponentState extends State<WebViewComponent> {
   void initState() {
     super.initState();
     controller = WebViewController()
-      ..setJavaScriptMode(JavaScriptMode.disabled)
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..loadRequest(Uri.parse(widget.url));
   }
   @override
